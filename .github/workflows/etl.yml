@@ -18,7 +18,7 @@ jobs:
           python-version: 3.11
 
       - name: Install dependencies
-        run: pip install requests openpyxl
+        run: pip install requests openpyxl pandas
 
       - name: Run ETL scripts
         env:

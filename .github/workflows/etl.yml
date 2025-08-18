@@ -22,8 +22,8 @@ jobs:
 
       - name: Run ETL scripts
         run: |
-          python etl/fetch_author_metrics.py --input data/full_time_faculty.csv --output data/roster_with_metrics.csv -f
-          python etl/UCVM_works.py --input data/roster_with_metrics.csv --output data/openalex_all_authors_last5y_key_fields_dedup.csv -f
+          python etl/fetch_author_metrics.py --input data/full_time_faculty.csv --output data/roster_with_metrics.csv
+          python etl/UCVM_works.py --input data/roster_with_metrics.csv --output data/openalex_all_authors_last5y_key_fields_dedup.csv 
 
       - name: Commit and push updates
         run: |

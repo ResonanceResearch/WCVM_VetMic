@@ -12,8 +12,8 @@ from pandas import json_normalize
 
 AUTHOR_ID = "A5015254879"
 MAILTO = "jdebuck@ucalgary.ca"
-OUTPUT_DIR = "/Users/jeroen/Documents/ucvm-research-etl/"
-INPUT_ROSTER = "/Users/jeroen/Documents/ucvm-research-etl/full_time_faculty.csv"
+OUTPUT_DIR = os.path.join(os.getcwd(), 'data')
+INPUT_ROSTER = os.path.join(os.getcwd(), 'data')
 
 # Per-user output folders and a folder for compiled outputs
 ALL_FIELDS_DIR = os.path.join(OUTPUT_DIR, "authors_all_fields")

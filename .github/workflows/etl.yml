@@ -1,0 +1,36 @@
+name: Nightly ETL
+
+on:
+  schedule:
+    - cron: '39 6 * * *'  # Runs every day at 00:39 Calgary time (MDT = UTC-6)
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install requests openpyxl
+
+      - name: Run ETL scripts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python etl/fetch_author_metrics.py data/full_time_faculty.csv data/roster_with_metrics.csv
+          python etl/UCVM_works.py data/full_time_faculty.csv data/openalex_all_authors_last5y_key_fields_dedup.csv
+
+      - name: Commit and push updates
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add data/*.csv
+          git commit -m "Nightly data update" || echo "No changes to commit"
+          git push

@@ -21,11 +21,9 @@ jobs:
         run: pip install requests openpyxl pandas
 
       - name: Run ETL scripts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python etl/fetch_author_metrics.py data/full_time_faculty.csv data/roster_with_metrics.csv
-          python etl/UCVM_works.py data/full_time_faculty.csv data/openalex_all_authors_last5y_key_fields_dedup.csv
+          python etl/fetch_author_metrics.py --input data/full_time_faculty.csv --output data/roster_with_metrics.csv
+          python etl/UCVM_works.py --input data/full_time_faculty.csv --output data/openalex_all_authors_last5y_key_fields_dedup.csv
 
       - name: Commit and push updates
         run: |

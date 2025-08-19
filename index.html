@@ -261,6 +261,60 @@
   function mode(arr){ const m=new Map(); let best=null,bc=0; for(const x of arr){ const c=1+(m.get(x)||0); m.set(x,c); if(c>bc){bc=c;best=x} } return best }
   function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])) }
 })();
+
+  // Auto-load from GitHub if nothing loaded manually yet
+  async function autoLoadFromGitHub() {
+    if (!roster.length) {
+      try {
+        const rosterResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/roster_with_metrics.csv');
+        if (rosterResp.ok) {
+          const text = await rosterResp.text();
+          roster = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+          roster.forEach(r => {
+            r.OpenAlexID = normalizeToken(r.OpenAlexID);
+            r.RGs = rgArray(r);
+          });
+        }
+      } catch (e) { console.error('Roster auto-load failed', e); }
+    }
+
+    if (!worksRaw.length) {
+      try {
+        const worksResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/openalex_all_authors_last5y_key_fields_dedup.csv');
+        if (worksResp.ok) {
+          const text = await worksResp.text();
+          worksRaw = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+          isDedup = worksRaw.length > 0 && ('ucvm_openalex_ids' in worksRaw[0]);
+          exploded = [];
+
+          if (isDedup) {
+            for (const w of worksRaw) {
+              const ids = String(w.ucvm_openalex_ids || '').split(';').map(s => normalizeToken(s.trim())).filter(Boolean);
+              if (!ids.length) {
+                exploded.push({ ...w, __author: null });
+                continue;
+              }
+              for (const id of ids) {
+                exploded.push({ ...w, __author: id });
+              }
+            }
+          } else {
+            exploded = worksRaw.map(w => ({ ...w, __author: normalizeToken(w.author_openalex_id) }));
+          }
+          exploded.forEach(r => r.__typeSimple = typeSimple(r.type));
+        }
+      } catch (e) { console.error('Works auto-load failed', e); }
+    }
+
+    validate();
+    populateRosterFilters();
+    populateWorkFilters();
+    renderAll();
+  }
+
+  autoLoadFromGitHub();
+
+  
 </script>
 </body>
 </html>

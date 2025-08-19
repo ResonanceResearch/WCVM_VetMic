@@ -46,6 +46,7 @@ KEY_FIELDS_FOR_OUTPUT = [
 KEY_FIELDS_FOR_OUTPUT_WITH_TAGS = KEY_FIELDS_FOR_OUTPUT + ["author_name", "author_openalex_id"]
 
 def setup_logging():
+    print(f"Creating log directory at: {LOG_DIR}")
     safe_mkdir(LOG_DIR)
     logfile = os.path.join(LOG_DIR, f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
     logging.basicConfig(
@@ -59,7 +60,11 @@ def setup_logging():
     logging.info(f"Logging to {logfile}")
 
 def safe_mkdir(path: str):
-    os.makedirs(path, exist_ok=True)
+    try:
+        os.makedirs(path, exist_ok=True)
+        print(f"Directory created or already exists: {path}")
+    except Exception as e:
+        print(f"Error creating directory {path}: {e}")
 
 def normalize_author_id(raw_id: str) -> Optional[str]:
     if not isinstance(raw_id, str):

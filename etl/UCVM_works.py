@@ -22,6 +22,7 @@ OUTPUT_DIR = os.path.dirname(args.output)
 ALL_FIELDS_DIR = os.path.join(OUTPUT_DIR, "authors_all_fields")
 LAST5_DIR = os.path.join(OUTPUT_DIR, "authors_last5y_key_fields")
 COMPILED_DIR = os.path.join(OUTPUT_DIR, "compiled")
+LOG_DIR = os.path.join(OUTPUT_DIR, "logs")
 
 MAILTO = "jdebuck@ucalgary.ca"
 BASE_URL = "https://api.openalex.org/works"
@@ -45,11 +46,17 @@ KEY_FIELDS_FOR_OUTPUT = [
 KEY_FIELDS_FOR_OUTPUT_WITH_TAGS = KEY_FIELDS_FOR_OUTPUT + ["author_name", "author_openalex_id"]
 
 def setup_logging():
+    safe_mkdir(LOG_DIR)
+    logfile = os.path.join(LOG_DIR, f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="[%(asctime)s] %(levelname)s: %(message)s",
-        handlers=[logging.StreamHandler(sys.stdout)]
+        handlers=[
+            logging.FileHandler(logfile),
+            logging.StreamHandler(sys.stdout)
+        ]
     )
+    logging.info(f"Logging to {logfile}")
 
 def safe_mkdir(path: str):
     os.makedirs(path, exist_ok=True)
@@ -84,12 +91,16 @@ def fetch_works(author_id: str, years_back: Optional[int] = 5) -> List[Dict[str,
                     cursor = data.get("meta", {}).get("next_cursor")
                     break
                 else:
+                    logging.warning(f"HTTP {response.status_code} on attempt {attempt + 1} for {author_id}")
                     time.sleep(BACKOFF_BASE ** attempt)
-            except Exception:
+            except Exception as e:
+                logging.warning(f"Exception on attempt {attempt + 1} for {author_id}: {e}")
                 time.sleep(BACKOFF_BASE ** attempt)
         else:
+            logging.error(f"Failed to fetch after {MAX_RETRIES} attempts for {author_id}")
             break
 
+    logging.info(f"Fetched {len(all_works)} works for {author_id} (last {years_back} years)")
     return all_works
 
 def process_one_author(name: str, author_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
@@ -120,6 +131,8 @@ def process_one_author(name: str, author_id: str) -> Tuple[pd.DataFrame, pd.Data
     return df_all_out, df_last5_out
 
 def append_df_to_csv(df: pd.DataFrame, filepath: str, fixed_cols: Optional[List[str]] = None):
+    if df.empty:
+        return
     if not os.path.exists(filepath):
         df.to_csv(filepath, index=False)
     else:
@@ -132,11 +145,12 @@ def deduplicate_compiled(df: pd.DataFrame) -> pd.DataFrame:
         df = df.drop_duplicates(subset=["doi"])
     else:
         df = df.drop_duplicates()
+    logging.info(f"Deduplicated to {len(df)} rows")
     return df
 
 def main():
     setup_logging()
-    for d in (OUTPUT_DIR, ALL_FIELDS_DIR, LAST5_DIR, COMPILED_DIR):
+    for d in (OUTPUT_DIR, ALL_FIELDS_DIR, LAST5_DIR, COMPILED_DIR, LOG_DIR):
         safe_mkdir(d)
 
     compiled_last5_path = os.path.join(COMPILED_DIR, "openalex_all_authors_last5y_key_fields.csv")
@@ -144,6 +158,7 @@ def main():
     if os.path.exists(compiled_last5_path):
         try:
             os.remove(compiled_last5_path)
+            logging.info(f"Removed old compiled file: {compiled_last5_path}")
         except Exception:
             open(compiled_last5_path, "w").close()
 
@@ -168,6 +183,7 @@ def main():
                     logging.warning(f"Row {idx}: could not parse OpenAlexID '{raw_id}' — skipping.")
                     continue
                 author_name = str(raw_name).strip() if not pd.isna(raw_name) else author_id
+                logging.info(f"Processing {author_name} ({author_id})")
                 try:
                     _, df_last5_comp = process_one_author(author_name, author_id)
                     append_df_to_csv(df_last5_comp, compiled_last5_path, fixed_cols=KEY_FIELDS_FOR_OUTPUT_WITH_TAGS)
@@ -179,6 +195,7 @@ def main():
     if processed_any:
         logging.info("Deduplicating final last-5-years file...")
         try:
+            logging.info(f"Reading from: {compiled_last5_path}")
             compiled_last5_df = pd.read_csv(compiled_last5_path)
             dedup_last5_df = deduplicate_compiled(compiled_last5_df)
             dedup_last5_df.to_csv(OUTPUT_LAST5_DEDUP, index=False)
@@ -186,7 +203,7 @@ def main():
         except Exception as e:
             logging.exception(f"Failed to write deduplicated last-5-years file: {e}")
     else:
-        logging.warning("No authors processed.")
+        logging.warning("No authors processed. No file written.")
 
     logging.info("Done.")
 

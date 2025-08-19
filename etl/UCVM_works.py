@@ -114,6 +114,55 @@ def fetch_works(author_id: str, years_back: Optional[int] = 5) -> List[Dict[str,
     logging.info(f"Fetched {len(all_works)} works for {author_id} (last {years_back} years)")
     return all_works
 
+def fetch_author_works_filtered(full_author_id):
+    import requests
+    import pandas as pd
+    from datetime import datetime
+
+    BASE_URL = "https://api.openalex.org/works"
+    author_filter = f"author.id:{full_author_id}"
+    per_page = 200
+    years_back = 5
+    current_year = datetime.now().year
+    min_year = current_year - years_back + 1
+
+    works_all = []
+    page = 1
+    logging.info(f"Fetching works for {full_author_id} from OpenAlex")
+
+    while True:
+        url = f"{BASE_URL}?filter={author_filter}&per-page={per_page}&page={page}"
+        logging.debug(f"Requesting URL: {url}")
+        try:
+            response = requests.get(url, timeout=30)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            logging.exception(f"API request failed on page {page}: {e}")
+            break
+
+        results = response.json().get("results", [])
+        if not results:
+            break
+        works_all.extend(results)
+        logging.debug(f"Fetched page {page} with {len(results)} works")
+
+        if "next_cursor" not in response.json().get("meta", {}):
+            break
+        page += 1
+
+    if not works_all:
+        return pd.DataFrame(), pd.DataFrame()
+
+    df_all = pd.json_normalize(works_all)
+    df_all["publication_year"] = pd.to_numeric(df_all["publication_year"], errors="coerce")
+
+    # Filter to last 5 years only
+    df_last5 = df_all[df_all["publication_year"] >= min_year].copy()
+    df_last5["author_name"] = full_author_id.split("/")[-1]
+    df_last5["author_openalex_id"] = full_author_id
+
+    return df_all, df_last5
+
 def append_df_to_csv(df, file_path, fixed_cols=None):
     try:
         if fixed_cols:

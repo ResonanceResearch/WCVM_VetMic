@@ -263,9 +263,13 @@
 })();
 </script>
 <script>
-(async function(){
+(function(){
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
+
   const rosterPath = 'data/roster_with_metrics.csv';
   const worksPath = 'data/openalex_all_authors_last5y_key_fields_dedup.csv';
+
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
   async function fetchCSV(path) {
@@ -281,47 +285,50 @@
     }
   }
 
-  // Load from default paths if not overridden manually
-  const rosterFileInput = document.getElementById('rosterFile');
-  const worksFileInput = document.getElementById('worksFile');
+  window.addEventListener('DOMContentLoaded', async () => {
+    // Allow manual override
+    const rosterInput = document.getElementById('rosterFile');
+    const worksInput = document.getElementById('worksFile');
 
-  if (!rosterFileInput.files.length) {
-    const rData = await fetchCSV(rosterPath);
-    if (rData.length) {
-      roster = rData;
-      roster.forEach(r => {
-        r.OpenAlexID = normalizeToken(r.OpenAlexID);
-        r.RGs = rgArray(r);
-      });
-      validate();
-      populateRosterFilters();
-      renderAll();
-    }
-  }
-
-  if (!worksFileInput.files.length) {
-    const wData = await fetchCSV(worksPath);
-    if (wData.length) {
-      worksRaw = wData;
-      isDedup = worksRaw.length>0 && ('ucvm_openalex_ids' in worksRaw[0]);
-      exploded = [];
-      if (isDedup){
-        for (const w of worksRaw) {
-          const ids = String(w.ucvm_openalex_ids||'').split(';').map(s => normalizeToken(s.trim())).filter(Boolean);
-          if (!ids.length){ exploded.push({...w, __author:null}); continue; }
-          for (const id of ids){ exploded.push({...w, __author:id}); }
-        }
-      } else {
-        exploded = worksRaw.map(w => ({...w, __author: normalizeToken(w.author_openalex_id)}));
+    if (!rosterInput.files.length) {
+      const rData = await fetchCSV(rosterPath);
+      if (rData.length) {
+        roster = rData;
+        roster.forEach(r => {
+          r.OpenAlexID = normalizeToken(r.OpenAlexID);
+          r.RGs = rgArray(r);
+        });
+        validate();
+        populateRosterFilters();
+        renderAll();
       }
-      exploded.forEach(r => r.__typeSimple = typeSimple(r.type));
-      validate();
-      populateWorkFilters();
-      renderAll();
     }
-  }
+
+    if (!worksInput.files.length) {
+      const wData = await fetchCSV(worksPath);
+      if (wData.length) {
+        worksRaw = wData;
+        isDedup = worksRaw.length>0 && ('ucvm_openalex_ids' in worksRaw[0]);
+        exploded = [];
+        if (isDedup){
+          for (const w of worksRaw) {
+            const ids = String(w.ucvm_openalex_ids||'').split(';').map(s => normalizeToken(s.trim())).filter(Boolean);
+            if (!ids.length){ exploded.push({...w, __author:null}); continue; }
+            for (const id of ids){ exploded.push({...w, __author:id}); }
+          }
+        } else {
+          exploded = worksRaw.map(w => ({...w, __author: normalizeToken(w.author_openalex_id)}));
+        }
+        exploded.forEach(r => r.__typeSimple = typeSimple(r.type));
+        validate();
+        populateWorkFilters();
+        renderAll();
+      }
+    }
+  });
 })();
 </script>
+
     
 </body>
 </html>

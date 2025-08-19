@@ -1,0 +1,1690 @@
+[2025-08-19 15:19:23,715] INFO: Logging to data/logs/etl_run_20250819_151923.log
+[2025-08-19 15:19:23,715] INFO: Loading roster: data/roster_with_metrics.csv
+[2025-08-19 15:19:23,718] INFO: Roster shape: (90, 13)
+[2025-08-19 15:19:23,718] INFO: Roster columns: ['Name', 'Level', 'RG1', 'RG2', 'RG3', 'RG4', 'Category', 'Appointment', 'OpenAlexID', 'H_index', 'I10_index', 'Works_count', 'Total_citations']
+[2025-08-19 15:19:23,721] INFO: Roster preview:
+                  Name      Level   RG1   RG2  RG3  RG4  Category Appointment   OpenAlexID  H_index  I10_index  Works_count  Total_citations
+0       Alyssa Butters  Assistant  OHRG  CHRG  NaN  NaN  Teaching          FT  A5097476685      1.0        0.0          3.0              4.0
+1     Betty-Jo Bradley  Assistant  CHRG   NaN  NaN  NaN  Teaching          FT          NaN      NaN        NaN          NaN              NaN
+2          Cindy Adams  Professor   NaN   NaN  NaN  NaN  Research          FT  A5089186675     36.0       62.0        107.0           4388.0
+3  Darlene Donszelmann  Associate   NaN   NaN  NaN  NaN  Research          FT  A5054682662      1.0        1.0          4.0             27.0
+4  Diego Borin Nobrega  Assistant  OHRG  CHRG  NaN  NaN  Research          FT  A5015254879     27.0       47.0         89.0           2763.0
+[2025-08-19 15:19:23,721] INFO: Detected name column: Name
+[2025-08-19 15:19:23,721] INFO: Detected ID column: OpenAlexID
+[2025-08-19 15:19:23,722] INFO: Processing Alyssa Butters (A5097476685)
+[2025-08-19 15:19:24,933] INFO: Fetched 3 works for A5097476685 (last None years)
+[2025-08-19 15:19:25,852] INFO: Fetched 3 works for A5097476685 (last 5 years)
+[2025-08-19 15:19:25,872] ERROR: Error processing Alyssa Butters (A5097476685): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:25,875] WARNING: Row 1: missing OpenAlexID — skipping.
+[2025-08-19 15:19:25,876] INFO: Processing Cindy Adams (A5089186675)
+[2025-08-19 15:19:26,897] INFO: Fetched 107 works for A5089186675 (last None years)
+[2025-08-19 15:19:28,215] INFO: Fetched 26 works for A5089186675 (last 5 years)
+[2025-08-19 15:19:28,374] ERROR: Error processing Cindy Adams (A5089186675): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:28,380] INFO: Processing Darlene Donszelmann (A5054682662)
+[2025-08-19 15:19:29,007] INFO: Fetched 4 works for A5054682662 (last None years)
+[2025-08-19 15:19:29,979] INFO: Fetched 2 works for A5054682662 (last 5 years)
+[2025-08-19 15:19:29,993] ERROR: Error processing Darlene Donszelmann (A5054682662): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:29,994] INFO: Processing Diego Borin Nobrega (A5015254879)
+[2025-08-19 15:19:31,347] INFO: Fetched 89 works for A5015254879 (last None years)
+[2025-08-19 15:19:32,101] INFO: Fetched 43 works for A5015254879 (last 5 years)
+[2025-08-19 15:19:32,246] ERROR: Error processing Diego Borin Nobrega (A5015254879): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:32,254] INFO: Processing Eduardo Cobo (A5046882263)
+[2025-08-19 15:19:33,476] INFO: Fetched 92 works for A5046882263 (last None years)
+[2025-08-19 15:19:34,336] INFO: Fetched 39 works for A5046882263 (last 5 years)
+[2025-08-19 15:19:34,453] ERROR: Error processing Eduardo Cobo (A5046882263): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:34,460] INFO: Processing Herman Barkema (A5062115118)
+[2025-08-19 15:19:38,665] INFO: Fetched 581 works for A5062115118 (last None years)
+[2025-08-19 15:19:40,652] INFO: Fetched 165 works for A5062115118 (last 5 years)
+[2025-08-19 15:19:41,748] ERROR: Error processing Herman Barkema (A5062115118): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:41,792] INFO: Processing Ina Dobrinski (A5061235320)
+[2025-08-19 15:19:42,975] INFO: Fetched 188 works for A5061235320 (last None years)
+[2025-08-19 15:19:43,691] INFO: Fetched 27 works for A5061235320 (last 5 years)
+[2025-08-19 15:19:43,918] ERROR: Error processing Ina Dobrinski (A5061235320): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:43,929] INFO: Processing James Cross (A5057011174)
+[2025-08-19 15:19:45,040] INFO: Fetched 197 works for A5057011174 (last None years)
+[2025-08-19 15:19:45,713] INFO: Fetched 10 works for A5057011174 (last 5 years)
+[2025-08-19 15:19:45,903] ERROR: Error processing James Cross (A5057011174): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:45,912] INFO: Processing Jason Anderson (A5063855248)
+[2025-08-19 15:19:46,852] INFO: Fetched 135 works for A5063855248 (last None years)
+[2025-08-19 15:19:47,688] INFO: Fetched 27 works for A5063855248 (last 5 years)
+[2025-08-19 15:19:47,855] ERROR: Error processing Jason Anderson (A5063855248): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:47,861] INFO: Processing Jeffrey Biernaskie (A5084242333)
+[2025-08-19 15:19:48,961] INFO: Fetched 180 works for A5084242333 (last None years)
+[2025-08-19 15:19:50,565] INFO: Fetched 103 works for A5084242333 (last 5 years)
+[2025-08-19 15:19:50,846] ERROR: Error processing Jeffrey Biernaskie (A5084242333): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:50,862] INFO: Processing Jennifer Davies (A5074995793)
+[2025-08-19 15:19:51,703] INFO: Fetched 69 works for A5074995793 (last None years)
+[2025-08-19 15:19:52,448] INFO: Fetched 28 works for A5074995793 (last 5 years)
+[2025-08-19 15:19:52,579] ERROR: Error processing Jennifer Davies (A5074995793): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:52,584] INFO: Processing Jeroen De Buck (A5058471690)
+[2025-08-19 15:19:53,627] INFO: Fetched 187 works for A5058471690 (last None years)
+[2025-08-19 15:19:54,512] INFO: Fetched 46 works for A5058471690 (last 5 years)
+[2025-08-19 15:19:54,756] ERROR: Error processing Jeroen De Buck (A5058471690): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:54,770] INFO: Processing Johnathan Canton (A5007124437)
+[2025-08-19 15:19:55,626] INFO: Fetched 52 works for A5007124437 (last None years)
+[2025-08-19 15:19:56,448] INFO: Fetched 29 works for A5007124437 (last 5 years)
+[2025-08-19 15:19:56,509] ERROR: Error processing Johnathan Canton (A5007124437): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:56,514] INFO: Processing Li-Fang (Jack) Chu (A5076810213)
+[2025-08-19 15:19:57,457] INFO: Fetched 62 works for A5076810213 (last None years)
+[2025-08-19 15:19:58,843] INFO: Fetched 14 works for A5076810213 (last 5 years)
+[2025-08-19 15:19:58,929] ERROR: Error processing Li-Fang (Jack) Chu (A5076810213): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:19:58,934] INFO: Processing Maria Camila Ceballos Betancourt (A5086715306)
+[2025-08-19 15:19:59,796] INFO: Fetched 54 works for A5086715306 (last None years)
+[2025-08-19 15:20:00,630] INFO: Fetched 38 works for A5086715306 (last 5 years)
+[2025-08-19 15:20:00,735] ERROR: Error processing Maria Camila Ceballos Betancourt (A5086715306): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:00,740] INFO: Processing Mohamed Faizal Abdul Careem (A5010407946)
+[2025-08-19 15:20:01,702] INFO: Fetched 111 works for A5010407946 (last None years)
+[2025-08-19 15:20:02,636] INFO: Fetched 53 works for A5010407946 (last 5 years)
+[2025-08-19 15:20:02,791] ERROR: Error processing Mohamed Faizal Abdul Careem (A5010407946): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:02,801] WARNING: Row 17: missing OpenAlexID — skipping.
+[2025-08-19 15:20:02,801] INFO: Processing Nigel Caulkett (A5076221206)
+[2025-08-19 15:20:03,789] INFO: Fetched 130 works for A5076221206 (last None years)
+[2025-08-19 15:20:04,605] INFO: Fetched 23 works for A5076221206 (last 5 years)
+[2025-08-19 15:20:04,843] ERROR: Error processing Nigel Caulkett (A5076221206): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:04,851] INFO: Processing Ning Cheng (A5084554132)
+[2025-08-19 15:20:05,810] INFO: Fetched 81 works for A5084554132 (last None years)
+[2025-08-19 15:20:07,188] INFO: Fetched 51 works for A5084554132 (last 5 years)
+[2025-08-19 15:20:07,338] ERROR: Error processing Ning Cheng (A5084554132): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:07,347] INFO: Processing Rebecca Archer (A5016108047)
+[2025-08-19 15:20:07,992] INFO: Fetched 12 works for A5016108047 (last None years)
+[2025-08-19 15:20:08,729] INFO: Fetched 7 works for A5016108047 (last 5 years)
+[2025-08-19 15:20:08,756] ERROR: Error processing Rebecca Archer (A5016108047): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:08,757] INFO: Processing Rob Deardon (A5028898834)
+[2025-08-19 15:20:09,822] INFO: Fetched 116 works for A5028898834 (last None years)
+[2025-08-19 15:20:10,760] INFO: Fetched 53 works for A5028898834 (last 5 years)
+[2025-08-19 15:20:10,900] ERROR: Error processing Rob Deardon (A5028898834): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:10,908] INFO: Processing Soren Boysen (A5082336116)
+[2025-08-19 15:20:11,969] INFO: Fetched 129 works for A5082336116 (last None years)
+[2025-08-19 15:20:12,849] INFO: Fetched 49 works for A5082336116 (last 5 years)
+[2025-08-19 15:20:13,059] ERROR: Error processing Soren Boysen (A5082336116): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:13,068] INFO: Processing Susan Cork (A5089212646)
+[2025-08-19 15:20:13,897] INFO: Fetched 90 works for A5089212646 (last None years)
+[2025-08-19 15:20:14,694] INFO: Fetched 43 works for A5089212646 (last 5 years)
+[2025-08-19 15:20:14,865] ERROR: Error processing Susan Cork (A5089212646): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:14,872] INFO: Processing Sylvia Checkley (A5085308093)
+[2025-08-19 15:20:16,002] INFO: Fetched 149 works for A5085308093 (last None years)
+[2025-08-19 15:20:17,021] INFO: Fetched 46 works for A5085308093 (last 5 years)
+[2025-08-19 15:20:17,215] ERROR: Error processing Sylvia Checkley (A5085308093): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:17,225] INFO: Processing Angelica Galezowski (A5114186380)
+[2025-08-19 15:20:17,825] INFO: Fetched 1 works for A5114186380 (last None years)
+[2025-08-19 15:20:18,597] INFO: Fetched 1 works for A5114186380 (last 5 years)
+[2025-08-19 15:20:18,603] ERROR: Error processing Angelica Galezowski (A5114186380): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:18,603] INFO: Processing Sabine Gilch (A5065275438)
+[2025-08-19 15:20:21,392] INFO: Fetched 97 works for A5065275438 (last None years)
+[2025-08-19 15:20:22,290] INFO: Fetched 30 works for A5065275438 (last 5 years)
+[2025-08-19 15:20:22,447] ERROR: Error processing Sabine Gilch (A5065275438): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:22,455] INFO: Processing John Gilleard (A5058811797)
+[2025-08-19 15:20:24,046] INFO: Fetched 214 works for A5058811797 (last None years)
+[2025-08-19 15:20:25,017] INFO: Fetched 92 works for A5058811797 (last 5 years)
+[2025-08-19 15:20:25,335] ERROR: Error processing John Gilleard (A5058811797): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:25,355] INFO: Processing Dayna Goldsmith (A5082097120)
+[2025-08-19 15:20:26,209] INFO: Fetched 29 works for A5082097120 (last None years)
+[2025-08-19 15:20:26,957] INFO: Fetched 18 works for A5082097120 (last 5 years)
+[2025-08-19 15:20:27,022] ERROR: Error processing Dayna Goldsmith (A5082097120): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:27,025] INFO: Processing Ashish Gupta (A5018244111)
+[2025-08-19 15:20:27,787] INFO: Fetched 46 works for A5018244111 (last None years)
+[2025-08-19 15:20:28,602] INFO: Fetched 29 works for A5018244111 (last 5 years)
+[2025-08-19 15:20:28,700] ERROR: Error processing Ashish Gupta (A5018244111): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:28,704] INFO: Processing David Hall (A5022359178)
+[2025-08-19 15:20:32,187] INFO: Fetched 102 works for A5022359178 (last None years)
+[2025-08-19 15:20:33,211] INFO: Fetched 25 works for A5022359178 (last 5 years)
+[2025-08-19 15:20:33,333] ERROR: Error processing David Hall (A5022359178): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:33,339] INFO: Processing Kenton Hecker (A5082450377)
+[2025-08-19 15:20:35,041] INFO: Fetched 118 works for A5082450377 (last None years)
+[2025-08-19 15:20:35,862] INFO: Fetched 37 works for A5082450377 (last 5 years)
+[2025-08-19 15:20:36,042] ERROR: Error processing Kenton Hecker (A5082450377): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:36,050] INFO: Processing John Patrick Kastelic (A5062550388)
+[2025-08-19 15:20:38,444] INFO: Fetched 449 works for A5062550388 (last None years)
+[2025-08-19 15:20:39,520] INFO: Fetched 165 works for A5062550388 (last 5 years)
+[2025-08-19 15:20:40,322] ERROR: Error processing John Patrick Kastelic (A5062550388): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:40,353] INFO: Processing Cameron Knight (A5112215292)
+[2025-08-19 15:20:41,173] INFO: Fetched 68 works for A5112215292 (last None years)
+[2025-08-19 15:20:41,997] INFO: Fetched 20 works for A5112215292 (last 5 years)
+[2025-08-19 15:20:42,092] ERROR: Error processing Cameron Knight (A5112215292): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:42,097] INFO: Processing Susan Kutz (A5000020749)
+[2025-08-19 15:20:43,704] INFO: Fetched 264 works for A5000020749 (last None years)
+[2025-08-19 15:20:44,834] INFO: Fetched 81 works for A5000020749 (last 5 years)
+[2025-08-19 15:20:45,275] ERROR: Error processing Susan Kutz (A5000020749): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:45,294] INFO: Processing Carolyn Legge (A5051997692)
+[2025-08-19 15:20:45,971] INFO: Fetched 14 works for A5051997692 (last None years)
+[2025-08-19 15:20:46,679] INFO: Fetched 5 works for A5051997692 (last 5 years)
+[2025-08-19 15:20:46,702] ERROR: Error processing Carolyn Legge (A5051997692): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:46,703] INFO: Processing Renaud Leguillette (A5084958126)
+[2025-08-19 15:20:47,610] INFO: Fetched 100 works for A5084958126 (last None years)
+[2025-08-19 15:20:48,426] INFO: Fetched 45 works for A5084958126 (last 5 years)
+[2025-08-19 15:20:48,599] ERROR: Error processing Renaud Leguillette (A5084958126): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:48,607] INFO: Processing Guillaume Lhermie (A5006542086)
+[2025-08-19 15:20:49,514] INFO: Fetched 98 works for A5006542086 (last None years)
+[2025-08-19 15:20:50,290] INFO: Fetched 68 works for A5006542086 (last 5 years)
+[2025-08-19 15:20:50,482] ERROR: Error processing Guillaume Lhermie (A5006542086): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:50,491] INFO: Processing Karen Liljebjelke (A5073152049)
+[2025-08-19 15:20:51,573] INFO: Fetched 42 works for A5073152049 (last None years)
+[2025-08-19 15:20:52,287] INFO: Fetched 14 works for A5073152049 (last 5 years)
+[2025-08-19 15:20:52,350] ERROR: Error processing Karen Liljebjelke (A5073152049): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:52,353] INFO: Processing Andrew Mardjetko (A5093283881)
+[2025-08-19 15:20:52,955] INFO: Fetched 3 works for A5093283881 (last None years)
+[2025-08-19 15:20:53,543] INFO: Fetched 3 works for A5093283881 (last 5 years)
+[2025-08-19 15:20:53,556] ERROR: Error processing Andrew Mardjetko (A5093283881): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:53,557] INFO: Processing John Matyas (A5077397108)
+[2025-08-19 15:20:54,509] INFO: Fetched 144 works for A5077397108 (last None years)
+[2025-08-19 15:20:55,276] INFO: Fetched 21 works for A5077397108 (last 5 years)
+[2025-08-19 15:20:55,438] ERROR: Error processing John Matyas (A5077397108): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:55,447] INFO: Processing Marina McConkey (A5007745969)
+[2025-08-19 15:20:56,216] INFO: Fetched 25 works for A5007745969 (last None years)
+[2025-08-19 15:20:56,847] INFO: Fetched 4 works for A5007745969 (last 5 years)
+[2025-08-19 15:20:56,891] ERROR: Error processing Marina McConkey (A5007745969): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:56,894] INFO: Processing Robert McCorkell (A5052740198)
+[2025-08-19 15:20:57,753] INFO: Fetched 46 works for A5052740198 (last None years)
+[2025-08-19 15:20:58,878] INFO: Fetched 11 works for A5052740198 (last 5 years)
+[2025-08-19 15:20:58,943] ERROR: Error processing Robert McCorkell (A5052740198): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:20:58,946] INFO: Processing Chantal McMillan (A5112268003)
+[2025-08-19 15:21:01,374] INFO: Fetched 25 works for A5112268003 (last None years)
+[2025-08-19 15:21:02,007] INFO: Fetched 7 works for A5112268003 (last 5 years)
+[2025-08-19 15:21:02,045] ERROR: Error processing Chantal McMillan (A5112268003): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:02,047] INFO: Processing Julie Menard (A5114186382)
+[2025-08-19 15:21:02,588] INFO: Fetched 1 works for A5114186382 (last None years)
+[2025-08-19 15:21:03,205] INFO: Fetched 1 works for A5114186382 (last 5 years)
+[2025-08-19 15:21:03,211] ERROR: Error processing Julie Menard (A5114186382): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:03,212] INFO: Processing Beverly Morrison (A5068916305)
+[2025-08-19 15:21:03,863] INFO: Fetched 10 works for A5068916305 (last None years)
+[2025-08-19 15:21:04,447] INFO: Fetched 4 works for A5068916305 (last 5 years)
+[2025-08-19 15:21:04,468] ERROR: Error processing Beverly Morrison (A5068916305): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:04,469] INFO: Processing Timothy Olchowy (A5113946927)
+[2025-08-19 15:21:05,436] INFO: Fetched 35 works for A5113946927 (last None years)
+[2025-08-19 15:21:06,389] INFO: Fetched 12 works for A5113946927 (last 5 years)
+[2025-08-19 15:21:06,444] ERROR: Error processing Timothy Olchowy (A5113946927): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:06,447] INFO: Processing Karin Orsel (A5035027217)
+[2025-08-19 15:21:07,462] INFO: Fetched 191 works for A5035027217 (last None years)
+[2025-08-19 15:21:08,436] INFO: Fetched 64 works for A5035027217 (last 5 years)
+[2025-08-19 15:21:08,736] ERROR: Error processing Karin Orsel (A5035027217): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:08,750] INFO: Processing Edmond Pajor (A5004098689)
+[2025-08-19 15:21:10,435] INFO: Fetched 174 works for A5004098689 (last None years)
+[2025-08-19 15:21:11,308] INFO: Fetched 37 works for A5004098689 (last 5 years)
+[2025-08-19 15:21:11,577] ERROR: Error processing Edmond Pajor (A5004098689): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:11,588] INFO: Processing Daniel Pang (A5042612602)
+[2025-08-19 15:21:13,641] INFO: Fetched 207 works for A5042612602 (last None years)
+[2025-08-19 15:21:14,513] INFO: Fetched 92 works for A5042612602 (last 5 years)
+[2025-08-19 15:21:14,797] ERROR: Error processing Daniel Pang (A5042612602): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:14,809] INFO: Processing Nathan Peters (A5053168359)
+[2025-08-19 15:21:15,589] INFO: Fetched 52 works for A5053168359 (last None years)
+[2025-08-19 15:21:16,299] INFO: Fetched 15 works for A5053168359 (last 5 years)
+[2025-08-19 15:21:16,372] ERROR: Error processing Nathan Peters (A5053168359): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:16,375] INFO: Processing Thilo Pfau (A5090343464)
+[2025-08-19 15:21:17,779] INFO: Fetched 207 works for A5090343464 (last None years)
+[2025-08-19 15:21:19,140] INFO: Fetched 52 works for A5090343464 (last 5 years)
+[2025-08-19 15:21:19,467] ERROR: Error processing Thilo Pfau (A5090343464): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:19,485] INFO: Processing Jocelyn Poissant (A5088238215)
+[2025-08-19 15:21:20,368] INFO: Fetched 69 works for A5088238215 (last None years)
+[2025-08-19 15:21:21,101] INFO: Fetched 31 works for A5088238215 (last 5 years)
+[2025-08-19 15:21:21,197] ERROR: Error processing Jocelyn Poissant (A5088238215): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:21,203] INFO: Processing Mathieu Pruvot (A5088351601)
+[2025-08-19 15:21:22,319] INFO: Fetched 60 works for A5088351601 (last None years)
+[2025-08-19 15:21:23,222] INFO: Fetched 32 works for A5088351601 (last 5 years)
+[2025-08-19 15:21:23,314] ERROR: Error processing Mathieu Pruvot (A5088351601): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:23,320] INFO: Processing John Remnant (A5075424399)
+[2025-08-19 15:21:24,171] INFO: Fetched 61 works for A5075424399 (last None years)
+[2025-08-19 15:21:25,011] INFO: Fetched 21 works for A5075424399 (last 5 years)
+[2025-08-19 15:21:25,084] ERROR: Error processing John Remnant (A5075424399): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:25,088] INFO: Processing Melanie Rock (A5012761747)
+[2025-08-19 15:21:25,969] INFO: Fetched 141 works for A5012761747 (last None years)
+[2025-08-19 15:21:26,759] INFO: Fetched 25 works for A5012761747 (last 5 years)
+[2025-08-19 15:21:26,933] ERROR: Error processing Melanie Rock (A5012761747): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:26,940] INFO: Processing Alfredo Romero (A5110510421)
+[2025-08-19 15:21:27,747] INFO: Fetched 62 works for A5110510421 (last None years)
+[2025-08-19 15:21:28,517] INFO: Fetched 21 works for A5110510421 (last 5 years)
+[2025-08-19 15:21:28,589] ERROR: Error processing Alfredo Romero (A5110510421): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:28,593] INFO: Processing Brielle Rosa (A5108237524)
+[2025-08-19 15:21:29,459] INFO: Fetched 14 works for A5108237524 (last None years)
+[2025-08-19 15:21:30,073] INFO: Fetched 2 works for A5108237524 (last 5 years)
+[2025-08-19 15:21:30,093] ERROR: Error processing Brielle Rosa (A5108237524): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:30,094] INFO: Processing Jamie Rothenburger (A5079324010)
+[2025-08-19 15:21:30,924] INFO: Fetched 54 works for A5079324010 (last None years)
+[2025-08-19 15:21:31,716] INFO: Fetched 17 works for A5079324010 (last 5 years)
+[2025-08-19 15:21:31,797] ERROR: Error processing Jamie Rothenburger (A5079324010): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:31,801] INFO: Processing Marie-France Roy (A5110138668)
+[2025-08-19 15:21:32,496] INFO: Fetched 10 works for A5110138668 (last None years)
+[2025-08-19 15:21:33,157] INFO: Fetched 1 works for A5110138668 (last 5 years)
+[2025-08-19 15:21:33,177] ERROR: Error processing Marie-France Roy (A5110138668): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:33,178] INFO: Processing Hermann Schaetzl (A5041791584)
+[2025-08-19 15:21:36,243] INFO: Fetched 221 works for A5041791584 (last None years)
+[2025-08-19 15:21:37,139] INFO: Fetched 45 works for A5041791584 (last 5 years)
+[2025-08-19 15:21:37,430] ERROR: Error processing Hermann Schaetzl (A5041791584): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:37,447] INFO: Processing W. Michael Scott (A5114252403)
+[2025-08-19 15:21:38,424] INFO: Fetched 87 works for A5114252403 (last None years)
+[2025-08-19 15:21:39,102] INFO: Fetched 13 works for A5114252403 (last 5 years)
+[2025-08-19 15:21:39,193] ERROR: Error processing W. Michael Scott (A5114252403): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:39,197] INFO: Processing John Soghigian (A5023258863)
+[2025-08-19 15:21:40,424] INFO: Fetched 62 works for A5023258863 (last None years)
+[2025-08-19 15:21:41,155] INFO: Fetched 25 works for A5023258863 (last 5 years)
+[2025-08-19 15:21:41,240] ERROR: Error processing John Soghigian (A5023258863): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:41,245] INFO: Processing Holly Sparks (A5083737761)
+[2025-08-19 15:21:42,046] INFO: Fetched 52 works for A5083737761 (last None years)
+[2025-08-19 15:21:42,804] INFO: Fetched 23 works for A5083737761 (last 5 years)
+[2025-08-19 15:21:42,873] ERROR: Error processing Holly Sparks (A5083737761): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:42,877] INFO: Processing Bruce Stover (A5034547939)
+[2025-08-19 15:21:43,458] INFO: Fetched 3 works for A5034547939 (last None years)
+[2025-08-19 15:21:44,082] INFO: Fetched 2 works for A5034547939 (last 5 years)
+[2025-08-19 15:21:44,096] ERROR: Error processing Bruce Stover (A5034547939): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:44,097] INFO: Processing Jean-Yin Tan (A5104182467)
+[2025-08-19 15:21:44,847] INFO: Fetched 4 works for A5104182467 (last None years)
+[2025-08-19 15:21:45,459] INFO: Fetched 4 works for A5104182467 (last 5 years)
+[2025-08-19 15:21:45,477] ERROR: Error processing Jean-Yin Tan (A5104182467): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:45,478] INFO: Processing Jacob Chacko Thundathil (A5002583112)
+[2025-08-19 15:21:46,387] INFO: Fetched 94 works for A5002583112 (last None years)
+[2025-08-19 15:21:47,105] INFO: Fetched 26 works for A5002583112 (last 5 years)
+[2025-08-19 15:21:47,215] ERROR: Error processing Jacob Chacko Thundathil (A5002583112): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:47,221] INFO: Processing Tuan Trang (A5074399476)
+[2025-08-19 15:21:48,204] INFO: Fetched 61 works for A5074399476 (last None years)
+[2025-08-19 15:21:48,928] INFO: Fetched 23 works for A5074399476 (last 5 years)
+[2025-08-19 15:21:49,001] ERROR: Error processing Tuan Trang (A5074399476): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:49,006] INFO: Processing Mark Ungrin (A5037393069)
+[2025-08-19 15:21:50,035] INFO: Fetched 63 works for A5037393069 (last None years)
+[2025-08-19 15:21:50,719] INFO: Fetched 25 works for A5037393069 (last 5 years)
+[2025-08-19 15:21:50,833] ERROR: Error processing Mark Ungrin (A5037393069): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:50,838] INFO: Processing Frank van der Meer (A5077375646)
+[2025-08-19 15:21:53,115] INFO: Fetched 141 works for A5077375646 (last None years)
+[2025-08-19 15:21:54,335] INFO: Fetched 49 works for A5077375646 (last 5 years)
+[2025-08-19 15:21:54,580] ERROR: Error processing Frank van der Meer (A5077375646): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:54,590] INFO: Processing Catherine Wagg (A5038571433)
+[2025-08-19 15:21:55,479] INFO: Fetched 14 works for A5038571433 (last None years)
+[2025-08-19 15:21:56,112] INFO: Fetched 1 works for A5038571433 (last 5 years)
+[2025-08-19 15:21:56,142] ERROR: Error processing Catherine Wagg (A5038571433): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:56,143] INFO: Processing Katie Wayne (A5049770537)
+[2025-08-19 15:21:56,877] INFO: Fetched 27 works for A5049770537 (last None years)
+[2025-08-19 15:21:57,613] INFO: Fetched 15 works for A5049770537 (last 5 years)
+[2025-08-19 15:21:57,659] ERROR: Error processing Katie Wayne (A5049770537): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:57,661] INFO: Processing Amy Warren (A5110902158)
+[2025-08-19 15:21:58,585] INFO: Fetched 60 works for A5110902158 (last None years)
+[2025-08-19 15:21:59,669] INFO: Fetched 18 works for A5110902158 (last 5 years)
+[2025-08-19 15:21:59,755] ERROR: Error processing Amy Warren (A5110902158): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:21:59,759] INFO: Processing James Wasmuth (A5064980480)
+[2025-08-19 15:22:00,861] INFO: Fetched 96 works for A5064980480 (last None years)
+[2025-08-19 15:22:01,834] INFO: Fetched 38 works for A5064980480 (last 5 years)
+[2025-08-19 15:22:01,990] ERROR: Error processing James Wasmuth (A5064980480): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:01,998] INFO: Processing Renate Weller (A5111941038)
+[2025-08-19 15:22:03,082] INFO: Fetched 150 works for A5111941038 (last None years)
+[2025-08-19 15:22:04,263] INFO: Fetched 10 works for A5111941038 (last 5 years)
+[2025-08-19 15:22:04,430] ERROR: Error processing Renate Weller (A5111941038): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:04,438] INFO: Processing Patrick Whelan (A5036733857)
+[2025-08-19 15:22:06,078] INFO: Fetched 108 works for A5036733857 (last None years)
+[2025-08-19 15:22:06,848] INFO: Fetched 34 works for A5036733857 (last 5 years)
+[2025-08-19 15:22:06,983] ERROR: Error processing Patrick Whelan (A5036733857): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:06,989] INFO: Processing Ashley Whitehead (A5026303269)
+[2025-08-19 15:22:07,632] INFO: Fetched 13 works for A5026303269 (last None years)
+[2025-08-19 15:22:08,398] INFO: Fetched 7 works for A5026303269 (last 5 years)
+[2025-08-19 15:22:08,424] ERROR: Error processing Ashley Whitehead (A5026303269): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:08,426] INFO: Processing Douglas Whiteside (A5065334735)
+[2025-08-19 15:22:09,235] INFO: Fetched 53 works for A5065334735 (last None years)
+[2025-08-19 15:22:09,903] INFO: Fetched 16 works for A5065334735 (last 5 years)
+[2025-08-19 15:22:10,009] ERROR: Error processing Douglas Whiteside (A5065334735): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:10,013] INFO: Processing M.K. Claire Windeyer (A5038141195)
+[2025-08-19 15:22:10,874] INFO: Fetched 62 works for A5038141195 (last None years)
+[2025-08-19 15:22:11,834] INFO: Fetched 31 works for A5038141195 (last 5 years)
+[2025-08-19 15:22:11,945] ERROR: Error processing M.K. Claire Windeyer (A5038141195): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:11,951] INFO: Processing Katherine Wynne-Edwards (A5021898290)
+[2025-08-19 15:22:12,895] INFO: Fetched 141 works for A5021898290 (last None years)
+[2025-08-19 15:22:13,575] INFO: Fetched 8 works for A5021898290 (last 5 years)
+[2025-08-19 15:22:13,728] ERROR: Error processing Katherine Wynne-Edwards (A5021898290): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:13,734] INFO: Processing Alyson Kelvin (A5055196299)
+[2025-08-19 15:22:14,845] INFO: Fetched 108 works for A5055196299 (last None years)
+[2025-08-19 15:22:16,838] INFO: Fetched 61 works for A5055196299 (last 5 years)
+[2025-08-19 15:22:17,052] ERROR: Error processing Alyson Kelvin (A5055196299): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:17,064] INFO: Processing Dongyan Xu Niu (A5050841380)
+[2025-08-19 15:22:17,952] INFO: Fetched 98 works for A5050841380 (last None years)
+[2025-08-19 15:22:19,150] INFO: Fetched 51 works for A5050841380 (last 5 years)
+[2025-08-19 15:22:19,337] ERROR: Error processing Dongyan Xu Niu (A5050841380): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:19,345] INFO: Processing Nilusha Malmuthuge (A5052164943)
+[2025-08-19 15:22:20,165] INFO: Fetched 63 works for A5052164943 (last None years)
+[2025-08-19 15:22:21,139] INFO: Fetched 21 works for A5052164943 (last 5 years)
+[2025-08-19 15:22:21,211] ERROR: Error processing Nilusha Malmuthuge (A5052164943): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:21,215] INFO: Processing Samia Hannaoui (A5017321423)
+[2025-08-19 15:22:22,294] INFO: Fetched 30 works for A5017321423 (last None years)
+[2025-08-19 15:22:23,058] INFO: Fetched 13 works for A5017321423 (last 5 years)
+[2025-08-19 15:22:23,109] ERROR: Error processing Samia Hannaoui (A5017321423): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:23,112] INFO: Processing Aylin Atilla (A5036556782)
+[2025-08-19 15:22:23,796] INFO: Fetched 10 works for A5036556782 (last None years)
+[2025-08-19 15:22:24,428] INFO: Fetched 3 works for A5036556782 (last 5 years)
+[2025-08-19 15:22:24,458] ERROR: Error processing Aylin Atilla (A5036556782): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:24,459] INFO: Processing Juan Hernandex-Medrano (A5046493714)
+[2025-08-19 15:22:25,225] INFO: Fetched 48 works for A5046493714 (last None years)
+[2025-08-19 15:22:26,254] INFO: Fetched 15 works for A5046493714 (last 5 years)
+[2025-08-19 15:22:26,342] ERROR: Error processing Juan Hernandex-Medrano (A5046493714): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:26,345] INFO: Processing Mia Alfajaro (A5060461427)
+[2025-08-19 15:22:27,288] INFO: Fetched 72 works for A5060461427 (last None years)
+[2025-08-19 15:22:28,148] INFO: Fetched 38 works for A5060461427 (last 5 years)
+[2025-08-19 15:22:28,248] ERROR: Error processing Mia Alfajaro (A5060461427): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:28,256] INFO: Processing Laureen Hall (A5022803956)
+[2025-08-19 15:22:29,050] INFO: Fetched 33 works for A5022803956 (last None years)
+[2025-08-19 15:22:29,759] INFO: Fetched 13 works for A5022803956 (last 5 years)
+[2025-08-19 15:22:29,811] ERROR: Error processing Laureen Hall (A5022803956): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:29,813] INFO: Processing Serge Chalhoub (A5022803956)
+[2025-08-19 15:22:30,480] INFO: Fetched 33 works for A5022803956 (last None years)
+[2025-08-19 15:22:31,188] INFO: Fetched 13 works for A5022803956 (last 5 years)
+[2025-08-19 15:22:31,239] ERROR: Error processing Serge Chalhoub (A5022803956): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:31,242] INFO: Processing Jennifer Pearson (A5086163497)
+[2025-08-19 15:22:32,067] INFO: Fetched 41 works for A5086163497 (last None years)
+[2025-08-19 15:22:32,780] INFO: Fetched 20 works for A5086163497 (last 5 years)
+[2025-08-19 15:22:32,858] ERROR: Error processing Jennifer Pearson (A5086163497): "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 201, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 128, in process_one_author
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/frame.py", line 4113, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6212, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/pandas/core/indexes/base.py", line 6264, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['host_venue__display_name', 'authors', 'institutions', 'concepts_list'] not in index"
+[2025-08-19 15:22:32,861] INFO: Total skipped rows due to missing ID: 2
+[2025-08-19 15:22:32,861] WARNING: No authors processed. No file written.
+[2025-08-19 15:22:32,861] INFO: Done.

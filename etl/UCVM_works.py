@@ -46,18 +46,19 @@ KEY_FIELDS_FOR_OUTPUT = [
 KEY_FIELDS_FOR_OUTPUT_WITH_TAGS = KEY_FIELDS_FOR_OUTPUT + ["author_name", "author_openalex_id"]
 
 def setup_logging():
-    print(f"Creating log directory at: {LOG_DIR}")
     safe_mkdir(LOG_DIR)
     logfile = os.path.join(LOG_DIR, f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="[%(asctime)s] %(levelname)s: %(message)s",
         handlers=[
-            logging.FileHandler(logfile),
+            logging.FileHandler(logfile, mode='w', encoding='utf-8'),
             logging.StreamHandler(sys.stdout)
-        ]
+        ],
+        force=True  # <- ensures old configs don’t interfere
     )
-    logging.info(f"Logging to {logfile}")
+    logging.info(f"Logging initialized. Writing to {logfile}")
+
 
 def safe_mkdir(path: str):
     try:

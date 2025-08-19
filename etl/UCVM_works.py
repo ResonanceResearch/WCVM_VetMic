@@ -80,40 +80,6 @@ def normalize_author_id(openalex_id):
         return None
     return None
 
-
-def fetch_works(author_id: str, years_back: Optional[int] = 5) -> List[Dict[str, Any]]:
-    all_works = []
-    cursor = "*"
-    current_year = datetime.now().year
-    filter_year = f"from_publication_date:{current_year - years_back}-01-01" if years_back else None
-
-    while cursor:
-        url = f"{BASE_URL}?filter=author.id:{author_id}"
-        if filter_year:
-            url += f",{filter_year}"
-        url += f"&per-page={PER_PAGE}&cursor={cursor}"
-
-        for attempt in range(MAX_RETRIES):
-            try:
-                response = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-                if response.status_code == 200:
-                    data = response.json()
-                    all_works.extend(data.get("results", []))
-                    cursor = data.get("meta", {}).get("next_cursor")
-                    break
-                else:
-                    logging.warning(f"HTTP {response.status_code} on attempt {attempt + 1} for {author_id}")
-                    time.sleep(BACKOFF_BASE ** attempt)
-            except Exception as e:
-                logging.warning(f"Exception on attempt {attempt + 1} for {author_id}: {e}")
-                time.sleep(BACKOFF_BASE ** attempt)
-        else:
-            logging.error(f"Failed to fetch after {MAX_RETRIES} attempts for {author_id}")
-            break
-
-    logging.info(f"Fetched {len(all_works)} works for {author_id} (last {years_back} years)")
-    return all_works
-
 def fetch_author_works_filtered(full_author_id):
     import requests
     import pandas as pd

@@ -1,136 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UCVM Research Dashboard</title>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body { padding: 20px; font-family: Arial, sans-serif; }
-    .filter-section { margin-bottom: 20px; }
-    .dashboard-section { margin-top: 30px; }
-    .chart-container { height: 400px; }
-    .card { margin-bottom: 15px; }
-    .small-scroll { max-height: 250px; overflow-y: scroll; }
-  </style>
+    <meta charset="UTF-8">
+    <title>UCVM Research Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
 </head>
+
 <body>
-  <div class="container">
-    <h1 class="mb-4">UCVM Research Dashboard</h1>
-    <div class="filter-section row">
-      <div class="col-md-4">
-        <label for="yearFilter" class="form-label">Filter by Year</label>
-        <select id="yearFilter" class="form-select"></select>
-      </div>
-      <div class="col-md-4">
-        <label for="typeFilter" class="form-label">Filter by Type</label>
-        <select id="typeFilter" class="form-select"></select>
-      </div>
-      <div class="col-md-4">
-        <label for="conceptFilter" class="form-label">Filter by Concept</label>
-        <select id="conceptFilter" class="form-select"></select>
-      </div>
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">UCVM Research Dashboard</h1>
 
-    <div class="dashboard-section">
-      <h3>Publication Overview</h3>
-      <div id="yearChart" class="chart-container"></div>
-    </div>
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="control">
+                    <div class="select">
+                        <select id="fieldFilter"></select>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="select">
+                        <select id="subfieldFilter"></select>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="select">
+                        <select id="topicFilter"></select>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="select">
+                        <select id="authorFilter"></select>
+                    </div>
+                </div>
+            </div>
 
-    <div class="dashboard-section">
-      <h3>Works</h3>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead class="table-light">
-            <tr id="tableHeader"></tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+            <div id="pubsChart" style="height:400px;"></div>
+            <div id="fwciChart" style="height:400px;"></div>
+            <div id="oaStatusChart" style="height:400px;"></div>
+        </div>
+    </section>
 
-  <script>
-    const CSV_PATH = "data/openalex_all_authors_last5y_key_fields_dedup.csv";
-    let allData = [];
+    <script>
+        const CSV_PATH = 'data/openalex_all_authors_last5y_key_fields_dedup.csv';
 
-    function populateFilters(data) {
-      const years = [...new Set(data.map(d => d.publication_year))].sort((a,b) => b - a);
-      const types = [...new Set(data.map(d => d.type))].sort();
-      const concepts = [...new Set(data.flatMap(d => d.concepts_list?.split(";").map(c => c.trim()) || []))].sort();
+        const parseCSV = (callback) => {
+            Papa.parse(CSV_PATH, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    callback(results.data);
+                }
+            });
+        };
 
-      const yearSel = document.getElementById("yearFilter");
-      const typeSel = document.getElementById("typeFilter");
-      const conceptSel = document.getElementById("conceptFilter");
+        const populateFilter = (data, key, selectId) => {
+            const select = document.getElementById(selectId);
+            const values = Array.from(new Set(data.map(row => row[key]).filter(Boolean))).sort();
+            select.innerHTML = '<option value="">All</option>' + values.map(v => `<option value="${v}">${v}</option>`).join('');
+        };
 
-      [yearSel, typeSel, conceptSel].forEach(sel => sel.innerHTML = "<option value=''>All</option>");
-      years.forEach(y => yearSel.innerHTML += `<option value='${y}'>${y}</option>`);
-      types.forEach(t => typeSel.innerHTML += `<option value='${t}'>${t}</option>`);
-      concepts.forEach(c => conceptSel.innerHTML += `<option value='${c}'>${c}</option>`);
-    }
+        const filterData = (data) => {
+            const field = document.getElementById('fieldFilter').value;
+            const subfield = document.getElementById('subfieldFilter').value;
+            const topic = document.getElementById('topicFilter').value;
+            const author = document.getElementById('authorFilter').value;
 
-    function drawChart(data) {
-      const counts = {};
-      data.forEach(d => {
-        const y = d.publication_year;
-        counts[y] = (counts[y] || 0) + 1;
-      });
-      const sortedYears = Object.keys(counts).sort();
-      const chartData = [{
-        x: sortedYears,
-        y: sortedYears.map(y => counts[y]),
-        type: 'bar'
-      }];
-      Plotly.newPlot("yearChart", chartData);
-    }
+            return data.filter(row =>
+                (!field || row['primary_topic__field__display_name'] === field) &&
+                (!subfield || row['primary_topic__subfield__display_name'] === subfield) &&
+                (!topic || row['primary_topic__display_name'] === topic) &&
+                (!author || row['author_name'] === author)
+            );
+        };
 
-    function updateTable(data) {
-      const tableHeader = document.getElementById("tableHeader");
-      const tableBody = document.getElementById("tableBody");
-      tableHeader.innerHTML = "";
-      tableBody.innerHTML = "";
-      if (data.length === 0) return;
-      const keys = Object.keys(data[0]);
-      keys.forEach(k => tableHeader.innerHTML += `<th>${k}</th>`);
-      data.forEach(row => {
-        const tr = document.createElement("tr");
-        keys.forEach(k => {
-          const td = document.createElement("td");
-          td.textContent = row[k];
-          tr.appendChild(td);
+        const drawCharts = (data) => {
+            const years = {};
+            const fwci = {};
+            const oaStatus = {};
+
+            data.forEach(row => {
+                const year = row['publication_year'];
+                const status = row['open_access__oa_status'];
+                const metric = parseFloat(row['fwci']) || 0;
+
+                if (year) {
+                    years[year] = (years[year] || 0) + 1;
+                    fwci[year] = (fwci[year] || []).concat(metric);
+                }
+
+                if (status) {
+                    oaStatus[status] = (oaStatus[status] || 0) + 1;
+                }
+            });
+
+            const pubsTrace = {
+                x: Object.keys(years),
+                y: Object.values(years),
+                type: 'bar'
+            };
+
+            const fwciTrace = {
+                x: Object.keys(fwci),
+                y: Object.values(fwci).map(v => v.reduce((a,b) => a+b, 0)/v.length),
+                type: 'line'
+            };
+
+            const oaTrace = {
+                labels: Object.keys(oaStatus),
+                values: Object.values(oaStatus),
+                type: 'pie'
+            };
+
+            Plotly.newPlot('pubsChart', [pubsTrace], { title: 'Publications per Year' });
+            Plotly.newPlot('fwciChart', [fwciTrace], { title: 'Average FWCI per Year' });
+            Plotly.newPlot('oaStatusChart', [oaTrace], { title: 'Open Access Status' });
+        };
+
+        parseCSV((data) => {
+            populateFilter(data, 'primary_topic__field__display_name', 'fieldFilter');
+            populateFilter(data, 'primary_topic__subfield__display_name', 'subfieldFilter');
+            populateFilter(data, 'primary_topic__display_name', 'topicFilter');
+            populateFilter(data, 'author_name', 'authorFilter');
+
+            const render = () => drawCharts(filterData(data));
+
+            document.getElementById('fieldFilter').onchange = render;
+            document.getElementById('subfieldFilter').onchange = render;
+            document.getElementById('topicFilter').onchange = render;
+            document.getElementById('authorFilter').onchange = render;
+
+            render();
         });
-        tableBody.appendChild(tr);
-      });
-    }
-
-    function filterData() {
-      const year = document.getElementById("yearFilter").value;
-      const type = document.getElementById("typeFilter").value;
-      const concept = document.getElementById("conceptFilter").value;
-      let filtered = allData;
-      if (year) filtered = filtered.filter(d => d.publication_year === year);
-      if (type) filtered = filtered.filter(d => d.type === type);
-      if (concept) filtered = filtered.filter(d => d.concepts_list?.includes(concept));
-      drawChart(filtered);
-      updateTable(filtered);
-    }
-
-    Papa.parse(CSV_PATH, {
-      download: true,
-      header: true,
-      complete: function(results) {
-        allData = results.data.filter(d => d.publication_year);
-        populateFilters(allData);
-        drawChart(allData);
-        updateTable(allData);
-      }
-    });
-
-    ["yearFilter", "typeFilter", "conceptFilter"].forEach(id => {
-      document.getElementById(id).addEventListener("change", filterData);
-    });
-  </script>
+    </script>
 </body>
+
 </html>

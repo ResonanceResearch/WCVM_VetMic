@@ -163,7 +163,12 @@
   </main>
 </div>
 
-<script>
+<script type="module">
+import Papa from 'https://cdn.jsdelivr.net/npm/papaparse@5.4.1/+esm';
+import { Chart } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/+esm';
+window.Papa = Papa;
+window.Chart = Chart;
+import('./dashboard-logic.js').then(mod => mod.initDashboard());
 (function(){
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));

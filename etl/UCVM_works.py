@@ -158,7 +158,8 @@ def main():
     for d in (OUTPUT_DIR, ALL_FIELDS_DIR, LAST5_DIR, COMPILED_DIR, LOG_DIR):
         safe_mkdir(d)
 
-    compiled_last5_path = os.path.join(COMPILED_DIR, "openalex_all_authors_last5y_key_fields.csv")
+    compiled_last5_path = os.path.join("data", "openalex_all_authors_last5y_key_fields.csv")  # always in /data
+    logging.info(f"Compiled output file will be: {compiled_last5_path}")
 
     if os.path.exists(compiled_last5_path):
         try:
@@ -166,6 +167,7 @@ def main():
             logging.info(f"Removed old compiled file: {compiled_last5_path}")
         except Exception:
             open(compiled_last5_path, "w").close()
+            logging.warning(f"Failed to remove file, created empty placeholder instead: {compiled_last5_path}")
 
     processed_any = False
 
@@ -199,7 +201,9 @@ def main():
                 logging.info(f"Processing {author_name} ({author_id})")
                 try:
                     _, df_last5_comp = process_one_author(author_name, author_id)
+                    logging.info(f"Fetched {len(df_last5_comp)} entries for {author_id} - appending...")
                     append_df_to_csv(df_last5_comp, compiled_last5_path, fixed_cols=KEY_FIELDS_FOR_OUTPUT_WITH_TAGS)
+                    logging.info(f"Appended {len(df_last5_comp)} entries to compiled file.")
                     processed_any = True
                     time.sleep(0.2)
                 except Exception as e:
@@ -209,8 +213,15 @@ def main():
     if processed_any:
         logging.info("Deduplicating final last-5-years file...")
         try:
-            logging.info(f"Reading from: {compiled_last5_path}")
+            logging.info(f"Checking compiled file at: {compiled_last5_path}")
+            if not os.path.exists(compiled_last5_path):
+                raise FileNotFoundError(f"Compiled file not found: {compiled_last5_path}")
+            size = os.path.getsize(compiled_last5_path)
+            logging.info(f"Compiled file size: {size} bytes")
+            if size < 10:
+                raise ValueError("Compiled file appears empty")
             compiled_last5_df = pd.read_csv(compiled_last5_path)
+            logging.info(f"Loaded compiled CSV with shape: {compiled_last5_df.shape}")
             dedup_last5_df = deduplicate_compiled(compiled_last5_df)
             dedup_last5_df.to_csv(OUTPUT_LAST5_DEDUP, index=False)
             logging.info(f"Wrote deduplicated file with {len(dedup_last5_df)} rows → {OUTPUT_LAST5_DEDUP}")
@@ -227,3 +238,4 @@ if __name__ == "__main__":
     except Exception as e:
         logging.exception(f"Fatal error: {e}")
         sys.exit(1)
+

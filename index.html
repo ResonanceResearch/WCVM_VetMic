@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>UCVM • Publications Dashboard</title>
-<style>
-  :root{ --bg:#0f172a; --surface:#111827; --muted:#1f2937; --text:#e5e7eb; --sub:#9ca3af; --accent:#60a5fa; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --chip:#374151; --chip-on:#2563eb; --border:#334155; }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:linear-gradient(180deg,#0b1220 0%,#0f172a 100%);color:var(--text)}
-  header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-  .wrap{max-width:1200px;margin:0 auto;padding:16px}
-  h1{margin:0 0 4px;font-size:20px}
-  .sub{color:var(--sub);font-size:13px}
-  .grid{display:grid;gap:16px}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .card{background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);border:1px solid var(--border);border-radius:14px;padding:14px}
-  .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#0b1220;color:var(--text);font-size:12px}
-  .pill.ok{border-color:#14532d;color:#bbf7d0;background:#072c16}
-  .pill.warn{border-color:#7c2d12;color:#fed7aa;background:#2b1306}
-  input[type=file]{display:none}
-  .file{display:inline-flex;gap:8px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--muted);border:1px dashed var(--border);cursor:pointer;font-size:13px;color:var(--text)}
-  .file .hint{color:var(--sub);font-size:12px}
-  .badges{display:flex;gap:8px;flex-wrap:wrap}
-  .badge{padding:6px 8px;border-radius:999px;background:var(--muted);border:1px solid var(--border);font-size:12px;color:var(--sub)}
-  .btn{appearance:none;border:1px solid var(--border);background:#0b1220;color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
-  .btn.primary{background:var(--chip-on);border-color:#1d4ed8}
-  .btn:disabled{opacity:.5;cursor:not-allowed}
-  aside{min-width:260px}
-  .filters{position:sticky; top:76px; max-height:calc(100vh - 90px); overflow:auto; -webkit-overflow-scrolling:touch}
-  .filters h3{margin:0 0 8px;font-size:14px;color:#d1d5db}
-  .filters .group{margin-bottom:12px}
-  .filters .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:#374151;color:#d1d5db;border:1px solid var(--border);padding:6px 8px;border-radius:999px;font-size:12px;cursor:pointer}
-  .chip.on{background:#2563eb;border-color:#1d4ed8;color:white}
-  .field{display:flex;gap:8px;align-items:center;margin:6px 0}
-  .field input[type=checkbox]{transform:scale(1.1)}
-  .field input[type=search], .field input[type=text], .field select{flex:1;background:#0b1220;border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px}
-  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-  .kpi{background:var(--muted);border:1px solid var(--border);border-radius:12px;padding:12px}
-  .kpi h4{margin:0 0 4px;font-size:12px;color:#cbd5e1}
-  .kpi .val{font-size:22px;font-weight:700}
-  .tables{display:grid;grid-template-columns:1fr 2fr;gap:12px}
-  table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:13px}
-  thead{background:#0b1220}
-  th,td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
-  th{color:#cbd5e1;text-align:left;cursor:pointer}
-  tr:hover td{background:#0f172a}
-  .muted{color:#94a3b8}
-  .footer{color:#94a3b8;font-size:12px;margin-top:10px}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UCVM • Publications Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <style>
+    :root{ --bg:#0f172a; --surface:#111827; --muted:#1f2937; --text:#e5e7eb; --sub:#9ca3af; --accent:#60a5fa; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --chip:#374151; --chip-on:#2563eb; --border:#334155; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:linear-gradient(180deg,#0b1220 0%,#0f172a 100%);color:var(--text)}
+    header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    h1{margin:0 0 4px;font-size:20px}
+    .sub{color:var(--sub);font-size:13px}
+    .grid{display:grid;gap:16px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .card{background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);border:1px solid var(--border);border-radius:14px;padding:14px}
+    .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#0b1220;color:var(--text);font-size:12px}
+    .pill.ok{border-color:#14532d;color:#bbf7d0;background:#072c16}
+    .pill.warn{border-color:#7c2d12;color:#fed7aa;background:#2b1306}
+    input[type=file]{display:none}
+    .file{display:inline-flex;gap:8px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--muted);border:1px dashed var(--border);cursor:pointer;font-size:13px;color:var(--text)}
+    .file .hint{color:var(--sub);font-size:12px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{padding:6px 8px;border-radius:999px;background:var(--muted);border:1px solid var(--border);font-size:12px;color:var(--sub)}
+    .btn{appearance:none;border:1px solid var(--border);background:#0b1220;color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
+    .btn.primary{background:var(--chip-on);border-color:#1d4ed8}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    aside{min-width:260px}
+    .filters{position:sticky; top:76px; max-height:calc(100vh - 90px); overflow:auto; -webkit-overflow-scrolling:touch}
+    .filters h3{margin:0 0 8px;font-size:14px;color:#d1d5db}
+    .filters .group{margin-bottom:12px}
+    .filters .chips{display:flex;flex-wrap:wrap;gap:6px}
+    .chip{background:#374151;color:#d1d5db;border:1px solid var(--border);padding:6px 8px;border-radius:999px;font-size:12px;cursor:pointer}
+    .chip.on{background:#2563eb;border-color:#1d4ed8;color:white}
+    .field{display:flex;gap:8px;align-items:center;margin:6px 0}
+    .field input[type=checkbox]{transform:scale(1.1)}
+    .field input[type=search], .field input[type=text], .field select{flex:1;background:#0b1220;border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px}
+    .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+    .kpi{background:var(--muted);border:1px solid var(--border);border-radius:12px;padding:12px}
+    .kpi h4{margin:0 0 4px;font-size:12px;color:#cbd5e1}
+    .kpi .val{font-size:22px;font-weight:700}
+    .tables{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+    table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:13px}
+    thead{background:#0b1220}
+    th,td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+    th{color:#cbd5e1;text-align:left;cursor:pointer}
+    tr:hover td{background:#0f172a}
+    .muted{color:#94a3b8}
+    .footer{color:#94a3b8;font-size:12px;margin-top:10px}
+  </style>
 </head>
 <body>
 <header>
@@ -162,115 +162,23 @@
     </section>
   </main>
 </div>
-
 <script>
-(function(){
+(async function(){
+  const rosterPath = 'data/roster_with_metrics.csv';
+  const worksPath = 'data/openalex_all_authors_last5y_key_fields_dedup.csv';
+
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
+  let roster = [], worksRaw = [], exploded = [], isDedup = false;
+  let personFilter = null, chart;
 
-  // Allowed publication types
   const ALLOWED_TYPES = new Set(['article','book-chapter','review']);
 
-  // Global state
-  let roster = [];
-  let worksRaw = [];
-  let isDedup = false;
-  let exploded = [];
-  let personFilter = null;
-  let chart;
-
-  // Helpers
   function normalizeToken(x){ if(!x) return ''; const s=String(x).trim(); const m=s.match(/A\d{6,}/); return m? m[0]: s; }
   function rgArray(row){ const vals=[row.RG1,row.RG2,row.RG3,row.RG4].map(x=>String(x||'').trim()).filter(Boolean); const seen=new Set(); const out=[]; for(const v of vals){ if(!seen.has(v)){seen.add(v);out.push(v);} } return out; }
   function yearInt(y){ const n=parseInt(y,10); return isFinite(n)? n: null }
   function isOA(s){ const t=String(s||'').toLowerCase(); return t.includes('open') || t==='gold' }
   function typeSimple(s){ const t=String(s||'').toLowerCase(); if(t.includes('book-chapter')) return 'book-chapter'; if(t.includes('review')) return 'review'; if(t.includes('article')) return 'article'; return 'other'; }
-
-  function parseCSV(file){ return new Promise((resolve,reject)=>{ if(window.Papa){ Papa.parse(file,{header:true,skipEmptyLines:true,complete:res=>resolve(res.data),error:reject}); } else { const fr=new FileReader(); fr.onload=()=>resolve(simpleCSV(fr.result)); fr.onerror=reject; fr.readAsText(file);} }); }
-  function simpleCSV(text){ const lines=text.split(/\r?\n/).filter(Boolean); if(!lines.length) return []; const headers=csvSplit(lines[0]); return lines.slice(1).map(line=>{ const cells=csvSplit(line); const row={}; headers.forEach((h,i)=> row[h]=cells[i]); return row; }); }
-  function csvSplit(line){ const out=[]; let cur=''; let q=false; for(let i=0;i<line.length;i++){ const c=line[i]; if(c==='"'){ if(q && line[i+1]==='"'){ cur+='"'; i++; } else q=!q; } else if(c===',' && !q){ out.push(cur); cur=''; } else cur+=c; } out.push(cur); return out; }
-
-  // Loaders
-  $('#rosterFile').addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; roster=await parseCSV(f); roster.forEach(r=>{ r.OpenAlexID=normalizeToken(r.OpenAlexID); r.RGs=rgArray(r); }); validate(); populateRosterFilters(); renderAll(); });
-  $('#worksFile').addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; worksRaw=await parseCSV(f); isDedup = worksRaw.length>0 && ('ucvm_openalex_ids' in worksRaw[0]); exploded = [];
-    if(isDedup){ for(const w of worksRaw){ const ids=String(w.ucvm_openalex_ids||'').split(';').map(s=>normalizeToken(s.trim())).filter(Boolean); if(!ids.length){ exploded.push({...w, __author:null}); continue;} for(const id of ids){ exploded.push({...w, __author:id}); } } }
-    else { exploded = worksRaw.map(w=> ({...w, __author: normalizeToken(w.author_openalex_id)})); }
-    exploded.forEach(r=> r.__typeSimple = typeSimple(r.type));
-    validate(); populateWorkFilters(); renderAll(); });
-
-  // Controls
-  $('#clearFilters').addEventListener('click', ()=>{ personFilter=null; setMulti($('#levelMulti'),[]); setMulti($('#categoryMulti'),[]); setMulti($('#apptMulti'),[]); setMulti($('#rgMulti'),[]); setMulti($('#typeMulti'),['article','book-chapter','review']); $('#conceptSearch').value=''; $('#oaOnly').checked=false; autoYears(); renderAll(); });
-  $('#exportCSV').addEventListener('click', ()=>{ const rows=currentFilteredWorks(); downloadCSV(rows,'filtered_works.csv'); });
-  ;['oaOnly','yearFrom','yearTo','conceptSearch'].forEach(id=> $('#'+id).addEventListener('input', renderAll));
-  ;['levelMulti','categoryMulti','apptMulti','rgMulti','typeMulti'].forEach(id=> $('#'+id).addEventListener('change', renderAll));
-
-  // Enable click-to-toggle for multi-selects (no Cmd needed)
-  function enableToggleSelect(sel){ sel.addEventListener('mousedown', (e)=>{ const opt=e.target; if(opt && opt.tagName==='OPTION'){ e.preventDefault(); opt.selected=!opt.selected; sel.dispatchEvent(new Event('change',{bubbles:true})); } }); }
-  ['levelMulti','categoryMulti','apptMulti','rgMulti','typeMulti'].forEach(id=> enableToggleSelect($('#'+id)));
-
-  function setMulti(sel, values){ Array.from(sel.options).forEach(o=> o.selected = values.includes(o.value)) }
-  function getMulti(sel){ return Array.from(sel.selectedOptions).map(o=>o.value) }
-
-  function autoYears(){ const years = exploded.map(r=> yearInt(r.publication_year)).filter(x=>x!=null); const min = years.length? Math.min(...years) : new Date().getFullYear()-4; const max = years.length? Math.max(...years) : new Date().getFullYear(); $('#yearFrom').value=min; $('#yearTo').value=max; }
-
-  function validate(){ const v=$('#validation'); const needRoster=['Name','OpenAlexID']; const rosterOK = roster.length && needRoster.every(k=> k in roster[0]); const worksOK = worksRaw.length>0; const kind=isDedup? 'dedup':'non‑dedup'; v.innerHTML=`<div class="badges"><span class="badge">Roster: ${rosterOK? 'loaded':'missing'}</span><span class="badge">Works: ${worksOK? 'loaded ('+kind+')':'missing'}</span></div>`; if(rosterOK && worksOK) $('#status').textContent = `${roster.length} roster rows • ${worksRaw.length} works rows (${kind})`; }
-
-  function populateRosterFilters(){ const uniq=arr=> Array.from(new Set(arr.filter(Boolean))); const levels=uniq(roster.map(r=> r.Level)); const cats=uniq(roster.map(r=> r.Category)); const appts=uniq(roster.map(r=> r.Appointment)); const rgs=uniq(roster.flatMap(r=> r.RGs)); fillMulti($('#levelMulti'),levels); fillMulti($('#categoryMulti'),cats); fillMulti($('#apptMulti'),appts); fillMulti($('#rgMulti'),rgs); }
-  function populateWorkFilters(){ const types=['article','book-chapter','review']; fillMulti($('#typeMulti'),types); setMulti($('#typeMulti'),types); autoYears(); }
-  function fillMulti(sel, values){ sel.innerHTML = values.sort((a,b)=> String(a).localeCompare(String(b))).map(v=> `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join(''); }
-
-  // CORE FILTER: all roster + publication facets + optional person filter
-  function currentFilteredWorks(){ if(!roster.length || !exploded.length) return []; const selLevels=new Set(getMulti($('#levelMulti'))); const selCats=new Set(getMulti($('#categoryMulti'))); const selAppts=new Set(getMulti($('#apptMulti'))); const selRGs=new Set(getMulti($('#rgMulti'))); const selTypes=new Set(getMulti($('#typeMulti'))); const y0=parseInt($('#yearFrom').value||'-9999',10); const y1=parseInt($('#yearTo').value||'9999',10); const conceptQ=$('#conceptSearch').value.trim().toLowerCase(); const onlyOA=$('#oaOnly').checked;
-    const rosterByID=new Map(roster.map(r=> [normalizeToken(r.OpenAlexID), r]));
-    const matchesRoster=(id)=>{ const rr=rosterByID.get(normalizeToken(id)); if(!rr) return false; if(selLevels.size && !selLevels.has(rr.Level)) return false; if(selCats.size && !selCats.has(rr.Category)) return false; if(selAppts.size && !selAppts.has(rr.Appointment)) return false; if(selRGs.size){ const hit=(rr.RGs||[]).some(g=> selRGs.has(g)); if(!hit) return false; } return true; };
-    return exploded.filter(w=>{ const a=normalizeToken(w.__author); if(personFilter && a!==personFilter) return false; if(!matchesRoster(a)) return false; const tS=w.__typeSimple || typeSimple(w.type); if(!ALLOWED_TYPES.has(tS)) return false; const yr=yearInt(w.publication_year); if(yr!=null && (yr<y0 || yr>y1)) return false; if(selTypes.size && !selTypes.has(tS)) return false; if(onlyOA && !isOA(w.open_access__oa_status)) return false; if(conceptQ){ const c=String(w.concepts_list||'').toLowerCase(); if(!c.includes(conceptQ)) return false; } return true; }); }
-
-  function renderAll(){ renderPeople(); renderWorks(); renderKPIs(); renderChart(); }
-
-  // ALWAYS hide people who do not have at least 1 work matching CURRENT filters
-  function renderPeople(){ const tbody=$('#peopleTable tbody'); if(!roster.length){ tbody.innerHTML=''; return; }
-    // Compute counts under current filters (ignoring personFilter to populate the list)
-    const prev=personFilter; personFilter=null; const filteredWorks=currentFilteredWorks(); personFilter=prev; const counts=new Map(); for(const r of filteredWorks){ const id=normalizeToken(r.__author); counts.set(id,1+(counts.get(id)||0)); }
-    // Apply roster facet filters for the table rows as well
-    const selLevels=new Set(getMulti($('#levelMulti'))); const selCats=new Set(getMulti($('#categoryMulti'))); const selAppts=new Set(getMulti($('#apptMulti'))); const selRGs=new Set(getMulti($('#rgMulti')));
-    const matchesRosterRow=(rr)=>{ if(selLevels.size && !selLevels.has(rr.Level)) return false; if(selCats.size && !selCats.has(rr.Category)) return false; if(selAppts.size && !selAppts.has(rr.Appointment)) return false; if(selRGs.size){ const hit=(rr.RGs||[]).some(g=> selRGs.has(g)); if(!hit) return false; } return true; };
-    let items = roster.filter(matchesRosterRow).map(r=>({ Name:r.Name, Level:r.Level, Appointment:r.Appointment, RGs:(r.RGs||[]).join('; '), H_index:r.H_index||r.H||'', Works_count:r.Works_count||'', Total_citations:r.Total_citations||'', id:normalizeToken(r.OpenAlexID), count: counts.get(normalizeToken(r.OpenAlexID))||0 }));
-    items = items.filter(it=> it.count>0); // <— key change
-    items.sort((a,b)=> b.count - a.count || a.Name.localeCompare(b.Name));
-    tbody.innerHTML = items.map(it=> `
-      <tr data-id="${it.id}">
-        <td>${escapeHtml(it.Name)}</td>
-        <td class="muted">${escapeHtml(it.Level||'')}</td>
-        <td class="muted">${escapeHtml(it.Appointment||'')}</td>
-        <td class="muted">${escapeHtml(it.RGs||'')}</td>
-        <td>${escapeHtml(it.H_index||'')}</td>
-        <td>${escapeHtml(String(it.count))}</td>
-        <td>${escapeHtml(it.Total_citations||'')}</td>
-      </tr>`).join('');
-    $$('#peopleTable tbody tr').forEach(tr=>{ tr.addEventListener('click', ()=>{ const id=tr.getAttribute('data-id'); personFilter = (personFilter===id? null : id); renderAll(); }); }); }
-
-  function renderWorks(){ const rows=currentFilteredWorks(); $('#worksCount').textContent = `${rows.length} works` + (personFilter? ` • filtered by person` : ''); const tbody=$('#worksTable tbody'); tbody.innerHTML = rows.slice(0,5000).map(w=>{ const t=escapeHtml(w.display_name||''); const y=w.publication_year||''; const ty=escapeHtml(w.__typeSimple||typeSimple(w.type)); const v=escapeHtml(w.host_venue__display_name||''); const oa=escapeHtml(w.open_access__oa_status||''); const c=escapeHtml(w.cited_by_count||''); const openalex=escapeHtml(w.id||''); const doi=w.doi ? (String(w.doi).startsWith('http')? w.doi : ('https://doi.org/'+w.doi)) : null; const linkOA=openalex? `<a href="${openalex}" target="_blank">OA</a>`:''; const linkDOI=doi? `<a href="${doi}" target="_blank">DOI</a>`:''; const links=[linkOA,linkDOI].filter(Boolean).join(' · ');
-      return `<tr><td>${t}<div class="muted">${links}</div></td><td>${y}</td><td>${ty}</td><td>${v}</td><td>${oa}</td><td>${c}</td></tr>`; }).join(''); }
-
-  function renderKPIs(){ const rows=currentFilteredWorks(); const people=new Set(rows.map(r=> r.__author).filter(Boolean)); $('#kpiPeople').textContent=String(people.size); $('#kpiWorks').textContent=String(rows.length); const yMax=new Date().getFullYear(); const w5=rows.filter(r=> yearInt(r.publication_year) >= (yMax-4) ).length; $('#kpiW5').textContent=String(w5); const oa=rows.filter(r=> isOA(r.open_access__oa_status)).length; $('#kpiOA').textContent=rows.length? Math.round(oa*100/rows.length)+'%':'–'; const topVenue=mode(rows.map(r=> r.host_venue__display_name).filter(Boolean)); $('#kpiVenue').textContent=topVenue||'–'; }
-
-  function renderChart(){ const rows=currentFilteredWorks(); const years=Array.from(new Set(rows.map(r=> yearInt(r.publication_year)).filter(x=>x!=null))).sort((a,b)=>a-b); const types=Array.from(ALLOWED_TYPES); const matrix=years.map(y=> types.map(t=> rows.filter(r=> yearInt(r.publication_year)===y && (r.__typeSimple||typeSimple(r.type))===t).length)); const data={ labels:years, datasets: types.map((t,idx)=>({ label:t, data: matrix.map(row=> row[idx]||0), borderWidth:1 })) }; const cfg={ type:'bar', data, options:{ responsive:true, plugins:{ legend:{position:'top', labels:{color:'#e5e7eb'}}, tooltip:{mode:'index', intersect:false} }, scales:{ x:{ stacked:true, ticks:{color:'#cbd5e1'}, grid:{color:'#1f2937'}}, y:{ stacked:true, ticks:{color:'#cbd5e1'}, grid:{color:'#1f2937'} } } } }; if(chart){ chart.destroy(); } if(window.Chart && years.length){ chart = new Chart($('#trendChart'), cfg); } }
-
-  function downloadCSV(rows, filename){ if(!rows || !rows.length){ alert('No rows to export'); return; } const headers=Object.keys(rows[0]); const csv=[headers.join(',')].concat(rows.map(r=> headers.map(h=> csvCell(r[h])).join(','))).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=filename; a.click(); setTimeout(()=> URL.revokeObjectURL(url), 1000); }
-  function csvCell(v){ if(v==null) return ''; const s=String(v); if(/[",\n]/.test(s)) return '"'+s.replace(/"/g,'""')+'"'; return s }
-  function mode(arr){ const m=new Map(); let best=null,bc=0; for(const x of arr){ const c=1+(m.get(x)||0); m.set(x,c); if(c>bc){bc=c;best=x} } return best }
-  function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])) }
-})();
-</script>
-<script>
-(function(){
-  const $ = sel => document.querySelector(sel);
-  const $$ = sel => Array.from(document.querySelectorAll(sel));
-
-  const rosterPath = 'data/roster_with_metrics.csv';
-  const worksPath = 'data/openalex_all_authors_last5y_key_fields_dedup.csv';
-
-  const delay = ms => new Promise(res => setTimeout(res, ms));
 
   async function fetchCSV(path) {
     try {
@@ -285,50 +193,52 @@
     }
   }
 
+  function validate() {
+    const v=$('#validation');
+    const needRoster=['Name','OpenAlexID'];
+    const rosterOK = roster.length && needRoster.every(k=> k in roster[0]);
+    const worksOK = worksRaw.length>0;
+    const kind=isDedup? 'dedup':'non-dedup';
+    v.innerHTML=`<div class="badges"><span class="badge">Roster: ${rosterOK? 'loaded':'missing'}</span><span class="badge">Works: ${worksOK? 'loaded ('+kind+')':'missing'}</span></div>`;
+    if(rosterOK && worksOK) $('#status').textContent = `${roster.length} roster rows • ${worksRaw.length} works rows (${kind})`;
+  }
+
+  function renderAll() {
+    console.log("Would call renderPeople/renderWorks here");
+  }
+
   window.addEventListener('DOMContentLoaded', async () => {
-    // Allow manual override
     const rosterInput = document.getElementById('rosterFile');
     const worksInput = document.getElementById('worksFile');
 
-    if (!rosterInput.files.length) {
-      const rData = await fetchCSV(rosterPath);
-      if (rData.length) {
-        roster = rData;
-        roster.forEach(r => {
-          r.OpenAlexID = normalizeToken(r.OpenAlexID);
-          r.RGs = rgArray(r);
-        });
-        validate();
-        populateRosterFilters();
-        renderAll();
-      }
+    if (!rosterInput?.files.length) {
+      roster = await fetchCSV(rosterPath);
+      roster.forEach(r => {
+        r.OpenAlexID = normalizeToken(r.OpenAlexID);
+        r.RGs = rgArray(r);
+      });
+      validate();
     }
 
-    if (!worksInput.files.length) {
-      const wData = await fetchCSV(worksPath);
-      if (wData.length) {
-        worksRaw = wData;
-        isDedup = worksRaw.length>0 && ('ucvm_openalex_ids' in worksRaw[0]);
-        exploded = [];
-        if (isDedup){
-          for (const w of worksRaw) {
-            const ids = String(w.ucvm_openalex_ids||'').split(';').map(s => normalizeToken(s.trim())).filter(Boolean);
-            if (!ids.length){ exploded.push({...w, __author:null}); continue; }
-            for (const id of ids){ exploded.push({...w, __author:id}); }
-          }
-        } else {
-          exploded = worksRaw.map(w => ({...w, __author: normalizeToken(w.author_openalex_id)}));
+    if (!worksInput?.files.length) {
+      worksRaw = await fetchCSV(worksPath);
+      isDedup = worksRaw.length>0 && ('ucvm_openalex_ids' in worksRaw[0]);
+      exploded = [];
+      if (isDedup){
+        for (const w of worksRaw) {
+          const ids = String(w.ucvm_openalex_ids||'').split(';').map(s => normalizeToken(s.trim())).filter(Boolean);
+          if (!ids.length){ exploded.push({...w, __author:null}); continue; }
+          for (const id of ids){ exploded.push({...w, __author:id}); }
         }
-        exploded.forEach(r => r.__typeSimple = typeSimple(r.type));
-        validate();
-        populateWorkFilters();
-        renderAll();
+      } else {
+        exploded = worksRaw.map(w => ({...w, __author: normalizeToken(w.author_openalex_id)}));
       }
+      exploded.forEach(r => r.__typeSimple = typeSimple(r.type));
+      validate();
+      renderAll();
     }
   });
 })();
 </script>
-
-    
 </body>
 </html>

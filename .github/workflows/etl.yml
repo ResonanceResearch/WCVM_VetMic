@@ -20,6 +20,16 @@ jobs:
       - name: Install dependencies
         run: pip install requests openpyxl pandas
 
+      - name: Ensure logs dir is created and tracked
+        run: |
+          mkdir -p data/logs
+          touch data/logs/.gitkeep
+          
+      - name: Show log files
+        run: |
+          echo "Log directory contents:"
+          ls -lh data/logs/
+
       - name: Run ETL scripts
         run: |
           python etl/fetch_author_metrics.py --input data/full_time_faculty.csv --output data/roster_with_metrics.csv

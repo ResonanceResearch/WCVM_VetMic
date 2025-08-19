@@ -45,40 +45,37 @@ KEY_FIELDS_FOR_OUTPUT = [
 
 KEY_FIELDS_FOR_OUTPUT_WITH_TAGS = KEY_FIELDS_FOR_OUTPUT + ["author_name", "author_openalex_id"]
 
-def setup_logging():
-    print(f"Creating log directory at: {LOG_DIR}")
-    safe_mkdir(LOG_DIR)
-    logfile = os.path.join(LOG_DIR, f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
-    logging.basicConfig(
-        level=logging.INFO,
-        format="[%(asctime)s] %(levelname)s: %(message)s",
-        handlers=[
-            logging.FileHandler(logfile),
-            logging.StreamHandler(sys.stdout)
-        ]
-    )
-    logging.info(f"Logging to {logfile}")
+def append_df_to_csv(df, path, fixed_cols=None):
+    import os
+    import pandas as pd
 
-def safe_mkdir(path: str):
-    try:
-        os.makedirs(path, exist_ok=True)
-        print(f"Directory created or already exists: {path}")
-    except Exception as e:
-        print(f"Error creating directory {path}: {e}")
+    if df.empty:
+        return
 
-def normalize_author_id(openalex_id):
-    """Convert full OpenAlex URL or short ID to just 'Axxxxxx'."""
-    if pd.isna(openalex_id):
-        return None
-    try:
-        openalex_id = str(openalex_id).strip()
-        if "openalex.org/" in openalex_id:
-            openalex_id = openalex_id.split("/")[-1]
-        if openalex_id.startswith("A"):
-            return openalex_id
-    except Exception:
-        return None
-    return None
+    if fixed_cols:
+        df = df[[col for col in fixed_cols if col in df.columns]]
+
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+
+    if not os.path.exists(path):
+        df.to_csv(path, index=False)
+    else:
+        df.to_csv(path, mode='a', index=False, header=False)
+
+def deduplicate_compiled(input_csv_path, output_csv_path):
+    import pandas as pd
+    if not os.path.exists(input_csv_path):
+        logging.warning(f"Input file for deduplication does not exist: {input_csv_path}")
+        return
+
+    df = pd.read_csv(input_csv_path)
+    logging.info(f"Deduplicating {len(df)} rows")
+
+    dedup_df = df.drop_duplicates(subset=["id", "doi"])
+    logging.info(f"Deduplicated to {len(dedup_df)} rows")
+
+    dedup_df.to_csv(output_csv_path, index=False)
+
 
 def fetch_author_works_filtered(full_author_id):
     import requests
@@ -129,118 +126,50 @@ def fetch_author_works_filtered(full_author_id):
 
     return df_all, df_last5
 
-def append_df_to_csv(df, file_path, fixed_cols=None):
-    try:
-        if fixed_cols:
-            df = df[fixed_cols]
-        df.to_csv(file_path, mode='a', index=False, header=not os.path.exists(file_path))
-        logging.info(f"Appended dataframe to {file_path}, shape: {df.shape}")
-    except Exception as e:
-        logging.exception(f"Failed to append DataFrame to {file_path}: {e}")
-
-def deduplicate_compiled(df):
-    before = df.shape[0]
-    dedup_df = df.drop_duplicates(subset=['id'])
-    after = dedup_df.shape[0]
-    logging.info(f"Deduplicated from {before} to {after} rows")
-    return dedup_df
-
-def process_one_author(author_name, author_id):
-    from utils_openalex import fetch_author_works_filtered
-
-    # Ensure author_id has full URI format
-    if not author_id.startswith("https://openalex.org/"):
-        full_author_id = f"https://openalex.org/{author_id}"
-    else:
-        full_author_id = author_id
-
-    logging.info(f"Calling OpenAlex API for: {full_author_id}")
-    try:
-        df_lifetime, df_last5y = fetch_author_works_filtered(full_author_id)
-        logging.info(f"Retrieved {len(df_lifetime)} lifetime and {len(df_last5y)} last-5y records")
-        return df_lifetime, df_last5y
-    except Exception as e:
-        logging.exception(f"API call failed for {full_author_id}: {e}")
-        raise
 
 def main():
-    setup_logging()
-    for d in (OUTPUT_DIR, ALL_FIELDS_DIR, LAST5_DIR, COMPILED_DIR, LOG_DIR):
-        safe_mkdir(d)
+    import os
+    import pandas as pd
+    from datetime import datetime
 
-    compiled_last5_path = os.path.join("data", "openalex_all_authors_last5y_key_fields.csv")  # always in /data
-    logging.info(f"Compiled output file will be: {compiled_last5_path}")
+    logging.basicConfig(
+        filename=os.path.join("data", "logs", f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"),
+        level=logging.DEBUG,
+        format='%(asctime)s - %(levelname)s - %(message)s'
+    )
 
-    if os.path.exists(compiled_last5_path):
-        try:
-            os.remove(compiled_last5_path)
-            logging.info(f"Removed old compiled file: {compiled_last5_path}")
-        except Exception:
-            open(compiled_last5_path, "w").close()
-            logging.warning(f"Failed to remove file, created empty placeholder instead: {compiled_last5_path}")
+    INPUT_ROSTER = os.path.join(os.getcwd(), 'data', 'roster_with_metrics.csv')
+    compiled_lifetime_path = os.path.join("data", "openalex_all_authors_lifetime.csv")
+    compiled_last5_path = os.path.join("data", "openalex_all_authors_last5y_key_fields.csv")
+    dedup_output_path = os.path.join("data", "openalex_all_authors_last5y_key_fields_dedup.csv")
 
-    processed_any = False
+    log_dir = os.path.join("data", "logs")
+    os.makedirs(log_dir, exist_ok=True)
 
-    if os.path.exists(INPUT_ROSTER):
-        logging.info(f"Loading roster: {INPUT_ROSTER}")
-        roster = pd.read_csv(INPUT_ROSTER)
-        logging.info(f"Roster shape: {roster.shape}")
-        logging.info(f"Roster columns: {list(roster.columns)}")
-        logging.info("Roster preview:\n" + roster.head(5).to_string())
-        name_col = next((c for c in roster.columns if str(c).strip().lower() == "name"), None)
-        id_col = next((c for c in roster.columns if str(c).strip().lower() == "openalexid"), None)
-        logging.info(f"Detected name column: {name_col}")
-        logging.info(f"Detected ID column: {id_col}")
-        if not name_col or not id_col:
-            logging.warning("Roster missing required columns 'Name' and/or 'OpenAlexID'.")
+    roster = pd.read_csv(INPUT_ROSTER)
+
+    for idx, row in roster.iterrows():
+        full_author_id = row.get("OpenAlexID")
+        if not isinstance(full_author_id, str) or not full_author_id.strip():
+            logging.warning(f"Row {idx} has no valid OpenAlexID")
+            continue
+
+        df_all, df_last5 = fetch_author_works_filtered(full_author_id)
+
+        if not df_all.empty:
+            append_df_to_csv(df_all, compiled_lifetime_path, fixed_cols=KEY_FIELDS_FOR_OUTPUT_WITH_TAGS)
+            logging.info(f"Appended {len(df_all)} lifetime works for {full_author_id}")
         else:
-            skipped_missing_id = 0
-            for idx, row in roster.iterrows():
-                raw_name = row.get(name_col)
-                raw_id = row.get(id_col)
-                if pd.isna(raw_id):
-                    logging.warning(f"Row {idx}: missing OpenAlexID — skipping.")
-                    skipped_missing_id += 1
-                    continue
-                author_id = normalize_author_id(raw_id)
-                if not author_id:
-                    logging.warning(f"Row {idx}: could not parse OpenAlexID '{raw_id}' — skipping.")
-                    skipped_missing_id += 1
-                    continue
-                author_name = str(raw_name).strip() if not pd.isna(raw_name) else author_id
-                logging.info(f"Processing {author_name} ({author_id})")
-                try:
-                    _, df_last5_comp = process_one_author(author_name, author_id)
-                    logging.info(f"Fetched {len(df_last5_comp)} entries for {author_id} - appending...")
-                    append_df_to_csv(df_last5_comp, compiled_last5_path, fixed_cols=KEY_FIELDS_FOR_OUTPUT_WITH_TAGS)
-                    logging.info(f"Appended {len(df_last5_comp)} entries to compiled file.")
-                    processed_any = True
-                    time.sleep(0.2)
-                except Exception as e:
-                    logging.exception(f"Error processing {author_name} ({author_id}): {e}")
-            logging.info(f"Total skipped rows due to missing ID: {skipped_missing_id}")
+            logging.info(f"No lifetime works for {full_author_id}")
 
-    if processed_any:
-        logging.info("Deduplicating final last-5-years file...")
-        try:
-            logging.info(f"Checking compiled file at: {compiled_last5_path}")
-            if not os.path.exists(compiled_last5_path):
-                raise FileNotFoundError(f"Compiled file not found: {compiled_last5_path}")
-            size = os.path.getsize(compiled_last5_path)
-            logging.info(f"Compiled file size: {size} bytes")
-            if size < 10:
-                raise ValueError("Compiled file appears empty")
-            compiled_last5_df = pd.read_csv(compiled_last5_path)
-            logging.info(f"Loaded compiled CSV with shape: {compiled_last5_df.shape}")
-            dedup_last5_df = deduplicate_compiled(compiled_last5_df)
-            dedup_last5_df.to_csv(OUTPUT_LAST5_DEDUP, index=False)
-            logging.info(f"Wrote deduplicated file with {len(dedup_last5_df)} rows → {OUTPUT_LAST5_DEDUP}")
-        except Exception as e:
-            logging.exception(f"Failed to write deduplicated last-5-years file: {e}")
-    else:
-        logging.warning("No authors processed. No file written.")
+        if not df_last5.empty:
+            append_df_to_csv(df_last5, compiled_last5_path, fixed_cols=KEY_FIELDS_FOR_OUTPUT_WITH_TAGS)
+            logging.info(f"Appended {len(df_last5)} 5y works for {full_author_id}")
+        else:
+            logging.info(f"No 5y works for {full_author_id}")
 
-    logging.info("Done.")
+    deduplicate_compiled(compiled_last5_path, dedup_output_path)
+    logging.info(f"Deduplicated file written to {dedup_output_path}")
 
 if __name__ == "__main__":
     try:

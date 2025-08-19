@@ -11,20 +11,19 @@ import requests
 import pandas as pd
 from pandas import json_normalize
 
-MAILTO = "jdebuck@ucalgary.ca"
-
-parser = argparse.ArgumentParser(description="Fetch OpenAlex works and metrics.")
-parser.add_argument("--input", "-i", required=True, help="Path to input faculty roster CSV file")
-parser.add_argument("--output", "-o", required=True, help="Path to output deduplicated CSV file")
+parser = argparse.ArgumentParser()
+parser.add_argument("--input", "-i", required=True, help="Path to input faculty roster CSV")
+parser.add_argument("--output", "-o", required=True, help="Path to deduplicated last-5-years output CSV")
 args = parser.parse_args()
 
 INPUT_ROSTER = args.input
-OUTPUT_FILE = args.output
-OUTPUT_DIR = os.path.dirname(OUTPUT_FILE)
+OUTPUT_LAST5_DEDUP = args.output
+OUTPUT_DIR = os.path.dirname(args.output)
 ALL_FIELDS_DIR = os.path.join(OUTPUT_DIR, "authors_all_fields")
 LAST5_DIR = os.path.join(OUTPUT_DIR, "authors_last5y_key_fields")
 COMPILED_DIR = os.path.join(OUTPUT_DIR, "compiled")
 
+MAILTO = "jdebuck@ucalgary.ca"
 BASE_URL = "https://api.openalex.org/works"
 PER_PAGE = 200
 MAX_RETRIES = 6
@@ -37,29 +36,159 @@ HEADERS = {
 
 KEY_FIELDS_FOR_OUTPUT = [
     "id", "doi", "display_name", "publication_year", "type", "cited_by_count",
-    "open_access__oa_status", "host_venue__display_name", "primary_location__source__display_name", "primary_topic__display_name",
-    "primary_topic__field__display_name", "primary_topic__subfield__display_name",
+    "open_access__oa_status", "host_venue__display_name", "primary_location__source__display_name",
+    "primary_topic__display_name", "primary_topic__field__display_name", "primary_topic__subfield__display_name",
     "biblio__volume", "biblio__issue", "biblio__first_page", "biblio__last_page", "fwci",
     "authors", "institutions", "concepts_list"
 ]
+
 KEY_FIELDS_FOR_OUTPUT_WITH_TAGS = KEY_FIELDS_FOR_OUTPUT + ["author_name", "author_openalex_id"]
 
 def setup_logging():
-    logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s", handlers=[logging.StreamHandler(sys.stdout)])
+    logging.basicConfig(
+        level=logging.INFO,
+        format="[%(asctime)s] %(levelname)s: %(message)s",
+        handlers=[logging.StreamHandler(sys.stdout)]
+    )
 
 def safe_mkdir(path: str):
     os.makedirs(path, exist_ok=True)
 
-# [rest of the unchanged functions go here...]
-# They can be copied directly from the original script
+def normalize_author_id(raw_id: str) -> Optional[str]:
+    if not isinstance(raw_id, str):
+        return None
+    if raw_id.startswith("https://openalex.org/A"):
+        return raw_id.split("/")[-1]
+    elif raw_id.startswith("A") and raw_id[1:].isdigit():
+        return raw_id
+    return None
 
-# At the top of main(), insert this:
+def fetch_works(author_id: str, years_back: Optional[int] = 5) -> List[Dict[str, Any]]:
+    all_works = []
+    cursor = "*"
+    current_year = datetime.now().year
+    filter_year = f"from_publication_date:{current_year - years_back}-01-01" if years_back else None
+
+    while cursor:
+        url = f"{BASE_URL}?filter=author.id:{author_id}"
+        if filter_year:
+            url += f",{filter_year}"
+        url += f"&per-page={PER_PAGE}&cursor={cursor}"
+
+        for attempt in range(MAX_RETRIES):
+            try:
+                response = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+                if response.status_code == 200:
+                    data = response.json()
+                    all_works.extend(data.get("results", []))
+                    cursor = data.get("meta", {}).get("next_cursor")
+                    break
+                else:
+                    time.sleep(BACKOFF_BASE ** attempt)
+            except Exception:
+                time.sleep(BACKOFF_BASE ** attempt)
+        else:
+            break
+
+    return all_works
+
+def process_one_author(name: str, author_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    all_works = fetch_works(author_id, years_back=None)
+    last5_works = fetch_works(author_id, years_back=5)
+
+    for w in all_works:
+        w["author_name"] = name
+        w["author_openalex_id"] = author_id
+    for w in last5_works:
+        w["author_name"] = name
+        w["author_openalex_id"] = author_id
+
+    df_all = json_normalize(all_works)
+    df_last5 = json_normalize(last5_works)
+
+    df_all = df_all.rename(columns=lambda x: x.replace(".", "__"))
+    df_last5 = df_last5.rename(columns=lambda x: x.replace(".", "__"))
+
+    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+    df_last5_out = df_last5[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
+
+    if not df_all_out.empty:
+        df_all_out.to_csv(os.path.join(ALL_FIELDS_DIR, f"{author_id}.csv"), index=False)
+    if not df_last5_out.empty:
+        df_last5_out.to_csv(os.path.join(LAST5_DIR, f"{author_id}.csv"), index=False)
+
+    return df_all_out, df_last5_out
+
+def append_df_to_csv(df: pd.DataFrame, filepath: str, fixed_cols: Optional[List[str]] = None):
+    if not os.path.exists(filepath):
+        df.to_csv(filepath, index=False)
+    else:
+        df.to_csv(filepath, mode="a", header=False, index=False, columns=fixed_cols)
+
+def deduplicate_compiled(df: pd.DataFrame) -> pd.DataFrame:
+    if "id" in df.columns:
+        df = df.drop_duplicates(subset=["id"])
+    elif "doi" in df.columns:
+        df = df.drop_duplicates(subset=["doi"])
+    else:
+        df = df.drop_duplicates()
+    return df
+
 def main():
     setup_logging()
     for d in (OUTPUT_DIR, ALL_FIELDS_DIR, LAST5_DIR, COMPILED_DIR):
         safe_mkdir(d)
 
-    # rest of the main function continues unchanged...
+    compiled_last5_path = os.path.join(COMPILED_DIR, "openalex_all_authors_last5y_key_fields.csv")
+
+    if os.path.exists(compiled_last5_path):
+        try:
+            os.remove(compiled_last5_path)
+        except Exception:
+            open(compiled_last5_path, "w").close()
+
+    processed_any = False
+
+    if os.path.exists(INPUT_ROSTER):
+        logging.info(f"Loading roster: {INPUT_ROSTER}")
+        roster = pd.read_csv(INPUT_ROSTER)
+        name_col = next((c for c in roster.columns if str(c).strip().lower() == "name"), None)
+        id_col = next((c for c in roster.columns if str(c).strip().lower() == "openalexid"), None)
+        if not name_col or not id_col:
+            logging.warning("Roster missing required columns 'Name' and/or 'OpenAlexID'.")
+        else:
+            for idx, row in roster.iterrows():
+                raw_name = row.get(name_col)
+                raw_id = row.get(id_col)
+                if pd.isna(raw_id):
+                    logging.warning(f"Row {idx}: missing OpenAlexID — skipping.")
+                    continue
+                author_id = normalize_author_id(raw_id)
+                if not author_id:
+                    logging.warning(f"Row {idx}: could not parse OpenAlexID '{raw_id}' — skipping.")
+                    continue
+                author_name = str(raw_name).strip() if not pd.isna(raw_name) else author_id
+                try:
+                    _, df_last5_comp = process_one_author(author_name, author_id)
+                    append_df_to_csv(df_last5_comp, compiled_last5_path, fixed_cols=KEY_FIELDS_FOR_OUTPUT_WITH_TAGS)
+                    processed_any = True
+                    time.sleep(0.2)
+                except Exception as e:
+                    logging.exception(f"Error processing {author_name} ({author_id}): {e}")
+
+    if processed_any:
+        logging.info("Deduplicating final last-5-years file...")
+        try:
+            compiled_last5_df = pd.read_csv(compiled_last5_path)
+            dedup_last5_df = deduplicate_compiled(compiled_last5_df)
+            dedup_last5_df.to_csv(OUTPUT_LAST5_DEDUP, index=False)
+            logging.info(f"Wrote deduplicated file with {len(dedup_last5_df)} rows → {OUTPUT_LAST5_DEDUP}")
+        except Exception as e:
+            logging.exception(f"Failed to write deduplicated last-5-years file: {e}")
+    else:
+        logging.warning("No authors processed.")
+
+    logging.info("Done.")
 
 if __name__ == "__main__":
     try:

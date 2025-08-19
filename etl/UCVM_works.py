@@ -114,50 +114,39 @@ def fetch_works(author_id: str, years_back: Optional[int] = 5) -> List[Dict[str,
     logging.info(f"Fetched {len(all_works)} works for {author_id} (last {years_back} years)")
     return all_works
 
-def process_one_author(name: str, author_id: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    all_works = fetch_works(author_id, years_back=None)
-    last5_works = fetch_works(author_id, years_back=5)
+def append_df_to_csv(df, file_path, fixed_cols=None):
+    try:
+        if fixed_cols:
+            df = df[fixed_cols]
+        df.to_csv(file_path, mode='a', index=False, header=not os.path.exists(file_path))
+        logging.info(f"Appended dataframe to {file_path}, shape: {df.shape}")
+    except Exception as e:
+        logging.exception(f"Failed to append DataFrame to {file_path}: {e}")
 
-    for w in all_works:
-        w["author_name"] = name
-        w["author_openalex_id"] = author_id
-    for w in last5_works:
-        w["author_name"] = name
-        w["author_openalex_id"] = author_id
+def deduplicate_compiled(df):
+    before = df.shape[0]
+    dedup_df = df.drop_duplicates(subset=['id'])
+    after = dedup_df.shape[0]
+    logging.info(f"Deduplicated from {before} to {after} rows")
+    return dedup_df
 
-    df_all = json_normalize(all_works)
-    df_last5 = json_normalize(last5_works)
+def process_one_author(author_name, author_id):
+    from utils_openalex import fetch_author_works_filtered
 
-    df_all = df_all.rename(columns=lambda x: x.replace(".", "__"))
-    df_last5 = df_last5.rename(columns=lambda x: x.replace(".", "__"))
-
-    df_all_out = df_all[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
-    df_last5_out = df_last5[KEY_FIELDS_FOR_OUTPUT_WITH_TAGS].copy()
-
-    if not df_all_out.empty:
-        df_all_out.to_csv(os.path.join(ALL_FIELDS_DIR, f"{author_id}.csv"), index=False)
-    if not df_last5_out.empty:
-        df_last5_out.to_csv(os.path.join(LAST5_DIR, f"{author_id}.csv"), index=False)
-
-    return df_all_out, df_last5_out
-
-def append_df_to_csv(df: pd.DataFrame, filepath: str, fixed_cols: Optional[List[str]] = None):
-    if df.empty:
-        return
-    if not os.path.exists(filepath):
-        df.to_csv(filepath, index=False)
+    # Ensure author_id has full URI format
+    if not author_id.startswith("https://openalex.org/"):
+        full_author_id = f"https://openalex.org/{author_id}"
     else:
-        df.to_csv(filepath, mode="a", header=False, index=False, columns=fixed_cols)
+        full_author_id = author_id
 
-def deduplicate_compiled(df: pd.DataFrame) -> pd.DataFrame:
-    if "id" in df.columns:
-        df = df.drop_duplicates(subset=["id"])
-    elif "doi" in df.columns:
-        df = df.drop_duplicates(subset=["doi"])
-    else:
-        df = df.drop_duplicates()
-    logging.info(f"Deduplicated to {len(df)} rows")
-    return df
+    logging.info(f"Calling OpenAlex API for: {full_author_id}")
+    try:
+        df_lifetime, df_last5y = fetch_author_works_filtered(full_author_id)
+        logging.info(f"Retrieved {len(df_lifetime)} lifetime and {len(df_last5y)} last-5y records")
+        return df_lifetime, df_last5y
+    except Exception as e:
+        logging.exception(f"API call failed for {full_author_id}: {e}")
+        raise
 
 def main():
     setup_logging()

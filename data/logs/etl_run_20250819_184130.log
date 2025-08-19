@@ -1,0 +1,621 @@
+2025-08-19 18:41:30,616 - INFO - Fetching works for A5097476685 from OpenAlex
+2025-08-19 18:41:30,616 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5097476685&per-page=200&page=1
+2025-08-19 18:41:30,618 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:31,086 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5097476685&per-page=200&page=1 HTTP/1.1" 200 13730
+2025-08-19 18:41:31,101 - DEBUG - Fetched page 1 with 3 works
+2025-08-19 18:41:31,115 - INFO - Appended 3 lifetime works for A5097476685
+2025-08-19 18:41:31,116 - INFO - Appended 3 5y works for A5097476685
+2025-08-19 18:41:31,116 - WARNING - Row 1 has no valid OpenAlexID
+2025-08-19 18:41:31,116 - INFO - Fetching works for A5089186675 from OpenAlex
+2025-08-19 18:41:31,116 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5089186675&per-page=200&page=1
+2025-08-19 18:41:31,117 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:31,758 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5089186675&per-page=200&page=1 HTTP/1.1" 200 262218
+2025-08-19 18:41:31,788 - DEBUG - Fetched page 1 with 107 works
+2025-08-19 18:41:31,920 - INFO - Appended 107 lifetime works for A5089186675
+2025-08-19 18:41:31,921 - INFO - Appended 25 5y works for A5089186675
+2025-08-19 18:41:31,921 - INFO - Fetching works for A5054682662 from OpenAlex
+2025-08-19 18:41:31,921 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5054682662&per-page=200&page=1
+2025-08-19 18:41:31,922 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:32,354 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5054682662&per-page=200&page=1 HTTP/1.1" 200 10420
+2025-08-19 18:41:32,356 - DEBUG - Fetched page 1 with 4 works
+2025-08-19 18:41:32,370 - INFO - Appended 4 lifetime works for A5054682662
+2025-08-19 18:41:32,371 - INFO - Appended 2 5y works for A5054682662
+2025-08-19 18:41:32,371 - INFO - Fetching works for A5015254879 from OpenAlex
+2025-08-19 18:41:32,371 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5015254879&per-page=200&page=1
+2025-08-19 18:41:32,372 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:33,134 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5015254879&per-page=200&page=1 HTTP/1.1" 200 244490
+2025-08-19 18:41:33,173 - DEBUG - Fetched page 1 with 89 works
+2025-08-19 18:41:33,283 - INFO - Appended 89 lifetime works for A5015254879
+2025-08-19 18:41:33,284 - INFO - Appended 34 5y works for A5015254879
+2025-08-19 18:41:33,284 - INFO - Fetching works for A5046882263 from OpenAlex
+2025-08-19 18:41:33,284 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5046882263&per-page=200&page=1
+2025-08-19 18:41:33,285 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:34,297 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5046882263&per-page=200&page=1 HTTP/1.1" 200 256996
+2025-08-19 18:41:34,369 - DEBUG - Fetched page 1 with 92 works
+2025-08-19 18:41:34,491 - INFO - Appended 92 lifetime works for A5046882263
+2025-08-19 18:41:34,492 - INFO - Appended 29 5y works for A5046882263
+2025-08-19 18:41:34,492 - INFO - Fetching works for A5062115118 from OpenAlex
+2025-08-19 18:41:34,492 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5062115118&per-page=200&page=1
+2025-08-19 18:41:34,493 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:36,281 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5062115118&per-page=200&page=1 HTTP/1.1" 200 612787
+2025-08-19 18:41:36,335 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:41:36,608 - INFO - Appended 200 lifetime works for A5062115118
+2025-08-19 18:41:36,609 - INFO - Appended 22 5y works for A5062115118
+2025-08-19 18:41:36,609 - INFO - Fetching works for A5061235320 from OpenAlex
+2025-08-19 18:41:36,609 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5061235320&per-page=200&page=1
+2025-08-19 18:41:36,610 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:38,074 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5061235320&per-page=200&page=1 HTTP/1.1" 200 488474
+2025-08-19 18:41:38,118 - DEBUG - Fetched page 1 with 188 works
+2025-08-19 18:41:38,380 - INFO - Appended 188 lifetime works for A5061235320
+2025-08-19 18:41:38,381 - INFO - Appended 23 5y works for A5061235320
+2025-08-19 18:41:38,382 - INFO - Fetching works for A5057011174 from OpenAlex
+2025-08-19 18:41:38,382 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5057011174&per-page=200&page=1
+2025-08-19 18:41:38,383 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:39,612 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5057011174&per-page=200&page=1 HTTP/1.1" 200 482111
+2025-08-19 18:41:39,657 - DEBUG - Fetched page 1 with 197 works
+2025-08-19 18:41:39,893 - INFO - Appended 197 lifetime works for A5057011174
+2025-08-19 18:41:39,894 - INFO - Appended 7 5y works for A5057011174
+2025-08-19 18:41:39,894 - INFO - Fetching works for A5063855248 from OpenAlex
+2025-08-19 18:41:39,894 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5063855248&per-page=200&page=1
+2025-08-19 18:41:39,895 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:40,753 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5063855248&per-page=200&page=1 HTTP/1.1" 200 292714
+2025-08-19 18:41:40,833 - DEBUG - Fetched page 1 with 135 works
+2025-08-19 18:41:41,037 - INFO - Appended 135 lifetime works for A5063855248
+2025-08-19 18:41:41,038 - INFO - Appended 17 5y works for A5063855248
+2025-08-19 18:41:41,038 - INFO - Fetching works for A5084242333 from OpenAlex
+2025-08-19 18:41:41,038 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5084242333&per-page=200&page=1
+2025-08-19 18:41:41,039 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:42,642 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5084242333&per-page=200&page=1 HTTP/1.1" 200 557517
+2025-08-19 18:41:42,694 - DEBUG - Fetched page 1 with 180 works
+2025-08-19 18:41:42,959 - INFO - Appended 180 lifetime works for A5084242333
+2025-08-19 18:41:42,961 - INFO - Appended 88 5y works for A5084242333
+2025-08-19 18:41:42,961 - INFO - Fetching works for A5074995793 from OpenAlex
+2025-08-19 18:41:42,961 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5074995793&per-page=200&page=1
+2025-08-19 18:41:42,962 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:43,593 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5074995793&per-page=200&page=1 HTTP/1.1" 200 166272
+2025-08-19 18:41:43,647 - DEBUG - Fetched page 1 with 69 works
+2025-08-19 18:41:43,766 - INFO - Appended 69 lifetime works for A5074995793
+2025-08-19 18:41:43,767 - INFO - Appended 22 5y works for A5074995793
+2025-08-19 18:41:43,767 - INFO - Fetching works for A5058471690 from OpenAlex
+2025-08-19 18:41:43,768 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5058471690&per-page=200&page=1
+2025-08-19 18:41:43,768 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:45,121 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5058471690&per-page=200&page=1 HTTP/1.1" 200 470893
+2025-08-19 18:41:45,235 - DEBUG - Fetched page 1 with 187 works
+2025-08-19 18:41:45,451 - INFO - Appended 187 lifetime works for A5058471690
+2025-08-19 18:41:45,452 - INFO - Appended 39 5y works for A5058471690
+2025-08-19 18:41:45,452 - INFO - Fetching works for A5007124437 from OpenAlex
+2025-08-19 18:41:45,452 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5007124437&per-page=200&page=1
+2025-08-19 18:41:45,453 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:45,916 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5007124437&per-page=200&page=1 HTTP/1.1" 200 171840
+2025-08-19 18:41:45,960 - DEBUG - Fetched page 1 with 52 works
+2025-08-19 18:41:46,024 - INFO - Appended 52 lifetime works for A5007124437
+2025-08-19 18:41:46,025 - INFO - Appended 25 5y works for A5007124437
+2025-08-19 18:41:46,025 - INFO - Fetching works for A5076810213 from OpenAlex
+2025-08-19 18:41:46,025 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5076810213&per-page=200&page=1
+2025-08-19 18:41:46,026 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:47,147 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5076810213&per-page=200&page=1 HTTP/1.1" 200 183972
+2025-08-19 18:41:47,172 - DEBUG - Fetched page 1 with 62 works
+2025-08-19 18:41:47,252 - INFO - Appended 62 lifetime works for A5076810213
+2025-08-19 18:41:47,253 - INFO - Appended 11 5y works for A5076810213
+2025-08-19 18:41:47,254 - INFO - Fetching works for A5086715306 from OpenAlex
+2025-08-19 18:41:47,254 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5086715306&per-page=200&page=1
+2025-08-19 18:41:47,254 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:47,993 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5086715306&per-page=200&page=1 HTTP/1.1" 200 162433
+2025-08-19 18:41:48,026 - DEBUG - Fetched page 1 with 54 works
+2025-08-19 18:41:48,121 - INFO - Appended 54 lifetime works for A5086715306
+2025-08-19 18:41:48,122 - INFO - Appended 33 5y works for A5086715306
+2025-08-19 18:41:48,122 - INFO - Fetching works for A5010407946 from OpenAlex
+2025-08-19 18:41:48,122 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5010407946&per-page=200&page=1
+2025-08-19 18:41:48,123 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:48,940 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5010407946&per-page=200&page=1 HTTP/1.1" 200 326955
+2025-08-19 18:41:49,032 - DEBUG - Fetched page 1 with 111 works
+2025-08-19 18:41:49,151 - INFO - Appended 111 lifetime works for A5010407946
+2025-08-19 18:41:49,152 - INFO - Appended 46 5y works for A5010407946
+2025-08-19 18:41:49,152 - WARNING - Row 17 has no valid OpenAlexID
+2025-08-19 18:41:49,152 - INFO - Fetching works for A5076221206 from OpenAlex
+2025-08-19 18:41:49,152 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5076221206&per-page=200&page=1
+2025-08-19 18:41:49,153 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:50,188 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5076221206&per-page=200&page=1 HTTP/1.1" 200 307418
+2025-08-19 18:41:50,238 - DEBUG - Fetched page 1 with 130 works
+2025-08-19 18:41:50,422 - INFO - Appended 130 lifetime works for A5076221206
+2025-08-19 18:41:50,423 - INFO - Appended 21 5y works for A5076221206
+2025-08-19 18:41:50,423 - INFO - Fetching works for A5084554132 from OpenAlex
+2025-08-19 18:41:50,423 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5084554132&per-page=200&page=1
+2025-08-19 18:41:50,424 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:51,815 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5084554132&per-page=200&page=1 HTTP/1.1" 200 266216
+2025-08-19 18:41:51,845 - DEBUG - Fetched page 1 with 81 works
+2025-08-19 18:41:51,980 - INFO - Appended 81 lifetime works for A5084554132
+2025-08-19 18:41:51,981 - INFO - Appended 46 5y works for A5084554132
+2025-08-19 18:41:51,981 - INFO - Fetching works for A5016108047 from OpenAlex
+2025-08-19 18:41:51,981 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5016108047&per-page=200&page=1
+2025-08-19 18:41:51,982 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:52,233 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5016108047&per-page=200&page=1 HTTP/1.1" 200 26618
+2025-08-19 18:41:52,237 - DEBUG - Fetched page 1 with 12 works
+2025-08-19 18:41:52,263 - INFO - Appended 12 lifetime works for A5016108047
+2025-08-19 18:41:52,264 - INFO - Appended 6 5y works for A5016108047
+2025-08-19 18:41:52,264 - INFO - Fetching works for A5028898834 from OpenAlex
+2025-08-19 18:41:52,264 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5028898834&per-page=200&page=1
+2025-08-19 18:41:52,265 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:53,356 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5028898834&per-page=200&page=1 HTTP/1.1" 200 277093
+2025-08-19 18:41:53,387 - DEBUG - Fetched page 1 with 116 works
+2025-08-19 18:41:53,515 - INFO - Appended 116 lifetime works for A5028898834
+2025-08-19 18:41:53,516 - INFO - Appended 38 5y works for A5028898834
+2025-08-19 18:41:53,516 - INFO - Fetching works for A5082336116 from OpenAlex
+2025-08-19 18:41:53,516 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5082336116&per-page=200&page=1
+2025-08-19 18:41:53,517 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:54,547 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5082336116&per-page=200&page=1 HTTP/1.1" 200 308125
+2025-08-19 18:41:54,580 - DEBUG - Fetched page 1 with 129 works
+2025-08-19 18:41:54,761 - INFO - Appended 129 lifetime works for A5082336116
+2025-08-19 18:41:54,762 - INFO - Appended 47 5y works for A5082336116
+2025-08-19 18:41:54,762 - INFO - Fetching works for A5089212646 from OpenAlex
+2025-08-19 18:41:54,762 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5089212646&per-page=200&page=1
+2025-08-19 18:41:54,763 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:55,510 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5089212646&per-page=200&page=1 HTTP/1.1" 200 248438
+2025-08-19 18:41:55,540 - DEBUG - Fetched page 1 with 90 works
+2025-08-19 18:41:55,692 - INFO - Appended 90 lifetime works for A5089212646
+2025-08-19 18:41:55,693 - INFO - Appended 33 5y works for A5089212646
+2025-08-19 18:41:55,693 - INFO - Fetching works for A5085308093 from OpenAlex
+2025-08-19 18:41:55,693 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5085308093&per-page=200&page=1
+2025-08-19 18:41:55,694 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:56,853 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5085308093&per-page=200&page=1 HTTP/1.1" 200 399704
+2025-08-19 18:41:56,887 - DEBUG - Fetched page 1 with 149 works
+2025-08-19 18:41:57,078 - INFO - Appended 149 lifetime works for A5085308093
+2025-08-19 18:41:57,079 - INFO - Appended 37 5y works for A5085308093
+2025-08-19 18:41:57,079 - INFO - Fetching works for A5114186380 from OpenAlex
+2025-08-19 18:41:57,079 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5114186380&per-page=200&page=1
+2025-08-19 18:41:57,080 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:57,523 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5114186380&per-page=200&page=1 HTTP/1.1" 200 2625
+2025-08-19 18:41:57,523 - DEBUG - Fetched page 1 with 1 works
+2025-08-19 18:41:57,537 - INFO - Appended 1 lifetime works for A5114186380
+2025-08-19 18:41:57,538 - INFO - Appended 1 5y works for A5114186380
+2025-08-19 18:41:57,538 - INFO - Fetching works for A5065275438 from OpenAlex
+2025-08-19 18:41:57,538 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5065275438&per-page=200&page=1
+2025-08-19 18:41:57,539 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:41:59,091 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5065275438&per-page=200&page=1 HTTP/1.1" 200 339855
+2025-08-19 18:41:59,170 - DEBUG - Fetched page 1 with 97 works
+2025-08-19 18:41:59,308 - INFO - Appended 97 lifetime works for A5065275438
+2025-08-19 18:41:59,309 - INFO - Appended 26 5y works for A5065275438
+2025-08-19 18:41:59,310 - INFO - Fetching works for A5058811797 from OpenAlex
+2025-08-19 18:41:59,310 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5058811797&per-page=200&page=1
+2025-08-19 18:41:59,310 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:00,848 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5058811797&per-page=200&page=1 HTTP/1.1" 200 640362
+2025-08-19 18:42:00,968 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:42:01,240 - INFO - Appended 200 lifetime works for A5058811797
+2025-08-19 18:42:01,242 - INFO - Appended 58 5y works for A5058811797
+2025-08-19 18:42:01,242 - INFO - Fetching works for A5082097120 from OpenAlex
+2025-08-19 18:42:01,242 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5082097120&per-page=200&page=1
+2025-08-19 18:42:01,243 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:01,646 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5082097120&per-page=200&page=1 HTTP/1.1" 200 97182
+2025-08-19 18:42:01,694 - DEBUG - Fetched page 1 with 29 works
+2025-08-19 18:42:01,750 - INFO - Appended 29 lifetime works for A5082097120
+2025-08-19 18:42:01,751 - INFO - Appended 18 5y works for A5082097120
+2025-08-19 18:42:01,752 - INFO - Fetching works for A5018244111 from OpenAlex
+2025-08-19 18:42:01,752 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5018244111&per-page=200&page=1
+2025-08-19 18:42:01,752 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:02,335 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5018244111&per-page=200&page=1 HTTP/1.1" 200 133160
+2025-08-19 18:42:02,355 - DEBUG - Fetched page 1 with 46 works
+2025-08-19 18:42:02,421 - INFO - Appended 46 lifetime works for A5018244111
+2025-08-19 18:42:02,422 - INFO - Appended 23 5y works for A5018244111
+2025-08-19 18:42:02,422 - INFO - Fetching works for A5022359178 from OpenAlex
+2025-08-19 18:42:02,422 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5022359178&per-page=200&page=1
+2025-08-19 18:42:02,423 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:03,987 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5022359178&per-page=200&page=1 HTTP/1.1" 200 189873
+2025-08-19 18:42:04,026 - DEBUG - Fetched page 1 with 102 works
+2025-08-19 18:42:04,125 - INFO - Appended 102 lifetime works for A5022359178
+2025-08-19 18:42:04,127 - INFO - Appended 18 5y works for A5022359178
+2025-08-19 18:42:04,127 - INFO - Fetching works for A5082450377 from OpenAlex
+2025-08-19 18:42:04,127 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5082450377&per-page=200&page=1
+2025-08-19 18:42:04,128 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:04,946 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5082450377&per-page=200&page=1 HTTP/1.1" 200 295918
+2025-08-19 18:42:04,974 - DEBUG - Fetched page 1 with 118 works
+2025-08-19 18:42:05,121 - INFO - Appended 118 lifetime works for A5082450377
+2025-08-19 18:42:05,122 - INFO - Appended 30 5y works for A5082450377
+2025-08-19 18:42:05,122 - INFO - Fetching works for A5062550388 from OpenAlex
+2025-08-19 18:42:05,123 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5062550388&per-page=200&page=1
+2025-08-19 18:42:05,123 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:06,411 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5062550388&per-page=200&page=1 HTTP/1.1" 200 511848
+2025-08-19 18:42:06,472 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:42:06,722 - INFO - Appended 200 lifetime works for A5062550388
+2025-08-19 18:42:06,724 - INFO - Appended 38 5y works for A5062550388
+2025-08-19 18:42:06,724 - INFO - Fetching works for A5112215292 from OpenAlex
+2025-08-19 18:42:06,724 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5112215292&per-page=200&page=1
+2025-08-19 18:42:06,725 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:07,449 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5112215292&per-page=200&page=1 HTTP/1.1" 200 170002
+2025-08-19 18:42:07,472 - DEBUG - Fetched page 1 with 68 works
+2025-08-19 18:42:07,560 - INFO - Appended 68 lifetime works for A5112215292
+2025-08-19 18:42:07,561 - INFO - Appended 12 5y works for A5112215292
+2025-08-19 18:42:07,561 - INFO - Fetching works for A5000020749 from OpenAlex
+2025-08-19 18:42:07,561 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5000020749&per-page=200&page=1
+2025-08-19 18:42:07,562 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:08,896 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5000020749&per-page=200&page=1 HTTP/1.1" 200 662765
+2025-08-19 18:42:08,978 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:42:09,291 - INFO - Appended 200 lifetime works for A5000020749
+2025-08-19 18:42:09,293 - INFO - Appended 40 5y works for A5000020749
+2025-08-19 18:42:09,293 - INFO - Fetching works for A5051997692 from OpenAlex
+2025-08-19 18:42:09,293 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5051997692&per-page=200&page=1
+2025-08-19 18:42:09,294 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:09,684 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5051997692&per-page=200&page=1 HTTP/1.1" 200 30025
+2025-08-19 18:42:09,690 - DEBUG - Fetched page 1 with 14 works
+2025-08-19 18:42:09,720 - INFO - Appended 14 lifetime works for A5051997692
+2025-08-19 18:42:09,721 - INFO - Appended 5 5y works for A5051997692
+2025-08-19 18:42:09,721 - INFO - Fetching works for A5084958126 from OpenAlex
+2025-08-19 18:42:09,721 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5084958126&per-page=200&page=1
+2025-08-19 18:42:09,722 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:10,811 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5084958126&per-page=200&page=1 HTTP/1.1" 200 266990
+2025-08-19 18:42:10,856 - DEBUG - Fetched page 1 with 100 works
+2025-08-19 18:42:10,995 - INFO - Appended 100 lifetime works for A5084958126
+2025-08-19 18:42:10,996 - INFO - Appended 27 5y works for A5084958126
+2025-08-19 18:42:10,996 - INFO - Fetching works for A5006542086 from OpenAlex
+2025-08-19 18:42:10,996 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5006542086&per-page=200&page=1
+2025-08-19 18:42:10,997 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:11,826 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5006542086&per-page=200&page=1 HTTP/1.1" 200 270950
+2025-08-19 18:42:11,853 - DEBUG - Fetched page 1 with 98 works
+2025-08-19 18:42:12,004 - INFO - Appended 98 lifetime works for A5006542086
+2025-08-19 18:42:12,005 - INFO - Appended 56 5y works for A5006542086
+2025-08-19 18:42:12,005 - INFO - Fetching works for A5073152049 from OpenAlex
+2025-08-19 18:42:12,005 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5073152049&per-page=200&page=1
+2025-08-19 18:42:12,006 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:12,575 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5073152049&per-page=200&page=1 HTTP/1.1" 200 108038
+2025-08-19 18:42:12,589 - DEBUG - Fetched page 1 with 42 works
+2025-08-19 18:42:12,645 - INFO - Appended 42 lifetime works for A5073152049
+2025-08-19 18:42:12,646 - INFO - Appended 12 5y works for A5073152049
+2025-08-19 18:42:12,646 - INFO - Fetching works for A5093283881 from OpenAlex
+2025-08-19 18:42:12,646 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5093283881&per-page=200&page=1
+2025-08-19 18:42:12,647 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:12,938 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5093283881&per-page=200&page=1 HTTP/1.1" 200 7366
+2025-08-19 18:42:12,939 - DEBUG - Fetched page 1 with 3 works
+2025-08-19 18:42:12,950 - INFO - Appended 3 lifetime works for A5093283881
+2025-08-19 18:42:12,951 - INFO - Appended 3 5y works for A5093283881
+2025-08-19 18:42:12,951 - INFO - Fetching works for A5077397108 from OpenAlex
+2025-08-19 18:42:12,951 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5077397108&per-page=200&page=1
+2025-08-19 18:42:12,952 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:14,401 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5077397108&per-page=200&page=1 HTTP/1.1" 200 369480
+2025-08-19 18:42:14,438 - DEBUG - Fetched page 1 with 144 works
+2025-08-19 18:42:14,606 - INFO - Appended 144 lifetime works for A5077397108
+2025-08-19 18:42:14,607 - INFO - Appended 18 5y works for A5077397108
+2025-08-19 18:42:14,608 - INFO - Fetching works for A5007745969 from OpenAlex
+2025-08-19 18:42:14,608 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5007745969&per-page=200&page=1
+2025-08-19 18:42:14,608 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:15,087 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5007745969&per-page=200&page=1 HTTP/1.1" 200 70784
+2025-08-19 18:42:15,099 - DEBUG - Fetched page 1 with 25 works
+2025-08-19 18:42:15,145 - INFO - Appended 25 lifetime works for A5007745969
+2025-08-19 18:42:15,146 - INFO - Appended 1 5y works for A5007745969
+2025-08-19 18:42:15,146 - INFO - Fetching works for A5052740198 from OpenAlex
+2025-08-19 18:42:15,146 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5052740198&per-page=200&page=1
+2025-08-19 18:42:15,147 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:15,804 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5052740198&per-page=200&page=1 HTTP/1.1" 200 110280
+2025-08-19 18:42:15,854 - DEBUG - Fetched page 1 with 46 works
+2025-08-19 18:42:15,917 - INFO - Appended 46 lifetime works for A5052740198
+2025-08-19 18:42:15,918 - INFO - Appended 11 5y works for A5052740198
+2025-08-19 18:42:15,918 - INFO - Fetching works for A5112268003 from OpenAlex
+2025-08-19 18:42:15,918 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5112268003&per-page=200&page=1
+2025-08-19 18:42:15,919 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:16,480 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5112268003&per-page=200&page=1 HTTP/1.1" 200 62794
+2025-08-19 18:42:16,491 - DEBUG - Fetched page 1 with 25 works
+2025-08-19 18:42:16,524 - INFO - Appended 25 lifetime works for A5112268003
+2025-08-19 18:42:16,524 - INFO - Appended 6 5y works for A5112268003
+2025-08-19 18:42:16,525 - INFO - Fetching works for A5114186382 from OpenAlex
+2025-08-19 18:42:16,525 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5114186382&per-page=200&page=1
+2025-08-19 18:42:16,525 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:16,814 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5114186382&per-page=200&page=1 HTTP/1.1" 200 2623
+2025-08-19 18:42:16,815 - DEBUG - Fetched page 1 with 1 works
+2025-08-19 18:42:16,820 - INFO - Appended 1 lifetime works for A5114186382
+2025-08-19 18:42:16,821 - INFO - Appended 1 5y works for A5114186382
+2025-08-19 18:42:16,821 - INFO - Fetching works for A5068916305 from OpenAlex
+2025-08-19 18:42:16,821 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5068916305&per-page=200&page=1
+2025-08-19 18:42:16,822 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:17,168 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5068916305&per-page=200&page=1 HTTP/1.1" 200 28705
+2025-08-19 18:42:17,184 - DEBUG - Fetched page 1 with 10 works
+2025-08-19 18:42:17,202 - INFO - Appended 10 lifetime works for A5068916305
+2025-08-19 18:42:17,203 - INFO - Appended 2 5y works for A5068916305
+2025-08-19 18:42:17,203 - INFO - Fetching works for A5113946927 from OpenAlex
+2025-08-19 18:42:17,203 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5113946927&per-page=200&page=1
+2025-08-19 18:42:17,204 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:17,685 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5113946927&per-page=200&page=1 HTTP/1.1" 200 85391
+2025-08-19 18:42:17,737 - DEBUG - Fetched page 1 with 35 works
+2025-08-19 18:42:17,780 - INFO - Appended 35 lifetime works for A5113946927
+2025-08-19 18:42:17,780 - INFO - Appended 8 5y works for A5113946927
+2025-08-19 18:42:17,781 - INFO - Fetching works for A5035027217 from OpenAlex
+2025-08-19 18:42:17,781 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5035027217&per-page=200&page=1
+2025-08-19 18:42:17,781 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:20,552 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5035027217&per-page=200&page=1 HTTP/1.1" 200 510810
+2025-08-19 18:42:20,599 - DEBUG - Fetched page 1 with 191 works
+2025-08-19 18:42:20,865 - INFO - Appended 191 lifetime works for A5035027217
+2025-08-19 18:42:20,866 - INFO - Appended 56 5y works for A5035027217
+2025-08-19 18:42:20,866 - INFO - Fetching works for A5004098689 from OpenAlex
+2025-08-19 18:42:20,866 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5004098689&per-page=200&page=1
+2025-08-19 18:42:20,867 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:22,508 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5004098689&per-page=200&page=1 HTTP/1.1" 200 459612
+2025-08-19 18:42:22,552 - DEBUG - Fetched page 1 with 174 works
+2025-08-19 18:42:22,832 - INFO - Appended 174 lifetime works for A5004098689
+2025-08-19 18:42:22,833 - INFO - Appended 34 5y works for A5004098689
+2025-08-19 18:42:22,833 - INFO - Fetching works for A5042612602 from OpenAlex
+2025-08-19 18:42:22,833 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5042612602&per-page=200&page=1
+2025-08-19 18:42:22,834 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:24,255 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5042612602&per-page=200&page=1 HTTP/1.1" 200 403639
+2025-08-19 18:42:24,343 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:42:24,594 - INFO - Appended 200 lifetime works for A5042612602
+2025-08-19 18:42:24,596 - INFO - Appended 53 5y works for A5042612602
+2025-08-19 18:42:24,596 - INFO - Fetching works for A5053168359 from OpenAlex
+2025-08-19 18:42:24,596 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5053168359&per-page=200&page=1
+2025-08-19 18:42:24,597 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:25,318 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5053168359&per-page=200&page=1 HTTP/1.1" 200 165937
+2025-08-19 18:42:25,342 - DEBUG - Fetched page 1 with 52 works
+2025-08-19 18:42:25,413 - INFO - Appended 52 lifetime works for A5053168359
+2025-08-19 18:42:25,414 - INFO - Appended 13 5y works for A5053168359
+2025-08-19 18:42:25,414 - INFO - Fetching works for A5090343464 from OpenAlex
+2025-08-19 18:42:25,414 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5090343464&per-page=200&page=1
+2025-08-19 18:42:25,415 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:26,417 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5090343464&per-page=200&page=1 HTTP/1.1" 200 517819
+2025-08-19 18:42:26,483 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:42:26,786 - INFO - Appended 200 lifetime works for A5090343464
+2025-08-19 18:42:26,787 - INFO - Appended 39 5y works for A5090343464
+2025-08-19 18:42:26,787 - INFO - Fetching works for A5088238215 from OpenAlex
+2025-08-19 18:42:26,787 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5088238215&per-page=200&page=1
+2025-08-19 18:42:26,788 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:27,580 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5088238215&per-page=200&page=1 HTTP/1.1" 200 203027
+2025-08-19 18:42:27,608 - DEBUG - Fetched page 1 with 69 works
+2025-08-19 18:42:27,693 - INFO - Appended 69 lifetime works for A5088238215
+2025-08-19 18:42:27,694 - INFO - Appended 24 5y works for A5088238215
+2025-08-19 18:42:27,694 - INFO - Fetching works for A5088351601 from OpenAlex
+2025-08-19 18:42:27,694 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5088351601&per-page=200&page=1
+2025-08-19 18:42:27,695 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:28,217 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5088351601&per-page=200&page=1 HTTP/1.1" 200 189396
+2025-08-19 18:42:28,236 - DEBUG - Fetched page 1 with 60 works
+2025-08-19 18:42:28,308 - INFO - Appended 60 lifetime works for A5088351601
+2025-08-19 18:42:28,309 - INFO - Appended 24 5y works for A5088351601
+2025-08-19 18:42:28,309 - INFO - Fetching works for A5075424399 from OpenAlex
+2025-08-19 18:42:28,309 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5075424399&per-page=200&page=1
+2025-08-19 18:42:28,310 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:28,949 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5075424399&per-page=200&page=1 HTTP/1.1" 200 130986
+2025-08-19 18:42:28,980 - DEBUG - Fetched page 1 with 61 works
+2025-08-19 18:42:29,043 - INFO - Appended 61 lifetime works for A5075424399
+2025-08-19 18:42:29,044 - INFO - Appended 21 5y works for A5075424399
+2025-08-19 18:42:29,044 - INFO - Fetching works for A5012761747 from OpenAlex
+2025-08-19 18:42:29,044 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5012761747&per-page=200&page=1
+2025-08-19 18:42:29,045 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:29,993 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5012761747&per-page=200&page=1 HTTP/1.1" 200 319084
+2025-08-19 18:42:30,025 - DEBUG - Fetched page 1 with 141 works
+2025-08-19 18:42:30,178 - INFO - Appended 141 lifetime works for A5012761747
+2025-08-19 18:42:30,179 - INFO - Appended 15 5y works for A5012761747
+2025-08-19 18:42:30,179 - INFO - Fetching works for A5110510421 from OpenAlex
+2025-08-19 18:42:30,180 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5110510421&per-page=200&page=1
+2025-08-19 18:42:30,180 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:30,862 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5110510421&per-page=200&page=1 HTTP/1.1" 200 129505
+2025-08-19 18:42:30,899 - DEBUG - Fetched page 1 with 62 works
+2025-08-19 18:42:30,962 - INFO - Appended 62 lifetime works for A5110510421
+2025-08-19 18:42:30,963 - INFO - Appended 19 5y works for A5110510421
+2025-08-19 18:42:30,964 - INFO - Fetching works for A5108237524 from OpenAlex
+2025-08-19 18:42:30,964 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5108237524&per-page=200&page=1
+2025-08-19 18:42:30,964 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:31,367 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5108237524&per-page=200&page=1 HTTP/1.1" 200 30973
+2025-08-19 18:42:31,372 - DEBUG - Fetched page 1 with 14 works
+2025-08-19 18:42:31,393 - INFO - Appended 14 lifetime works for A5108237524
+2025-08-19 18:42:31,394 - INFO - Appended 2 5y works for A5108237524
+2025-08-19 18:42:31,394 - INFO - Fetching works for A5079324010 from OpenAlex
+2025-08-19 18:42:31,394 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5079324010&per-page=200&page=1
+2025-08-19 18:42:31,395 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:31,935 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5079324010&per-page=200&page=1 HTTP/1.1" 200 159694
+2025-08-19 18:42:31,956 - DEBUG - Fetched page 1 with 54 works
+2025-08-19 18:42:32,026 - INFO - Appended 54 lifetime works for A5079324010
+2025-08-19 18:42:32,027 - INFO - Appended 11 5y works for A5079324010
+2025-08-19 18:42:32,028 - INFO - Fetching works for A5110138668 from OpenAlex
+2025-08-19 18:42:32,028 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5110138668&per-page=200&page=1
+2025-08-19 18:42:32,029 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:32,374 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5110138668&per-page=200&page=1 HTTP/1.1" 200 27196
+2025-08-19 18:42:32,379 - DEBUG - Fetched page 1 with 10 works
+2025-08-19 18:42:32,401 - INFO - Appended 10 lifetime works for A5110138668
+2025-08-19 18:42:32,402 - INFO - Appended 1 5y works for A5110138668
+2025-08-19 18:42:32,402 - INFO - Fetching works for A5041791584 from OpenAlex
+2025-08-19 18:42:32,402 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5041791584&per-page=200&page=1
+2025-08-19 18:42:32,403 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:33,592 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5041791584&per-page=200&page=1 HTTP/1.1" 200 558263
+2025-08-19 18:42:33,654 - DEBUG - Fetched page 1 with 200 works
+2025-08-19 18:42:33,906 - INFO - Appended 200 lifetime works for A5041791584
+2025-08-19 18:42:33,907 - INFO - Appended 33 5y works for A5041791584
+2025-08-19 18:42:33,907 - INFO - Fetching works for A5114252403 from OpenAlex
+2025-08-19 18:42:33,907 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5114252403&per-page=200&page=1
+2025-08-19 18:42:33,908 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:35,250 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5114252403&per-page=200&page=1 HTTP/1.1" 200 145864
+2025-08-19 18:42:35,292 - DEBUG - Fetched page 1 with 87 works
+2025-08-19 18:42:35,382 - INFO - Appended 87 lifetime works for A5114252403
+2025-08-19 18:42:35,383 - INFO - Appended 9 5y works for A5114252403
+2025-08-19 18:42:35,383 - INFO - Fetching works for A5023258863 from OpenAlex
+2025-08-19 18:42:35,383 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5023258863&per-page=200&page=1
+2025-08-19 18:42:35,384 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:35,951 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5023258863&per-page=200&page=1 HTTP/1.1" 200 147950
+2025-08-19 18:42:35,972 - DEBUG - Fetched page 1 with 62 works
+2025-08-19 18:42:36,037 - INFO - Appended 62 lifetime works for A5023258863
+2025-08-19 18:42:36,038 - INFO - Appended 22 5y works for A5023258863
+2025-08-19 18:42:36,038 - INFO - Fetching works for A5083737761 from OpenAlex
+2025-08-19 18:42:36,038 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5083737761&per-page=200&page=1
+2025-08-19 18:42:36,039 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:36,608 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5083737761&per-page=200&page=1 HTTP/1.1" 200 119203
+2025-08-19 18:42:36,629 - DEBUG - Fetched page 1 with 52 works
+2025-08-19 18:42:36,687 - INFO - Appended 52 lifetime works for A5083737761
+2025-08-19 18:42:36,688 - INFO - Appended 20 5y works for A5083737761
+2025-08-19 18:42:36,688 - INFO - Fetching works for A5034547939 from OpenAlex
+2025-08-19 18:42:36,688 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5034547939&per-page=200&page=1
+2025-08-19 18:42:36,689 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:36,953 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5034547939&per-page=200&page=1 HTTP/1.1" 200 7099
+2025-08-19 18:42:36,954 - DEBUG - Fetched page 1 with 3 works
+2025-08-19 18:42:36,967 - INFO - Appended 3 lifetime works for A5034547939
+2025-08-19 18:42:36,967 - INFO - Appended 2 5y works for A5034547939
+2025-08-19 18:42:36,968 - INFO - Fetching works for A5104182467 from OpenAlex
+2025-08-19 18:42:36,968 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5104182467&per-page=200&page=1
+2025-08-19 18:42:36,968 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:37,227 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5104182467&per-page=200&page=1 HTTP/1.1" 200 11709
+2025-08-19 18:42:37,230 - DEBUG - Fetched page 1 with 4 works
+2025-08-19 18:42:37,241 - INFO - Appended 4 lifetime works for A5104182467
+2025-08-19 18:42:37,242 - INFO - Appended 4 5y works for A5104182467
+2025-08-19 18:42:37,242 - INFO - Fetching works for A5002583112 from OpenAlex
+2025-08-19 18:42:37,242 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5002583112&per-page=200&page=1
+2025-08-19 18:42:37,243 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:37,902 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5002583112&per-page=200&page=1 HTTP/1.1" 200 214618
+2025-08-19 18:42:37,992 - DEBUG - Fetched page 1 with 94 works
+2025-08-19 18:42:38,084 - INFO - Appended 94 lifetime works for A5002583112
+2025-08-19 18:42:38,085 - INFO - Appended 17 5y works for A5002583112
+2025-08-19 18:42:38,085 - INFO - Fetching works for A5074399476 from OpenAlex
+2025-08-19 18:42:38,085 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5074399476&per-page=200&page=1
+2025-08-19 18:42:38,086 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:38,658 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5074399476&per-page=200&page=1 HTTP/1.1" 200 187383
+2025-08-19 18:42:38,680 - DEBUG - Fetched page 1 with 61 works
+2025-08-19 18:42:38,742 - INFO - Appended 61 lifetime works for A5074399476
+2025-08-19 18:42:38,743 - INFO - Appended 18 5y works for A5074399476
+2025-08-19 18:42:38,743 - INFO - Fetching works for A5037393069 from OpenAlex
+2025-08-19 18:42:38,743 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5037393069&per-page=200&page=1
+2025-08-19 18:42:38,744 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:39,234 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5037393069&per-page=200&page=1 HTTP/1.1" 200 191329
+2025-08-19 18:42:39,255 - DEBUG - Fetched page 1 with 63 works
+2025-08-19 18:42:39,360 - INFO - Appended 63 lifetime works for A5037393069
+2025-08-19 18:42:39,361 - INFO - Appended 18 5y works for A5037393069
+2025-08-19 18:42:39,361 - INFO - Fetching works for A5077375646 from OpenAlex
+2025-08-19 18:42:39,361 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5077375646&per-page=200&page=1
+2025-08-19 18:42:39,362 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:40,311 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5077375646&per-page=200&page=1 HTTP/1.1" 200 396089
+2025-08-19 18:42:40,345 - DEBUG - Fetched page 1 with 141 works
+2025-08-19 18:42:40,575 - INFO - Appended 141 lifetime works for A5077375646
+2025-08-19 18:42:40,577 - INFO - Appended 41 5y works for A5077375646
+2025-08-19 18:42:40,577 - INFO - Fetching works for A5038571433 from OpenAlex
+2025-08-19 18:42:40,577 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5038571433&per-page=200&page=1
+2025-08-19 18:42:40,578 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:40,919 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5038571433&per-page=200&page=1 HTTP/1.1" 200 43067
+2025-08-19 18:42:40,928 - DEBUG - Fetched page 1 with 14 works
+2025-08-19 18:42:40,964 - INFO - Appended 14 lifetime works for A5038571433
+2025-08-19 18:42:40,965 - INFO - Appended 1 5y works for A5038571433
+2025-08-19 18:42:40,965 - INFO - Fetching works for A5049770537 from OpenAlex
+2025-08-19 18:42:40,965 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5049770537&per-page=200&page=1
+2025-08-19 18:42:40,966 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:41,271 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5049770537&per-page=200&page=1 HTTP/1.1" 200 65018
+2025-08-19 18:42:41,282 - DEBUG - Fetched page 1 with 27 works
+2025-08-19 18:42:41,315 - INFO - Appended 27 lifetime works for A5049770537
+2025-08-19 18:42:41,316 - INFO - Appended 11 5y works for A5049770537
+2025-08-19 18:42:41,316 - INFO - Fetching works for A5110902158 from OpenAlex
+2025-08-19 18:42:41,316 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5110902158&per-page=200&page=1
+2025-08-19 18:42:41,317 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:41,890 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5110902158&per-page=200&page=1 HTTP/1.1" 200 146368
+2025-08-19 18:42:41,907 - DEBUG - Fetched page 1 with 60 works
+2025-08-19 18:42:41,978 - INFO - Appended 60 lifetime works for A5110902158
+2025-08-19 18:42:41,979 - INFO - Appended 13 5y works for A5110902158
+2025-08-19 18:42:41,979 - INFO - Fetching works for A5064980480 from OpenAlex
+2025-08-19 18:42:41,979 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5064980480&per-page=200&page=1
+2025-08-19 18:42:41,980 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:43,210 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5064980480&per-page=200&page=1 HTTP/1.1" 200 304531
+2025-08-19 18:42:43,244 - DEBUG - Fetched page 1 with 96 works
+2025-08-19 18:42:43,394 - INFO - Appended 96 lifetime works for A5064980480
+2025-08-19 18:42:43,395 - INFO - Appended 31 5y works for A5064980480
+2025-08-19 18:42:43,395 - INFO - Fetching works for A5111941038 from OpenAlex
+2025-08-19 18:42:43,395 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5111941038&per-page=200&page=1
+2025-08-19 18:42:43,396 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:44,510 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5111941038&per-page=200&page=1 HTTP/1.1" 200 358168
+2025-08-19 18:42:44,547 - DEBUG - Fetched page 1 with 150 works
+2025-08-19 18:42:44,750 - INFO - Appended 150 lifetime works for A5111941038
+2025-08-19 18:42:44,751 - INFO - Appended 7 5y works for A5111941038
+2025-08-19 18:42:44,751 - INFO - Fetching works for A5036733857 from OpenAlex
+2025-08-19 18:42:44,751 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5036733857&per-page=200&page=1
+2025-08-19 18:42:44,752 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:45,774 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5036733857&per-page=200&page=1 HTTP/1.1" 200 293274
+2025-08-19 18:42:45,851 - DEBUG - Fetched page 1 with 108 works
+2025-08-19 18:42:45,969 - INFO - Appended 108 lifetime works for A5036733857
+2025-08-19 18:42:45,970 - INFO - Appended 25 5y works for A5036733857
+2025-08-19 18:42:45,970 - INFO - Fetching works for A5026303269 from OpenAlex
+2025-08-19 18:42:45,970 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5026303269&per-page=200&page=1
+2025-08-19 18:42:45,971 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:46,254 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5026303269&per-page=200&page=1 HTTP/1.1" 200 32866
+2025-08-19 18:42:46,260 - DEBUG - Fetched page 1 with 13 works
+2025-08-19 18:42:46,286 - INFO - Appended 13 lifetime works for A5026303269
+2025-08-19 18:42:46,287 - INFO - Appended 6 5y works for A5026303269
+2025-08-19 18:42:46,287 - INFO - Fetching works for A5065334735 from OpenAlex
+2025-08-19 18:42:46,287 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5065334735&per-page=200&page=1
+2025-08-19 18:42:46,288 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:46,674 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5065334735&per-page=200&page=1 HTTP/1.1" 200 138716
+2025-08-19 18:42:46,703 - DEBUG - Fetched page 1 with 53 works
+2025-08-19 18:42:46,780 - INFO - Appended 53 lifetime works for A5065334735
+2025-08-19 18:42:46,781 - INFO - Appended 15 5y works for A5065334735
+2025-08-19 18:42:46,781 - INFO - Fetching works for A5038141195 from OpenAlex
+2025-08-19 18:42:46,781 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5038141195&per-page=200&page=1
+2025-08-19 18:42:46,782 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:47,544 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5038141195&per-page=200&page=1 HTTP/1.1" 200 164265
+2025-08-19 18:42:47,563 - DEBUG - Fetched page 1 with 62 works
+2025-08-19 18:42:47,644 - INFO - Appended 62 lifetime works for A5038141195
+2025-08-19 18:42:47,645 - INFO - Appended 26 5y works for A5038141195
+2025-08-19 18:42:47,645 - INFO - Fetching works for A5021898290 from OpenAlex
+2025-08-19 18:42:47,645 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5021898290&per-page=200&page=1
+2025-08-19 18:42:47,646 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:48,872 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5021898290&per-page=200&page=1 HTTP/1.1" 200 336314
+2025-08-19 18:42:48,910 - DEBUG - Fetched page 1 with 141 works
+2025-08-19 18:42:49,083 - INFO - Appended 141 lifetime works for A5021898290
+2025-08-19 18:42:49,084 - INFO - Appended 8 5y works for A5021898290
+2025-08-19 18:42:49,084 - INFO - Fetching works for A5055196299 from OpenAlex
+2025-08-19 18:42:49,085 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5055196299&per-page=200&page=1
+2025-08-19 18:42:49,085 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:50,203 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5055196299&per-page=200&page=1 HTTP/1.1" 200 422081
+2025-08-19 18:42:50,249 - DEBUG - Fetched page 1 with 108 works
+2025-08-19 18:42:50,426 - INFO - Appended 108 lifetime works for A5055196299
+2025-08-19 18:42:50,427 - INFO - Appended 50 5y works for A5055196299
+2025-08-19 18:42:50,427 - INFO - Fetching works for A5050841380 from OpenAlex
+2025-08-19 18:42:50,427 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5050841380&per-page=200&page=1
+2025-08-19 18:42:50,428 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:51,182 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5050841380&per-page=200&page=1 HTTP/1.1" 200 269991
+2025-08-19 18:42:51,255 - DEBUG - Fetched page 1 with 98 works
+2025-08-19 18:42:51,374 - INFO - Appended 98 lifetime works for A5050841380
+2025-08-19 18:42:51,375 - INFO - Appended 41 5y works for A5050841380
+2025-08-19 18:42:51,376 - INFO - Fetching works for A5052164943 from OpenAlex
+2025-08-19 18:42:51,376 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5052164943&per-page=200&page=1
+2025-08-19 18:42:51,376 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:52,021 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5052164943&per-page=200&page=1 HTTP/1.1" 200 134094
+2025-08-19 18:42:52,053 - DEBUG - Fetched page 1 with 63 works
+2025-08-19 18:42:52,116 - INFO - Appended 63 lifetime works for A5052164943
+2025-08-19 18:42:52,117 - INFO - Appended 21 5y works for A5052164943
+2025-08-19 18:42:52,117 - INFO - Fetching works for A5017321423 from OpenAlex
+2025-08-19 18:42:52,117 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5017321423&per-page=200&page=1
+2025-08-19 18:42:52,118 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:52,624 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5017321423&per-page=200&page=1 HTTP/1.1" 200 94205
+2025-08-19 18:42:52,674 - DEBUG - Fetched page 1 with 30 works
+2025-08-19 18:42:52,714 - INFO - Appended 30 lifetime works for A5017321423
+2025-08-19 18:42:52,715 - INFO - Appended 12 5y works for A5017321423
+2025-08-19 18:42:52,715 - INFO - Fetching works for A5036556782 from OpenAlex
+2025-08-19 18:42:52,715 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5036556782&per-page=200&page=1
+2025-08-19 18:42:52,716 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:53,033 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5036556782&per-page=200&page=1 HTTP/1.1" 200 29887
+2025-08-19 18:42:53,050 - DEBUG - Fetched page 1 with 10 works
+2025-08-19 18:42:53,075 - INFO - Appended 10 lifetime works for A5036556782
+2025-08-19 18:42:53,075 - INFO - Appended 2 5y works for A5036556782
+2025-08-19 18:42:53,075 - INFO - Fetching works for A5046493714 from OpenAlex
+2025-08-19 18:42:53,075 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5046493714&per-page=200&page=1
+2025-08-19 18:42:53,076 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:53,766 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5046493714&per-page=200&page=1 HTTP/1.1" 200 137665
+2025-08-19 18:42:53,780 - DEBUG - Fetched page 1 with 48 works
+2025-08-19 18:42:53,846 - INFO - Appended 48 lifetime works for A5046493714
+2025-08-19 18:42:53,847 - INFO - Appended 13 5y works for A5046493714
+2025-08-19 18:42:53,847 - INFO - Fetching works for A5060461427 from OpenAlex
+2025-08-19 18:42:53,847 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5060461427&per-page=200&page=1
+2025-08-19 18:42:53,848 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:54,758 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5060461427&per-page=200&page=1 HTTP/1.1" 200 280905
+2025-08-19 18:42:54,803 - DEBUG - Fetched page 1 with 72 works
+2025-08-19 18:42:54,886 - INFO - Appended 72 lifetime works for A5060461427
+2025-08-19 18:42:54,887 - INFO - Appended 24 5y works for A5060461427
+2025-08-19 18:42:54,887 - INFO - Fetching works for A5022803956 from OpenAlex
+2025-08-19 18:42:54,887 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5022803956&per-page=200&page=1
+2025-08-19 18:42:54,888 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:55,400 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5022803956&per-page=200&page=1 HTTP/1.1" 200 73971
+2025-08-19 18:42:55,413 - DEBUG - Fetched page 1 with 33 works
+2025-08-19 18:42:55,457 - INFO - Appended 33 lifetime works for A5022803956
+2025-08-19 18:42:55,458 - INFO - Appended 11 5y works for A5022803956
+2025-08-19 18:42:55,458 - INFO - Fetching works for A5022803956 from OpenAlex
+2025-08-19 18:42:55,458 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5022803956&per-page=200&page=1
+2025-08-19 18:42:55,459 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:55,635 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5022803956&per-page=200&page=1 HTTP/1.1" 200 73971
+2025-08-19 18:42:55,645 - DEBUG - Fetched page 1 with 33 works
+2025-08-19 18:42:55,685 - INFO - Appended 33 lifetime works for A5022803956
+2025-08-19 18:42:55,686 - INFO - Appended 11 5y works for A5022803956
+2025-08-19 18:42:55,686 - INFO - Fetching works for A5086163497 from OpenAlex
+2025-08-19 18:42:55,686 - DEBUG - Requesting URL: https://api.openalex.org/works?filter=author.id:A5086163497&per-page=200&page=1
+2025-08-19 18:42:55,687 - DEBUG - Starting new HTTPS connection (1): api.openalex.org:443
+2025-08-19 18:42:56,328 - DEBUG - https://api.openalex.org:443 "GET /works?filter=author.id:A5086163497&per-page=200&page=1 HTTP/1.1" 200 104522
+2025-08-19 18:42:56,346 - DEBUG - Fetched page 1 with 41 works
+2025-08-19 18:42:56,416 - INFO - Appended 41 lifetime works for A5086163497
+2025-08-19 18:42:56,417 - INFO - Appended 16 5y works for A5086163497
+2025-08-19 18:42:56,423 - INFO - Deduplicating 1908 rows
+2025-08-19 18:42:56,424 - INFO - Deduplicated to 1550 rows
+2025-08-19 18:42:56,432 - INFO - Deduplicated file written to data/openalex_all_authors_last5y_key_fields_dedup.csv

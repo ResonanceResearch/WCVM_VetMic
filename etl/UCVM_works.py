@@ -46,19 +46,18 @@ KEY_FIELDS_FOR_OUTPUT = [
 KEY_FIELDS_FOR_OUTPUT_WITH_TAGS = KEY_FIELDS_FOR_OUTPUT + ["author_name", "author_openalex_id"]
 
 def setup_logging():
+    print(f"Creating log directory at: {LOG_DIR}")
     safe_mkdir(LOG_DIR)
     logfile = os.path.join(LOG_DIR, f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
     logging.basicConfig(
         level=logging.INFO,
         format="[%(asctime)s] %(levelname)s: %(message)s",
         handlers=[
-            logging.FileHandler(logfile, mode='w', encoding='utf-8'),
+            logging.FileHandler(logfile),
             logging.StreamHandler(sys.stdout)
-        ],
-        force=True  # <- ensures old configs don’t interfere
+        ]
     )
-    logging.info(f"Logging initialized. Writing to {logfile}")
-
+    logging.info(f"Logging to {logfile}")
 
 def safe_mkdir(path: str):
     try:
@@ -178,18 +177,23 @@ def main():
         logging.info("Roster preview:\n" + roster.head(5).to_string())
         name_col = next((c for c in roster.columns if str(c).strip().lower() == "name"), None)
         id_col = next((c for c in roster.columns if str(c).strip().lower() == "openalexid"), None)
+        logging.info(f"Detected name column: {name_col}")
+        logging.info(f"Detected ID column: {id_col}")
         if not name_col or not id_col:
             logging.warning("Roster missing required columns 'Name' and/or 'OpenAlexID'.")
         else:
+            skipped_missing_id = 0
             for idx, row in roster.iterrows():
                 raw_name = row.get(name_col)
                 raw_id = row.get(id_col)
                 if pd.isna(raw_id):
                     logging.warning(f"Row {idx}: missing OpenAlexID — skipping.")
+                    skipped_missing_id += 1
                     continue
                 author_id = normalize_author_id(raw_id)
                 if not author_id:
                     logging.warning(f"Row {idx}: could not parse OpenAlexID '{raw_id}' — skipping.")
+                    skipped_missing_id += 1
                     continue
                 author_name = str(raw_name).strip() if not pd.isna(raw_name) else author_id
                 logging.info(f"Processing {author_name} ({author_id})")
@@ -200,8 +204,9 @@ def main():
                     time.sleep(0.2)
                 except Exception as e:
                     logging.exception(f"Error processing {author_name} ({author_id}): {e}")
+            logging.info(f"Total skipped rows due to missing ID: {skipped_missing_id}")
 
-    if processed_any and os.path.exists(compiled_last5_path):
+    if processed_any:
         logging.info("Deduplicating final last-5-years file...")
         try:
             logging.info(f"Reading from: {compiled_last5_path}")

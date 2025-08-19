@@ -198,7 +198,7 @@ def main():
                 except Exception as e:
                     logging.exception(f"Error processing {author_name} ({author_id}): {e}")
 
-    if processed_any:
+    if processed_any and os.path.exists(compiled_last5_path):
         logging.info("Deduplicating final last-5-years file...")
         try:
             logging.info(f"Reading from: {compiled_last5_path}")

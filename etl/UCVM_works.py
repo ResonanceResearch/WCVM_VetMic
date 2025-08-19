@@ -66,14 +66,20 @@ def safe_mkdir(path: str):
     except Exception as e:
         print(f"Error creating directory {path}: {e}")
 
-def normalize_author_id(raw_id: str) -> Optional[str]:
-    if not isinstance(raw_id, str):
+def normalize_author_id(openalex_id):
+    """Convert full OpenAlex URL or short ID to just 'Axxxxxx'."""
+    if pd.isna(openalex_id):
         return None
-    if raw_id.startswith("https://openalex.org/A"):
-        return raw_id.split("/")[-1]
-    elif raw_id.startswith("A") and raw_id[1:].isdigit():
-        return raw_id
+    try:
+        openalex_id = str(openalex_id).strip()
+        if "openalex.org/" in openalex_id:
+            openalex_id = openalex_id.split("/")[-1]
+        if openalex_id.startswith("A"):
+            return openalex_id
+    except Exception:
+        return None
     return None
+
 
 def fetch_works(author_id: str, years_back: Optional[int] = 5) -> List[Dict[str, Any]]:
     all_works = []

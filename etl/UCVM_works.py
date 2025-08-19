@@ -173,6 +173,9 @@ def main():
     if os.path.exists(INPUT_ROSTER):
         logging.info(f"Loading roster: {INPUT_ROSTER}")
         roster = pd.read_csv(INPUT_ROSTER)
+        logging.info(f"Roster shape: {roster.shape}")
+        logging.info(f"Roster columns: {list(roster.columns)}")
+        logging.info("Roster preview:\n" + roster.head(5).to_string())
         name_col = next((c for c in roster.columns if str(c).strip().lower() == "name"), None)
         id_col = next((c for c in roster.columns if str(c).strip().lower() == "openalexid"), None)
         if not name_col or not id_col:

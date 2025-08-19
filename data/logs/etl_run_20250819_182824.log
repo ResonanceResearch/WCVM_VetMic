@@ -1,0 +1,811 @@
+[2025-08-19 18:28:24,512] INFO: Logging to data/logs/etl_run_20250819_182824.log
+[2025-08-19 18:28:24,512] INFO: Compiled output file will be: data/openalex_all_authors_last5y_key_fields.csv
+[2025-08-19 18:28:24,512] INFO: Loading roster: data/roster_with_metrics.csv
+[2025-08-19 18:28:24,515] INFO: Roster shape: (90, 13)
+[2025-08-19 18:28:24,515] INFO: Roster columns: ['Name', 'Level', 'RG1', 'RG2', 'RG3', 'RG4', 'Category', 'Appointment', 'OpenAlexID', 'H_index', 'I10_index', 'Works_count', 'Total_citations']
+[2025-08-19 18:28:24,519] INFO: Roster preview:
+                  Name      Level   RG1   RG2  RG3  RG4  Category Appointment   OpenAlexID  H_index  I10_index  Works_count  Total_citations
+0       Alyssa Butters  Assistant  OHRG  CHRG  NaN  NaN  Teaching          FT  A5097476685      1.0        0.0          3.0              4.0
+1     Betty-Jo Bradley  Assistant  CHRG   NaN  NaN  NaN  Teaching          FT          NaN      NaN        NaN          NaN              NaN
+2          Cindy Adams  Professor   NaN   NaN  NaN  NaN  Research          FT  A5089186675     36.0       62.0        107.0           4388.0
+3  Darlene Donszelmann  Associate   NaN   NaN  NaN  NaN  Research          FT  A5054682662      1.0        1.0          4.0             27.0
+4  Diego Borin Nobrega  Assistant  OHRG  CHRG  NaN  NaN  Research          FT  A5015254879     27.0       47.0         89.0           2763.0
+[2025-08-19 18:28:24,519] INFO: Detected name column: Name
+[2025-08-19 18:28:24,519] INFO: Detected ID column: OpenAlexID
+[2025-08-19 18:28:24,519] INFO: Processing Alyssa Butters (A5097476685)
+[2025-08-19 18:28:24,519] ERROR: Error processing Alyssa Butters (A5097476685): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,520] WARNING: Row 1: missing OpenAlexID — skipping.
+[2025-08-19 18:28:24,520] INFO: Processing Cindy Adams (A5089186675)
+[2025-08-19 18:28:24,521] ERROR: Error processing Cindy Adams (A5089186675): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,521] INFO: Processing Darlene Donszelmann (A5054682662)
+[2025-08-19 18:28:24,521] ERROR: Error processing Darlene Donszelmann (A5054682662): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,522] INFO: Processing Diego Borin Nobrega (A5015254879)
+[2025-08-19 18:28:24,522] ERROR: Error processing Diego Borin Nobrega (A5015254879): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,523] INFO: Processing Eduardo Cobo (A5046882263)
+[2025-08-19 18:28:24,523] ERROR: Error processing Eduardo Cobo (A5046882263): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,523] INFO: Processing Herman Barkema (A5062115118)
+[2025-08-19 18:28:24,523] ERROR: Error processing Herman Barkema (A5062115118): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,524] INFO: Processing Ina Dobrinski (A5061235320)
+[2025-08-19 18:28:24,524] ERROR: Error processing Ina Dobrinski (A5061235320): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,524] INFO: Processing James Cross (A5057011174)
+[2025-08-19 18:28:24,525] ERROR: Error processing James Cross (A5057011174): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,525] INFO: Processing Jason Anderson (A5063855248)
+[2025-08-19 18:28:24,525] ERROR: Error processing Jason Anderson (A5063855248): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,526] INFO: Processing Jeffrey Biernaskie (A5084242333)
+[2025-08-19 18:28:24,526] ERROR: Error processing Jeffrey Biernaskie (A5084242333): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,526] INFO: Processing Jennifer Davies (A5074995793)
+[2025-08-19 18:28:24,526] ERROR: Error processing Jennifer Davies (A5074995793): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,527] INFO: Processing Jeroen De Buck (A5058471690)
+[2025-08-19 18:28:24,527] ERROR: Error processing Jeroen De Buck (A5058471690): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,527] INFO: Processing Johnathan Canton (A5007124437)
+[2025-08-19 18:28:24,528] ERROR: Error processing Johnathan Canton (A5007124437): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,528] INFO: Processing Li-Fang (Jack) Chu (A5076810213)
+[2025-08-19 18:28:24,528] ERROR: Error processing Li-Fang (Jack) Chu (A5076810213): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,529] INFO: Processing Maria Camila Ceballos Betancourt (A5086715306)
+[2025-08-19 18:28:24,529] ERROR: Error processing Maria Camila Ceballos Betancourt (A5086715306): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,529] INFO: Processing Mohamed Faizal Abdul Careem (A5010407946)
+[2025-08-19 18:28:24,529] ERROR: Error processing Mohamed Faizal Abdul Careem (A5010407946): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,530] WARNING: Row 17: missing OpenAlexID — skipping.
+[2025-08-19 18:28:24,530] INFO: Processing Nigel Caulkett (A5076221206)
+[2025-08-19 18:28:24,530] ERROR: Error processing Nigel Caulkett (A5076221206): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,531] INFO: Processing Ning Cheng (A5084554132)
+[2025-08-19 18:28:24,531] ERROR: Error processing Ning Cheng (A5084554132): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,531] INFO: Processing Rebecca Archer (A5016108047)
+[2025-08-19 18:28:24,531] ERROR: Error processing Rebecca Archer (A5016108047): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,532] INFO: Processing Rob Deardon (A5028898834)
+[2025-08-19 18:28:24,532] ERROR: Error processing Rob Deardon (A5028898834): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,532] INFO: Processing Soren Boysen (A5082336116)
+[2025-08-19 18:28:24,533] ERROR: Error processing Soren Boysen (A5082336116): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,533] INFO: Processing Susan Cork (A5089212646)
+[2025-08-19 18:28:24,533] ERROR: Error processing Susan Cork (A5089212646): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,534] INFO: Processing Sylvia Checkley (A5085308093)
+[2025-08-19 18:28:24,534] ERROR: Error processing Sylvia Checkley (A5085308093): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,534] INFO: Processing Angelica Galezowski (A5114186380)
+[2025-08-19 18:28:24,534] ERROR: Error processing Angelica Galezowski (A5114186380): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,535] INFO: Processing Sabine Gilch (A5065275438)
+[2025-08-19 18:28:24,535] ERROR: Error processing Sabine Gilch (A5065275438): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,536] INFO: Processing John Gilleard (A5058811797)
+[2025-08-19 18:28:24,536] ERROR: Error processing John Gilleard (A5058811797): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,536] INFO: Processing Dayna Goldsmith (A5082097120)
+[2025-08-19 18:28:24,536] ERROR: Error processing Dayna Goldsmith (A5082097120): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,537] INFO: Processing Ashish Gupta (A5018244111)
+[2025-08-19 18:28:24,537] ERROR: Error processing Ashish Gupta (A5018244111): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,537] INFO: Processing David Hall (A5022359178)
+[2025-08-19 18:28:24,538] ERROR: Error processing David Hall (A5022359178): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,538] INFO: Processing Kenton Hecker (A5082450377)
+[2025-08-19 18:28:24,538] ERROR: Error processing Kenton Hecker (A5082450377): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,539] INFO: Processing John Patrick Kastelic (A5062550388)
+[2025-08-19 18:28:24,539] ERROR: Error processing John Patrick Kastelic (A5062550388): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,539] INFO: Processing Cameron Knight (A5112215292)
+[2025-08-19 18:28:24,539] ERROR: Error processing Cameron Knight (A5112215292): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,540] INFO: Processing Susan Kutz (A5000020749)
+[2025-08-19 18:28:24,540] ERROR: Error processing Susan Kutz (A5000020749): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,540] INFO: Processing Carolyn Legge (A5051997692)
+[2025-08-19 18:28:24,541] ERROR: Error processing Carolyn Legge (A5051997692): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,541] INFO: Processing Renaud Leguillette (A5084958126)
+[2025-08-19 18:28:24,541] ERROR: Error processing Renaud Leguillette (A5084958126): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,542] INFO: Processing Guillaume Lhermie (A5006542086)
+[2025-08-19 18:28:24,542] ERROR: Error processing Guillaume Lhermie (A5006542086): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,542] INFO: Processing Karen Liljebjelke (A5073152049)
+[2025-08-19 18:28:24,542] ERROR: Error processing Karen Liljebjelke (A5073152049): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,543] INFO: Processing Andrew Mardjetko (A5093283881)
+[2025-08-19 18:28:24,543] ERROR: Error processing Andrew Mardjetko (A5093283881): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,544] INFO: Processing John Matyas (A5077397108)
+[2025-08-19 18:28:24,544] ERROR: Error processing John Matyas (A5077397108): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,544] INFO: Processing Marina McConkey (A5007745969)
+[2025-08-19 18:28:24,544] ERROR: Error processing Marina McConkey (A5007745969): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,545] INFO: Processing Robert McCorkell (A5052740198)
+[2025-08-19 18:28:24,545] ERROR: Error processing Robert McCorkell (A5052740198): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,546] INFO: Processing Chantal McMillan (A5112268003)
+[2025-08-19 18:28:24,546] ERROR: Error processing Chantal McMillan (A5112268003): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,546] INFO: Processing Julie Menard (A5114186382)
+[2025-08-19 18:28:24,546] ERROR: Error processing Julie Menard (A5114186382): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,547] INFO: Processing Beverly Morrison (A5068916305)
+[2025-08-19 18:28:24,547] ERROR: Error processing Beverly Morrison (A5068916305): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,547] INFO: Processing Timothy Olchowy (A5113946927)
+[2025-08-19 18:28:24,548] ERROR: Error processing Timothy Olchowy (A5113946927): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,548] INFO: Processing Karin Orsel (A5035027217)
+[2025-08-19 18:28:24,548] ERROR: Error processing Karin Orsel (A5035027217): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,549] INFO: Processing Edmond Pajor (A5004098689)
+[2025-08-19 18:28:24,549] ERROR: Error processing Edmond Pajor (A5004098689): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,549] INFO: Processing Daniel Pang (A5042612602)
+[2025-08-19 18:28:24,549] ERROR: Error processing Daniel Pang (A5042612602): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,550] INFO: Processing Nathan Peters (A5053168359)
+[2025-08-19 18:28:24,550] ERROR: Error processing Nathan Peters (A5053168359): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,550] INFO: Processing Thilo Pfau (A5090343464)
+[2025-08-19 18:28:24,551] ERROR: Error processing Thilo Pfau (A5090343464): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,551] INFO: Processing Jocelyn Poissant (A5088238215)
+[2025-08-19 18:28:24,551] ERROR: Error processing Jocelyn Poissant (A5088238215): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,552] INFO: Processing Mathieu Pruvot (A5088351601)
+[2025-08-19 18:28:24,552] ERROR: Error processing Mathieu Pruvot (A5088351601): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,552] INFO: Processing John Remnant (A5075424399)
+[2025-08-19 18:28:24,552] ERROR: Error processing John Remnant (A5075424399): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,552] INFO: Processing Melanie Rock (A5012761747)
+[2025-08-19 18:28:24,553] ERROR: Error processing Melanie Rock (A5012761747): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,553] INFO: Processing Alfredo Romero (A5110510421)
+[2025-08-19 18:28:24,553] ERROR: Error processing Alfredo Romero (A5110510421): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,553] INFO: Processing Brielle Rosa (A5108237524)
+[2025-08-19 18:28:24,554] ERROR: Error processing Brielle Rosa (A5108237524): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,554] INFO: Processing Jamie Rothenburger (A5079324010)
+[2025-08-19 18:28:24,554] ERROR: Error processing Jamie Rothenburger (A5079324010): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,554] INFO: Processing Marie-France Roy (A5110138668)
+[2025-08-19 18:28:24,554] ERROR: Error processing Marie-France Roy (A5110138668): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,555] INFO: Processing Hermann Schaetzl (A5041791584)
+[2025-08-19 18:28:24,555] ERROR: Error processing Hermann Schaetzl (A5041791584): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,555] INFO: Processing W. Michael Scott (A5114252403)
+[2025-08-19 18:28:24,555] ERROR: Error processing W. Michael Scott (A5114252403): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,556] INFO: Processing John Soghigian (A5023258863)
+[2025-08-19 18:28:24,556] ERROR: Error processing John Soghigian (A5023258863): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,556] INFO: Processing Holly Sparks (A5083737761)
+[2025-08-19 18:28:24,556] ERROR: Error processing Holly Sparks (A5083737761): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,557] INFO: Processing Bruce Stover (A5034547939)
+[2025-08-19 18:28:24,557] ERROR: Error processing Bruce Stover (A5034547939): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,557] INFO: Processing Jean-Yin Tan (A5104182467)
+[2025-08-19 18:28:24,557] ERROR: Error processing Jean-Yin Tan (A5104182467): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,557] INFO: Processing Jacob Chacko Thundathil (A5002583112)
+[2025-08-19 18:28:24,558] ERROR: Error processing Jacob Chacko Thundathil (A5002583112): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,558] INFO: Processing Tuan Trang (A5074399476)
+[2025-08-19 18:28:24,558] ERROR: Error processing Tuan Trang (A5074399476): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,558] INFO: Processing Mark Ungrin (A5037393069)
+[2025-08-19 18:28:24,558] ERROR: Error processing Mark Ungrin (A5037393069): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,559] INFO: Processing Frank van der Meer (A5077375646)
+[2025-08-19 18:28:24,559] ERROR: Error processing Frank van der Meer (A5077375646): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,559] INFO: Processing Catherine Wagg (A5038571433)
+[2025-08-19 18:28:24,559] ERROR: Error processing Catherine Wagg (A5038571433): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,560] INFO: Processing Katie Wayne (A5049770537)
+[2025-08-19 18:28:24,560] ERROR: Error processing Katie Wayne (A5049770537): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,560] INFO: Processing Amy Warren (A5110902158)
+[2025-08-19 18:28:24,560] ERROR: Error processing Amy Warren (A5110902158): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,560] INFO: Processing James Wasmuth (A5064980480)
+[2025-08-19 18:28:24,561] ERROR: Error processing James Wasmuth (A5064980480): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,561] INFO: Processing Renate Weller (A5111941038)
+[2025-08-19 18:28:24,561] ERROR: Error processing Renate Weller (A5111941038): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,561] INFO: Processing Patrick Whelan (A5036733857)
+[2025-08-19 18:28:24,561] ERROR: Error processing Patrick Whelan (A5036733857): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,562] INFO: Processing Ashley Whitehead (A5026303269)
+[2025-08-19 18:28:24,562] ERROR: Error processing Ashley Whitehead (A5026303269): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,562] INFO: Processing Douglas Whiteside (A5065334735)
+[2025-08-19 18:28:24,562] ERROR: Error processing Douglas Whiteside (A5065334735): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,563] INFO: Processing M.K. Claire Windeyer (A5038141195)
+[2025-08-19 18:28:24,563] ERROR: Error processing M.K. Claire Windeyer (A5038141195): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,563] INFO: Processing Katherine Wynne-Edwards (A5021898290)
+[2025-08-19 18:28:24,563] ERROR: Error processing Katherine Wynne-Edwards (A5021898290): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,563] INFO: Processing Alyson Kelvin (A5055196299)
+[2025-08-19 18:28:24,564] ERROR: Error processing Alyson Kelvin (A5055196299): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,564] INFO: Processing Dongyan Xu Niu (A5050841380)
+[2025-08-19 18:28:24,564] ERROR: Error processing Dongyan Xu Niu (A5050841380): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,564] INFO: Processing Nilusha Malmuthuge (A5052164943)
+[2025-08-19 18:28:24,564] ERROR: Error processing Nilusha Malmuthuge (A5052164943): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,565] INFO: Processing Samia Hannaoui (A5017321423)
+[2025-08-19 18:28:24,565] ERROR: Error processing Samia Hannaoui (A5017321423): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,565] INFO: Processing Aylin Atilla (A5036556782)
+[2025-08-19 18:28:24,565] ERROR: Error processing Aylin Atilla (A5036556782): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,566] INFO: Processing Juan Hernandex-Medrano (A5046493714)
+[2025-08-19 18:28:24,566] ERROR: Error processing Juan Hernandex-Medrano (A5046493714): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,566] INFO: Processing Mia Alfajaro (A5060461427)
+[2025-08-19 18:28:24,566] ERROR: Error processing Mia Alfajaro (A5060461427): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,567] INFO: Processing Laureen Hall (A5022803956)
+[2025-08-19 18:28:24,567] ERROR: Error processing Laureen Hall (A5022803956): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,567] INFO: Processing Serge Chalhoub (A5022803956)
+[2025-08-19 18:28:24,567] ERROR: Error processing Serge Chalhoub (A5022803956): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,567] INFO: Processing Jennifer Pearson (A5086163497)
+[2025-08-19 18:28:24,568] ERROR: Error processing Jennifer Pearson (A5086163497): No module named 'utils_openalex'
+Traceback (most recent call last):
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 213, in main
+    _, df_last5_comp = process_one_author(author_name, author_id)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/UCVM_Research/UCVM_Research/etl/UCVM_works.py", line 149, in process_one_author
+    from utils_openalex import fetch_author_works_filtered
+ModuleNotFoundError: No module named 'utils_openalex'
+[2025-08-19 18:28:24,568] INFO: Total skipped rows due to missing ID: 2
+[2025-08-19 18:28:24,568] WARNING: No authors processed. No file written.
+[2025-08-19 18:28:24,568] INFO: Done.

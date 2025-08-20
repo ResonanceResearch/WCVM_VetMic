@@ -1,177 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>UCVM • Publications Dashboard</title>
-<style>
-  :root{ --bg:#0f172a; --surface:#111827; --muted:#1f2937; --text:#e5e7eb; --sub:#9ca3af; --accent:#60a5fa; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; --chip:#374151; --chip-on:#2563eb; --border:#334155; }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:linear-gradient(180deg,#0b1220 0%,#0f172a 100%);color:var(--text)}
-  header{position:sticky;top:0;z-index:10;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
-  .wrap{max-width:1200px;margin:0 auto;padding:16px}
-  h1{margin:0 0 4px;font-size:20px}
-  .sub{color:var(--sub);font-size:13px}
-  .grid{display:grid;gap:16px}
-  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-  .card{background:linear-gradient(180deg,#0f172a 0%, #0b1220 100%);border:1px solid var(--border);border-radius:14px;padding:14px}
-  .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);background:#0b1220;color:var(--text);font-size:12px}
-  .pill.ok{border-color:#14532d;color:#bbf7d0;background:#072c16}
-  .pill.warn{border-color:#7c2d12;color:#fed7aa;background:#2b1306}
-  input[type=file]{display:none}
-  .file{display:inline-flex;gap:8px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--muted);border:1px dashed var(--border);cursor:pointer;font-size:13px;color:var(--text)}
-  .file .hint{color:var(--sub);font-size:12px}
-  .badges{display:flex;gap:8px;flex-wrap:wrap}
-  .badge{padding:6px 8px;border-radius:999px;background:var(--muted);border:1px solid var(--border);font-size:12px;color:var(--sub)}
-  .btn{appearance:none;border:1px solid var(--border);background:#0b1220;color:var(--text);padding:8px 12px;border-radius:10px;cursor:pointer}
-  .btn.primary{background:var(--chip-on);border-color:#1d4ed8}
-  .btn:disabled{opacity:.5;cursor:not-allowed}
-  aside{min-width:260px}
-  .filters{position:sticky; top:76px; max-height:calc(100vh - 90px); overflow:auto; -webkit-overflow-scrolling:touch}
-  .filters h3{margin:0 0 8px;font-size:14px;color:#d1d5db}
-  .filters .group{margin-bottom:12px}
-  .filters .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .chip{background:#374151;color:#d1d5db;border:1px solid var(--border);padding:6px 8px;border-radius:999px;font-size:12px;cursor:pointer}
-  .chip.on{background:#2563eb;border-color:#1d4ed8;color:white}
-  .field{display:flex;gap:8px;align-items:center;margin:6px 0}
-  .field input[type=checkbox]{transform:scale(1.1)}
-  .field input[type=search], .field input[type=text], .field select{flex:1;background:#0b1220;border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:10px}
-  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-  .kpi{background:var(--muted);border:1px solid var(--border);border-radius:12px;padding:12px}
-  .kpi h4{margin:0 0 4px;font-size:12px;color:#cbd5e1}
-  .kpi .val{font-size:22px;font-weight:700}
-  .tables{display:grid;grid-template-columns:1fr 2fr;gap:12px}
-  table{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:10px;overflow:hidden;font-size:13px}
-  thead{background:#0b1220}
-  th,td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
-  th{color:#cbd5e1;text-align:left;cursor:pointer}
-  tr:hover td{background:#0f172a}
-  .muted{color:#94a3b8}
-  .footer{color:#94a3b8;font-size:12px;margin-top:10px}
-</style>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UCVM • Publications Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 2em; }
+    h1 { font-size: 1.4em; margin-bottom: 1em; }
+    #validation, #status { margin-top: 1em; font-size: 0.9em; color: #444; }
+    canvas { margin-top: 2em; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1em; font-size: 0.9em; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #eee; text-align: left; }
+  </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <h1>UCVM • Publications Dashboard</h1>
-    <div class="sub">Load the roster and compiled CSVs from your ETL outputs. Filter by faculty attributes and publication facets; drill down to people and works.</div>
-  </div>
-</header>
+  <h1>UCVM • Publications Dashboard</h1>
+  <div id="validation">Loading data...</div>
+  <div id="status"></div>
+  <canvas id="trendChart" height="100"></canvas>
 
-<div class="wrap grid" style="grid-template-columns: 280px 1fr; align-items:start;">
-  <aside class="card filters">
-    <h3>Load data</h3>
-    <div class="group">
-      <label class="file" for="rosterFile">
-        <input id="rosterFile" type="file" accept=".csv" />
-        <span>Roster (roster_with_metrics.csv)</span>
-        <span class="hint">Choose file…</span>
-      </label>
-    </div>
-    <div class="group">
-      <label class="file" for="worksFile">
-        <input id="worksFile" type="file" accept=".csv" />
-        <span>Compiled works (prefer *dedup*)</span>
-        <span class="hint">Choose dedup CSV…</span>
-      </label>
-      <div class="sub" style="margin-top:6px">Accepted compiled files:
-        <ul style="margin:6px 0 0 16px">
-          <li>openalex_all_authors_last5y_key_fields_dedup.csv (preferred)</li>
-          <li>openalex_all_authors_all_works_all_fields_dedup.csv</li>
-          <li>Non‑dedup variants also supported</li>
-        </ul>
-      </div>
-    </div>
+  <h2>People</h2>
+  <table id="peopleTable"><thead></thead><tbody></tbody></table>
 
-    <div id="validation" class="group"></div>
+  <h2>Works</h2>
+  <table id="worksTable"><thead></thead><tbody></tbody></table>
 
-    <hr style="border:0;border-top:1px solid var(--border);margin:8px 0 12px" />
+  <script type="module">
+    import Papa from 'https://esm.sh/papaparse@5.4.1';
+    import { Chart } from 'https://esm.sh/chart.js@4.4.1';
 
-    <h3>Filters</h3>
-    <div class="group">
-      <div class="field"><input id="oaOnly" type="checkbox" /><label for="oaOnly">Open Access only</label></div>
-      <div class="field"><label style="min-width:60px">Year</label><input id="yearFrom" type="number" style="width:90px"/><span>–</span><input id="yearTo" type="number" style="width:90px"/></div>
-    </div>
-    <div class="group">
-      <h3>Roster facets</h3>
-      <div class="field"><label>Level</label><select id="levelMulti" multiple size="4"></select></div>
-      <div class="field"><label>Category</label><select id="categoryMulti" multiple size="4"></select></div>
-      <div class="field"><label>Appointment</label><select id="apptMulti" multiple size="4"></select></div>
-      <div class="field"><label>Research Groups</label><select id="rgMulti" multiple size="6"></select></div>
-    </div>
-    <div class="group">
-      <h3>Publication facets</h3>
-      <div class="field"><label>Type</label><select id="typeMulti" multiple size="3"></select></div>
-      <div class="field"><input id="conceptSearch" type="search" placeholder="Search concepts…" /></div>
-    </div>
+    window.Papa = Papa;
+    window.Chart = Chart;
 
-    <div class="row">
-      <button id="clearFilters" class="btn">Clear filters</button>
-      <button id="exportCSV" class="btn">Export works CSV</button>
-    </div>
-
-    <div id="status" class="footer"></div>
-  </aside>
-
-  <main class="grid" style="gap:16px;">
-    <section class="kpis">
-      <div class="kpi"><h4>Faculty selected</h4><div class="val" id="kpiPeople">–</div></div>
-      <div class="kpi"><h4>Total works</h4><div class="val" id="kpiWorks">–</div></div>
-      <div class="kpi"><h4>Works (last 5y)</h4><div class="val" id="kpiW5">–</div></div>
-      <div class="kpi"><h4>% Open Access</h4><div class="val" id="kpiOA">–</div></div>
-      <div class="kpi"><h4>Top venue</h4><div class="val" id="kpiVenue">–</div></div>
-    </section>
-
-    <section class="card">
-      <canvas id="trendChart" height="120"></canvas>
-    </section>
-
-    <section class="tables">
-      <div class="card">
-        <div class="row" style="justify-content:space-between;align-items:center">
-          <h3 style="margin:0">People</h3>
-          <div class="muted">Click a row to filter works by person</div>
-        </div>
-        <table id="peopleTable"><thead><tr>
-          <th data-k="Name">Name</th>
-          <th data-k="Level">Level</th>
-          <th data-k="Appointment">Appt</th>
-          <th data-k="RGs">RGs</th>
-          <th data-k="H_index">H</th>
-          <th data-k="Works_count">Works</th>
-          <th data-k="Total_citations">Citations</th>
-        </tr></thead><tbody></tbody></table>
-      </div>
-
-      <div class="card">
-        <div class="row" style="justify-content:space-between;align-items:center">
-          <h3 style="margin:0">Works</h3>
-          <div id="worksCount" class="muted">–</div>
-        </div>
-        <table id="worksTable"><thead><tr>
-          <th data-k="display_name">Title</th>
-          <th data-k="publication_year">Year</th>
-          <th data-k="type">Type</th>
-          <th data-k="host_venue__display_name">Venue</th>
-          <th data-k="open_access__oa_status">OA</th>
-          <th data-k="cited_by_count">Citations</th>
-        </tr></thead><tbody></tbody></table>
-      </div>
-    </section>
-  </main>
-</div>
-
-<script type="module">
-  import Papa from 'https://esm.sh/papaparse@5.4.1';
-  import { Chart } from 'https://esm.sh/chart.js@4.4.1';
-
-  window.Papa = Papa;
-  window.Chart = Chart;
-
-  import('./dashboard-logic.js').then(mod => mod.initDashboard());
-</script>
-
-
+    import('./dashboard-logic.js').then(mod => mod.initDashboard());
+  </script>
 </body>
 </html>

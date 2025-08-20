@@ -163,13 +163,14 @@
 </div>
 
 <script type="module">
-  import Papa from './js/papaparse.js';
-  import { Chart } from './js/chart.js';
+  import { Chart } from 'https://esm.sh/chart.js@4.4.1';
 
+  import Papa from './js/papaparse.js';
   window.Papa = Papa;
   window.Chart = Chart;
 
   import('./dashboard-logic.js').then(mod => mod.initDashboard());
 </script>
+
 </body>
 </html>

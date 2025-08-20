@@ -180,21 +180,32 @@ def main():
     import pandas as pd
     from datetime import datetime
 
-    logging.basicConfig(
-        filename=os.path.join("data", "logs", f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"),
-        level=logging.DEBUG,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
+    # Honor CLI flags parsed at module load
+    input_roster = INPUT_ROSTER
+    output_last5_dedup = OUTPUT_LAST5_DEDUP
+    output_dir = os.path.dirname(output_last5_dedup) or "data"
 
-    INPUT_ROSTER = os.path.join(os.getcwd(), 'data', 'roster_with_metrics.csv')
-    compiled_lifetime_path = os.path.join("data", "openalex_all_authors_lifetime.csv")
-    compiled_last5_path = os.path.join("data", "openalex_all_authors_last5y_key_fields.csv")
-    dedup_output_path = os.path.join("data", "openalex_all_authors_last5y_key_fields_dedup.csv")
-
-    log_dir = os.path.join("data", "logs")
+    # Ensure dirs exist
+    log_dir = os.path.join(output_dir, "logs")
+    os.makedirs(output_dir, exist_ok=True)
     os.makedirs(log_dir, exist_ok=True)
 
-    roster = pd.read_csv(INPUT_ROSTER)
+    # Log to both file and console (so GH Actions shows errors)
+    log_path = os.path.join(log_dir, f"etl_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s - %(levelname)s - %(message)s",
+        handlers=[
+            logging.FileHandler(log_path),
+            logging.StreamHandler(sys.stdout),
+        ],
+    )
+
+    compiled_lifetime_path = os.path.join(output_dir, "openalex_all_authors_lifetime.csv")
+    compiled_last5_path   = os.path.join(output_dir, "openalex_all_authors_last5y_key_fields.csv")
+
+    logging.info(f"Reading roster from {input_roster}")
+    roster = pd.read_csv(input_roster)
 
     for idx, row in roster.iterrows():
         full_author_id = row.get("OpenAlexID")
@@ -216,13 +227,8 @@ def main():
         else:
             logging.info(f"No 5y works for {full_author_id}")
 
-    deduplicate_compiled(compiled_last5_path, dedup_output_path)
-    logging.info(f"Deduplicated file written to {dedup_output_path}")
+    # Deduplicate into the --output target the workflow expects
+    deduplicate_compiled(compiled_last5_path, output_last5_dedup)
+    logging.info(f"Deduplicated file written to {output_last5_dedup}")
 
-if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        logging.exception(f"Fatal error: {e}")
-        sys.exit(1)
 

@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let rosterData = [];
   let pubData = [];
-  let yearBounds = { min: null, max: null };
+  let yearBounds = { min: 2021, max: 2025 };
+  let focusedAuthorID = null;
+  let focusedAuthorName = "";
 
   Promise.all([fetchCSV(rosterPath), fetchCSV(pubsPath)])
     .then(([roster, pubs]) => {
@@ -25,9 +27,11 @@ document.addEventListener("DOMContentLoaded", () => {
         r.Total_citations = toInt(r.Total_citations);
       });
 
-      const years = pubData.map(p => p.publication_year).filter(isFinite);
-      yearBounds.min = Math.min(...years);
-      yearBounds.max = Math.max(...years);
+      const allYears = pubData.map(p => p.publication_year).filter(y => Number.isFinite(y));
+      const yearsValid = allYears.filter(y => y >= 2021 && y <= 2025);
+      // Default to 2021–2025 regardless of sparse data; if dataset ends earlier, cap to observed max
+      yearBounds.min = 2021;
+      yearBounds.max = Math.max(2021, Math.min(2025, Math.max(...(yearsValid.length ? yearsValid : allYears.filter(y=>y>=1900)), 2025)));
       initYearInputs(yearBounds);
 
       populateFilters(rosterData);
@@ -98,9 +102,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   function initYearInputs({min,max}){
     const ymin=document.getElementById("year-min"),ymax=document.getElementById("year-max");
-    ymin.value=String(min); ymax.value=String(max);
-    ymin.min=ymin.min=String(min); ymax.min=ymax.min=String(min);
-    ymin.max=ymax.max=String(max);
+    const start = 2021; const end = Math.max(start, max || 2025);
+    ymin.value=String(start); ymax.value=String(end);
+    ymin.min=String(start); ymax.min=String(start);
+    ymin.max=String(end);   ymax.max=String(end);
   }
 
   function wireFilterEvents(){
@@ -118,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if(topic) topic.addEventListener("input",debounce(update,200));
     document.getElementById("reset-filters").addEventListener("click",()=>{
       document.querySelectorAll("#filters select").forEach(sel=>Array.from(sel.options).forEach(o=>o.selected=false));
+      focusedAuthorID = null; focusedAuthorName = "";
       initYearInputs(yearBounds);
       if(topic) topic.value="";
       update();
@@ -143,25 +149,43 @@ document.addEventListener("DOMContentLoaded", () => {
     const yrMax=toInt(document.getElementById("year-max").value||yearBounds.max);
     const topicQ=(document.getElementById("topic-search")?.value||"").trim();
 
-    const selectedRoster=rosterData.filter(r=>{
-      const groupMatch=[r.RG1,r.RG2,r.RG3,r.RG4].some(g=>!groups.length||groups.includes(g));
-      return(!levels.length||levels.includes(r.Level))&&(!categories.length||categories.includes(r.Category))&&(!appointments.length||appointments.includes(r.Appointment))&&groupMatch;
-    });
+    let selectedRoster;
+    if (focusedAuthorID) {
+      // When focusing an author, ignore roster attribute filters
+      selectedRoster = rosterData.filter(r => r.OpenAlexID === focusedAuthorID);
+    } else {
+      selectedRoster = rosterData.filter(r=>{
+        const groupMatch=[r.RG1,r.RG2,r.RG3,r.RG4].some(g=>!groups.length||groups.includes(g));
+        return(!levels.length||levels.includes(r.Level))&&(!categories.length||categories.includes(r.Category))&&(!appointments.length||appointments.includes(r.Appointment))&&groupMatch;
+      });
+    }
+
     const authorIDs=new Set(selectedRoster.map(r=>r.OpenAlexID));
+
     const selectedPubs=pubData.filter(p=>{
-      const inYear=p.publication_year>=yrMin&&p.publication_year<=yrMax;
-      const authorMatch=authorIDs.has(p.author_openalex_id);
+      const y = toInt(p.publication_year);
+      if (!(y>=yrMin && y<=yrMax)) return false;
+      // Author match across ALL authors on the paper
+      const authorMatch = hasAnyAuthor(p, authorIDs);
+      if (!authorMatch) return false;
       const haystack=`${p.concepts_list||""} ${p.primary_topic__subfield__display_name||""} ${p.primary_topic__display_name||""}`;
       const topicMatch=!topicQ||fuzzyQueryMatch(topicQ,haystack);
-      return inYear&&authorMatch&&topicMatch;
+      return topicMatch;
     });
-    const contributingIDs=new Set(selectedPubs.map(p=>p.author_openalex_id));
+
+    const contributingIDs=new Set(selectedPubs.flatMap(p => Array.from(extractAllAuthorIDs(p))));
     const contributingRoster=selectedRoster.filter(r=>contributingIDs.has(r.OpenAlexID));
     return{contributingRoster,selectedPubs};
   }
 
   function update(){
     const {contributingRoster,selectedPubs}=applyFilters();
+    drawBarChart(selectedPubs);
+    drawFacultyTable(contributingRoster);
+    drawPublicationList(selectedPubs);
+    const fc = document.getElementById("faculty-count");
+    fc.textContent = `Faculty contributing: ${contributingRoster.length}` + (focusedAuthorID? ` (Focused: ${focusedAuthorName}. Use Reset to clear)` : "");
+  }=applyFilters();
     drawBarChart(selectedPubs);
     drawFacultyTable(contributingRoster);
     drawPublicationList(selectedPubs);
@@ -172,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const dataMap=new Map(),yearsSet=new Set(),typesSet=new Set();
     pubs.forEach(p=>{
       const y=toInt(p.publication_year),t=p.type||"unknown";
+      if (!(y>=2021 && y<=Math.max(2021, yearBounds.max))) return; // keep within default window
       yearsSet.add(y); typesSet.add(t);
       if(!dataMap.has(y)) dataMap.set(y,new Map());
       const byType=dataMap.get(y);
@@ -182,14 +207,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const traces=types.map(t=>({x:yearsStr,y:years.map(y=>(dataMap.get(y)?.get(t))||0),name:t,type:"bar"}));
     Plotly.newPlot("pub-chart",traces,{barmode:"stack",title:"Publications per Year by Type",xaxis:{type:"category"},yaxis:{rangemode:"tozero"}},{displayModeBar:false});
   }
+  }
 
   function drawFacultyTable(faculty){
     const body=document.querySelector("#faculty-table tbody");
     body.innerHTML="";
     faculty.sort((a,b)=>b.H_index-a.H_index);
     faculty.forEach(f=>{
-      const row=`<tr><td>${escapeHTML(f.Name)}</td><td>${toInt(f.H_index)}</td><td>${toInt(f.I10_index)}</td><td>${toInt(f.Works_count)}</td><td>${toInt(f.Total_citations)}</td></tr>`;
+      const row=`<tr>
+        <td><a href="#" class="author-link" data-id="${escapeHTML(f.OpenAlexID)}" data-name="${escapeHTML(f.Name)}">${escapeHTML(f.Name)}</a></td>
+        <td>${toInt(f.H_index)}</td>
+        <td>${toInt(f.I10_index)}</td>
+        <td>${toInt(f.Works_count)}</td>
+        <td>${toInt(f.Total_citations)}</td>
+      </tr>`;
       body.insertAdjacentHTML("beforeend",row);
+    });
+    // Wire up clicks to focus on single author
+    body.querySelectorAll('.author-link').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = a.getAttribute('data-id');
+        const name = a.getAttribute('data-name');
+        if (focusedAuthorID === id) { focusedAuthorID = null; focusedAuthorName = ""; }
+        else { focusedAuthorID = id; focusedAuthorName = name; }
+        update();
+      });
     });
   }
 
@@ -204,6 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
       li.innerHTML=`<strong>${toInt(p.publication_year)}</strong> - <em>${safeTitle}</em> (${escapeHTML(p.type||"")}) [Citations: ${toInt(p.cited_by_count)}]`+(doi?` - <a href="${doi}" target="_blank" rel="noopener">DOI</a>`:"");
       ul.appendChild(li);
     });
+  }</strong> - <em>${safeTitle}</em> (${escapeHTML(p.type||"")}) [Citations: ${toInt(p.cited_by_count)}]`+(doi?` - <a href="${doi}" target="_blank" rel="noopener">DOI</a>`:"");
+      ul.appendChild(li);
+    });
   }
 
   function escapeHTML(s){return String(s||"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));}
@@ -215,5 +261,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function stem(w){if(w.endsWith("ies")&&w.length>4)return w.slice(0,-3)+"y";if(w.endsWith("sses"))w=w.slice(0,-2);else if(w.endsWith("es")&&w.length>4)w=w.slice(0,-2);else if(w.endsWith("s")&&!w.endsWith("ss")&&!w.endsWith("us")&&w.length>3)w=w.slice(0,-1);if(w.endsWith("ing")&&w.length>5)w=w.slice(0,-3);if(w.endsWith("ed")&&w.length>4)w=w.slice(0,-2);if(w.endsWith("er")&&w.length>4)w=w.slice(0,-2);return w;}
   function tokenize(text){return normalizeText(text).split(/\s+/).filter(Boolean).map(stem);}
   function editDistanceLe1(a,b){if(a===b)return true;if(a.length>2&&(b.startsWith(a)||a.startsWith(b)))return true;const la=a.length,lb=b.length;if(Math.abs(la-lb)>1)return false;let i=0,j=0,edits=0;while(i<la&&j<lb){if(a[i]===b[j]){i++;j++;continue;}if(++edits>1)return false;if(la>lb)i++;else if(lb>la)j++;else{i++;j++;}}return true;}
-  function fuzzyQueryMatch(query,text){const qTokens=tokenize(query);if(!qTokens.length)return true;const tTokens=tokenize(text);return qTokens.every(qt=>tTokens.some(tt=>tt.includes(qt)||qt.includes(tt)||editDistanceLe1(qt,tt)));}
+  function fuzzyQueryMatch(query,text){
+    const qTokens=tokenize(query);
+    if(!qTokens.length)return true;
+    const tTokens=tokenize(text);
+    return qTokens.every(qt=>tTokens.some(tt=>tt.includes(qt)||qt.includes(tt)||editDistanceLe1(qt,tt)));
+  }
+
+  // --- authorship helpers ---
+  function extractAllAuthorIDs(p){
+    const candidates = [
+      p.all_author_ids, p.author_ids, p.authors_ids, p.authorships_author_ids, p.authorships_author_id_list,
+      p.authors_full_ids, p.full_author_ids
+    ].filter(Boolean);
+    if (candidates.length){
+      const raw = String(candidates[0]);
+      return new Set(raw.split(/[;,\|]/).map(s => normalizeID(s.trim())).filter(Boolean));
+    }
+    // Fallback to single author field
+    const single = normalizeID(p.author_openalex_id || "");
+    return new Set(single ? [single] : []);
+  }
+  function hasAnyAuthor(p, authorIDSet){
+    if (!authorIDSet || authorIDSet.size===0) return false;
+    const ids = extractAllAuthorIDs(p);
+    for (const id of ids){ if (authorIDSet.has(id)) return true; }
+    return false;
+  }
 });

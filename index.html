@@ -11,7 +11,7 @@
 <body>
   <header>
     <h1>UCVM Research Dashboard (Last 5 Years)</h1>
-    <p class="sub">Data source: <code>data/roster_with_metrics.csv</code> & <code>data/openalex_all_authors_last5y_key_fields_dedup.csv</code></p>
+    <p class="sub">OpenAlex</p>
   </header>
 
   <section id="filters" class="card">
@@ -44,12 +44,8 @@
       </div>
     </div>
     <div class="filter-block wide">
-      <label for="concept-search">Concept search (matches <code>concepts_list</code>)</label>
-      <input id="concept-search" type="search" placeholder="e.g., Antimicrobial, Treponema" />
-    </div>
-    <div class="filter-block wide">
-      <label for="subfield-search">Subfield search (matches <code>primary_topic__subfield__display_name</code>)</label>
-      <input id="subfield-search" type="search" placeholder="e.g., Veterinary science" />
+      <label for="topic-search">Topic search</label>
+      <input id="topic-search" type="search" placeholder="Search concepts & subfields…" />
     </div>
     <div class="actions">
       <button id="reset-filters" class="reset">Reset to defaults</button>

@@ -405,9 +405,7 @@ def main() -> None:
             logging.info(f"Deduplicated file written to {OUTPUT_LAST5_DEDUP}")
         except Exception:
             # As a last-resort safety, show the first few suspicious lines around the error point
-            logging.exception("Deduplication failed while reading compiled CSV. This usually means a schema mismatch.
-"
-                              "We now enforce a fixed schema per write and start fresh each run, so this should not recur.")
+            logging.exception("Deduplication failed while reading compiled CSV. This usually means a schema mismatch. We now enforce a fixed schema per write and start fresh each run, so this should not recur.")
             sys.exit(1)
     else:
         logging.warning(f"No compiled last-5y file found at {compiled_last5_path}; nothing to deduplicate.")

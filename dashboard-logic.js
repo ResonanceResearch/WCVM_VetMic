@@ -37,7 +37,7 @@ function renderKPIs(roster, works) {
   const oaPct = ((openAccess / worksCount) * 100).toFixed(1);
 
   const el = document.getElementById("validation");
-  el.innerHTML = \`\${facultyCount} faculty • \${worksCount} works • \${oaPct}% Open Access\`;
+  el.innerHTML = `${}facultyCount} faculty • ${}worksCount} works • ${}oaPct}% Open Access`;
 }
 
 function renderChart(works) {

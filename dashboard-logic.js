@@ -60,6 +60,18 @@ export function initDashboard() {
     }
   }
 
+  function populateRosterFilters() {
+    console.log("populateRosterFilters() called");
+  }
+
+  function populateWorkFilters() {
+    console.log("populateWorkFilters() called");
+  }
+
+  function renderAll() {
+    console.log("renderAll() called");
+  }
+
   async function autoLoadFromGitHub() {
     console.log("Auto-loading from GitHub...");
 

@@ -47,45 +47,32 @@ export function initDashboard() {
     return 'other';
   }
 
-  function parseCSV(file) {
-    return new Promise((resolve, reject) => {
-      if (window.Papa) {
-        Papa.parse(file, { header: true, skipEmptyLines: true, complete: res => resolve(res.data), error: reject });
-      } else {
-        const fr = new FileReader();
-        fr.onload = () => resolve(simpleCSV(fr.result));
-        fr.onerror = reject;
-        fr.readAsText(file);
-      }
-    });
-  }
-
-  function escapeHtml(s) {
-    return String(s || '').replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
-  }
-
   function validate() {
-  const v = $('#validation');
-  const needRoster = ['Name', 'OpenAlexID'];
-  const rosterOK = roster.length && needRoster.every(k => k in roster[0]);
-  const worksOK = worksRaw.length > 0;
-  const kind = isDedup ? 'dedup' : 'non‑dedup';
+    const v = $('#validation');
+    const needRoster = ['Name', 'OpenAlexID'];
+    const rosterOK = roster.length && needRoster.every(k => k in roster[0]);
+    const worksOK = worksRaw.length > 0;
+    const kind = isDedup ? 'dedup' : 'non‑dedup';
 
-  v.innerHTML = `<div class="badges"><span class="badge">Roster: ${rosterOK ? 'loaded' : 'missing'}</span><span class="badge">Works: ${worksOK ? 'loaded (' + kind + ')' : 'missing'}</span></div>`;
-  if (rosterOK && worksOK) {
-    $('#status').textContent = `${roster.length} roster rows • ${worksRaw.length} works rows (${kind})`;
+    v.innerHTML = `<div class="badges"><span class="badge">Roster: ${rosterOK ? 'loaded' : 'missing'}</span><span class="badge">Works: ${worksOK ? 'loaded (' + kind + ')' : 'missing'}</span></div>`;
+    if (rosterOK && worksOK) {
+      $('#status').textContent = `${roster.length} roster rows • ${worksRaw.length} works rows (${kind})`;
+    }
   }
-}
 
   async function autoLoadFromGitHub() {
     console.log("Auto-loading from GitHub...");
+
     if (!roster.length) {
       try {
         console.log("Fetching roster CSV...");
         const rosterResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/roster_with_metrics.csv');
         if (rosterResp.ok) {
           const text = await rosterResp.text();
-          roster = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+          const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+          console.log("Papa.parse errors (roster):", parsed.errors);
+          console.log("Parsed roster:", parsed.data);
+          roster = parsed.data;
           roster.forEach(r => {
             r.OpenAlexID = normalizeToken(r.OpenAlexID);
             r.RGs = rgArray(r);
@@ -96,10 +83,14 @@ export function initDashboard() {
 
     if (!worksRaw.length) {
       try {
+        console.log("Fetching works CSV...");
         const worksResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/openalex_all_authors_last5y_key_fields_dedup.csv');
         if (worksResp.ok) {
           const text = await worksResp.text();
-          worksRaw = Papa.parse(text, { header: true, skipEmptyLines: true }).data;
+          const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+          console.log("Papa.parse errors (works):", parsed.errors);
+          console.log("Parsed works:", parsed.data);
+          worksRaw = parsed.data;
           isDedup = worksRaw.length > 0 && ('ucvm_openalex_ids' in worksRaw[0]);
           exploded = [];
 
@@ -123,11 +114,10 @@ export function initDashboard() {
     }
 
     validate();
-    populateRosterFilters();
-    populateWorkFilters();
+    if (roster.length) populateRosterFilters();
+    if (worksRaw.length) populateWorkFilters();
     renderAll();
   }
 
-  // Entry point after definitions
   autoLoadFromGitHub();
 }

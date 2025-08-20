@@ -174,9 +174,26 @@ def add_convenience_columns(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def append_df_to_csv(df: pd.DataFrame, path: str, fixed_cols: Optional[List[str]] = None) -> None:
+    """Append rows using a *fixed schema* so the compiled CSV always has the same
+    number/order of columns. This avoids downstream tokenizing errors when
+    reading the compiled CSV back (mismatched header vs. rows).
+    """
     if df.empty:
         logging.info(f"append_df_to_csv: nothing to write to {path} (empty df).")
         return
+
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+
+    # Enforce a stable schema: add any missing fixed columns as empty, then reorder exactly
+    if fixed_cols:
+        for col in fixed_cols:
+            if col not in df.columns:
+                df[col] = pd.NA
+        df = df[fixed_cols]
+
+    write_header = not os.path.exists(path)
+    df.to_csv(path, index=False, header=write_header, mode=("w" if write_header else "a"))
+
 
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
 
@@ -325,6 +342,14 @@ def main() -> None:
     compiled_lifetime_path = os.path.join(OUTPUT_DIR, "openalex_all_authors_lifetime.csv")
     compiled_last5_path   = os.path.join(OUTPUT_DIR, "openalex_all_authors_last5y_key_fields.csv")
 
+    # Start fresh each run to avoid legacy headers/rows mismatch from previous runs
+    for p in (compiled_lifetime_path, compiled_last5_path, OUTPUT_LAST5_DEDUP):
+        try:
+            os.remove(p)
+            logging.info(f"Removed old artifact: {p}")
+        except FileNotFoundError:
+            pass
+
     # Load roster
     logging.info(f"Reading roster from {INPUT_ROSTER}")
     try:
@@ -336,7 +361,6 @@ def main() -> None:
     # Detect columns for name and OpenAlexID
     def get_row_identifiers(row: pd.Series) -> Tuple[str, str]:
         author_id = row.get("OpenAlexID")
-        # Prefer a human-readable name if present
         name = row.get("Name") or row.get("Author") or row.get("FullName") or ""
         if not isinstance(name, str) or not name.strip():
             name = str(author_id or "").strip() or "Unknown"
@@ -376,8 +400,15 @@ def main() -> None:
 
     # Deduplicate compiled last5 into the requested --output file
     if os.path.exists(compiled_last5_path):
-        deduplicate_compiled(compiled_last5_path, OUTPUT_LAST5_DEDUP)
-        logging.info(f"Deduplicated file written to {OUTPUT_LAST5_DEDUP}")
+        try:
+            deduplicate_compiled(compiled_last5_path, OUTPUT_LAST5_DEDUP)
+            logging.info(f"Deduplicated file written to {OUTPUT_LAST5_DEDUP}")
+        except Exception:
+            # As a last-resort safety, show the first few suspicious lines around the error point
+            logging.exception("Deduplication failed while reading compiled CSV. This usually means a schema mismatch.
+"
+                              "We now enforce a fixed schema per write and start fresh each run, so this should not recur.")
+            sys.exit(1)
     else:
         logging.warning(f"No compiled last-5y file found at {compiled_last5_path}; nothing to deduplicate.")
 
@@ -387,6 +418,12 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    try:
+        main()
+    except Exception as e:
+        logging.exception(f"Fatal error: {e}")
+        sys.exit(1)
+
     try:
         main()
     except Exception as e:

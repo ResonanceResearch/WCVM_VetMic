@@ -103,20 +103,24 @@ def fetch_author_works_filtered(full_author_id):
             logging.exception(f"API request failed on page {page}: {e}")
             break
 
-        results = response.json().get("results", [])
+        data = response.json()
+        results = data.get("results", [])
         if not results:
             break
+
         works_all.extend(results)
         logging.debug(f"Fetched page {page} with {len(results)} works")
 
-        if "next_cursor" not in response.json().get("meta", {}):
+        # Check if more pages are available
+        if "next_cursor" not in data.get("meta", {}):
             break
         page += 1
 
     if not works_all:
         return pd.DataFrame(), pd.DataFrame()
 
-    df_all = pd.json_normalize(works_all)
+    # Flatten all nested fields with double underscore
+    df_all = pd.json_normalize(works_all, sep="__")
     df_all["publication_year"] = pd.to_numeric(df_all["publication_year"], errors="coerce")
 
     # Filter to last 5 years only
@@ -124,7 +128,14 @@ def fetch_author_works_filtered(full_author_id):
     df_last5["author_name"] = full_author_id.split("/")[-1]
     df_last5["author_openalex_id"] = full_author_id
 
+    # DEBUG: check which expected fields are missing
+    expected_cols = KEY_FIELDS_FOR_OUTPUT_WITH_TAGS
+    missing = [col for col in expected_cols if col not in df_all.columns]
+    if missing:
+        logging.warning(f"Missing expected columns in OpenAlex response: {missing}")
+
     return df_all, df_last5
+
 
 
 def main():

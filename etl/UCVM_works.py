@@ -50,10 +50,15 @@ def append_df_to_csv(df, path, fixed_cols=None):
     import pandas as pd
 
     if df.empty:
+        logging.info(f"append_df_to_csv: nothing to write to {path} (empty df).")
         return
 
     if fixed_cols:
-        df = df[[col for col in fixed_cols if col in df.columns]]
+        present = [col for col in fixed_cols if col in df.columns]
+        missing = [col for col in fixed_cols if col not in df.columns]
+        if missing:
+            logging.debug(f"append_df_to_csv: missing columns for {os.path.basename(path)}: {missing}")
+        df = df[present]
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
@@ -61,6 +66,7 @@ def append_df_to_csv(df, path, fixed_cols=None):
         df.to_csv(path, index=False)
     else:
         df.to_csv(path, mode='a', index=False, header=False)
+
 
 def deduplicate_compiled(input_csv_path, output_csv_path):
     import pandas as pd
@@ -78,64 +84,95 @@ def deduplicate_compiled(input_csv_path, output_csv_path):
 
 
 def fetch_author_works_filtered(full_author_id):
+    import time
     import requests
     import pandas as pd
     from datetime import datetime
 
-    BASE_URL = "https://api.openalex.org/works"
-    author_filter = f"author.id:{full_author_id}"
-    per_page = 200
     years_back = 5
     current_year = datetime.now().year
     min_year = current_year - years_back + 1
 
+    # Cursor pagination (preferred by OpenAlex)
+    cursor = "*"             # start
+    per_page = 200
     works_all = []
-    page = 1
-    logging.info(f"Fetching works for {full_author_id} from OpenAlex")
+    retry = 0
+    max_retries = 6
+    backoff_base = 1.6
+
+    author_filter = f"author.id:{full_author_id}"
+    params = {
+        "filter": author_filter,
+        "per-page": per_page,
+        "cursor": cursor,
+    }
+
+    logging.info(f"Fetching works (cursor pagination) for {full_author_id} from OpenAlex")
 
     while True:
-        url = f"{BASE_URL}?filter={author_filter}&per-page={per_page}&page={page}"
-        logging.debug(f"Requesting URL: {url}")
         try:
-            response = requests.get(url, timeout=30)
-            response.raise_for_status()
+            resp = requests.get(
+                BASE_URL,
+                params=params,
+                headers=HEADERS,        # <— important in CI
+                timeout=TIMEOUT
+            )
+            if resp.status_code in (429, 500, 502, 503, 504):
+                # backoff and retry
+                delay = backoff_base ** retry
+                logging.warning(f"OpenAlex returned {resp.status_code}; retry {retry+1}/{max_retries} in {delay:.1f}s")
+                time.sleep(delay)
+                retry += 1
+                if retry > max_retries:
+                    resp.raise_for_status()
+                continue
+
+            resp.raise_for_status()
+            data = resp.json()
+            results = data.get("results", [])
+            logging.debug(f"Fetched {len(results)} results at cursor {params['cursor']!r}")
+
+            if not results:
+                break
+
+            works_all.extend(results)
+
+            next_cursor = data.get("meta", {}).get("next_cursor")
+            if not next_cursor:
+                break
+            params["cursor"] = next_cursor
+            retry = 0  # reset retry counter after a successful page
+
         except requests.exceptions.RequestException as e:
-            logging.exception(f"API request failed on page {page}: {e}")
+            logging.exception(f"API request failed: {e}")
             break
-
-        data = response.json()
-        results = data.get("results", [])
-        if not results:
-            break
-
-        works_all.extend(results)
-        logging.debug(f"Fetched page {page} with {len(results)} works")
-
-        # Check if more pages are available
-        if "next_cursor" not in data.get("meta", {}):
-            break
-        page += 1
 
     if not works_all:
         return pd.DataFrame(), pd.DataFrame()
 
-    # Flatten all nested fields with double underscore
+    # Ensure nested field names match your KEY_FIELDS_* with __ sep
     df_all = pd.json_normalize(works_all, sep="__")
-    df_all["publication_year"] = pd.to_numeric(df_all["publication_year"], errors="coerce")
 
-    # Filter to last 5 years only
-    df_last5 = df_all[df_all["publication_year"] >= min_year].copy()
+    # Normalize year & filter last 5 years
+    if "publication_year" in df_all.columns:
+        df_all["publication_year"] = pd.to_numeric(df_all["publication_year"], errors="coerce")
+        df_last5 = df_all[df_all["publication_year"] >= min_year].copy()
+    else:
+        logging.warning("publication_year not present in df_all; last-5-years filter will be empty")
+        df_last5 = df_all.iloc[0:0].copy()
+
+    # Tag the author (for downstream grouping)
     df_last5["author_name"] = full_author_id.split("/")[-1]
     df_last5["author_openalex_id"] = full_author_id
 
-    # DEBUG: check which expected fields are missing
+    # Optional: log missing expected columns to spot schema mismatches early
     expected_cols = KEY_FIELDS_FOR_OUTPUT_WITH_TAGS
-    missing = [col for col in expected_cols if col not in df_all.columns]
+    missing = [c for c in expected_cols if c not in df_all.columns]
     if missing:
-        logging.warning(f"Missing expected columns in OpenAlex response: {missing}")
+        logging.warning(f"Missing expected columns in flattened JSON: {missing}")
 
     return df_all, df_last5
-
 
 
 def main():

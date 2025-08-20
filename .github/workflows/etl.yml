@@ -13,7 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4        # v4 is fine; v3 also works
+        with:
+          persist-credentials: true
+          fetch-depth: 0                 # allows rebase if needed
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -48,13 +51,16 @@ jobs:
           else
             echo "No log found"
           fi
-
+  
       - name: Commit and push updates (logs + csv)
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add data/logs/*.log || true
-          git add data/*.csv data/**/*.csv || true
-          git commit -m "Nightly data update (logs + csv)" || echo "No changes to commit"
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git status -s
+          # Stage ALL changes, including deletions and renames
+          git add -A
+          git commit -m "Nightly data update (logs + csv) [skip ci]" || echo "No changes to commit"
+          # If another job/commit raced us, rebase then push
           git pull --rebase || true
           git push || echo "Nothing to push"
+      

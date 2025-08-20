@@ -1,135 +1,82 @@
-export function initDashboard() {
-  const $ = sel => document.querySelector(sel);
-  const $$ = sel => Array.from(document.querySelectorAll(sel));
-  const ALLOWED_TYPES = new Set(['article', 'book-chapter', 'review']);
-  let roster = [];
-  let worksRaw = [];
-  let isDedup = false;
-  let exploded = [];
-  let personFilter = null;
-  let chart;
 
-  function normalizeToken(x) {
-    if (!x) return '';
-    const s = String(x).trim();
-    const m = s.match(/A\d{6,}/);
-    return m ? m[0] : s;
-  }
+// dashboard-logic.js
 
-  function rgArray(row) {
-    const vals = [row.RG1, row.RG2, row.RG3, row.RG4].map(x => String(x || '').trim()).filter(Boolean);
-    const seen = new Set();
-    const out = [];
-    for (const v of vals) {
-      if (!seen.has(v)) {
-        seen.add(v);
-        out.push(v);
-      }
-    }
-    return out;
-  }
+export async function initDashboard() {
+  console.log("Auto-loading from GitHub...");
+  const rosterURL = "https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/roster_with_metrics.csv";
+  const worksURL = "https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/openalex_all_authors_last5y_key_fields_dedup.csv";
 
-  function yearInt(y) {
-    const n = parseInt(y, 10);
-    return isFinite(n) ? n : null;
-  }
+  const roster = await fetchCSV(rosterURL);
+  console.log("Parsed roster:", roster);
 
-  function isOA(s) {
-    const t = String(s || '').toLowerCase();
-    return t.includes('open') || t === 'gold';
-  }
+  const works = await fetchCSV(worksURL);
+  console.log("Parsed works:", works);
 
-  function typeSimple(s) {
-    const t = String(s || '').toLowerCase();
-    if (t.includes('book-chapter')) return 'book-chapter';
-    if (t.includes('review')) return 'review';
-    if (t.includes('article')) return 'article';
-    return 'other';
-  }
+  renderKPIs(roster, works);
+  renderChart(works);
+  renderTable(roster, works);
+}
 
-  function validate() {
-    const v = $('#validation');
-    const needRoster = ['Name', 'OpenAlexID'];
-    const rosterOK = roster.length && needRoster.every(k => k in roster[0]);
-    const worksOK = worksRaw.length > 0;
-    const kind = isDedup ? 'dedup' : 'non‑dedup';
+async function fetchCSV(url) {
+  console.log("Fetching:", url);
+  const response = await fetch(url);
+  const text = await response.text();
+  return new Promise((resolve) => {
+    Papa.parse(text, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => resolve(results.data),
+    });
+  });
+}
 
-    v.innerHTML = `<div class="badges"><span class="badge">Roster: ${rosterOK ? 'loaded' : 'missing'}</span><span class="badge">Works: ${worksOK ? 'loaded (' + kind + ')' : 'missing'}</span></div>`;
-    if (rosterOK && worksOK) {
-      $('#status').textContent = `${roster.length} roster rows • ${worksRaw.length} works rows (${kind})`;
-    }
-  }
+function renderKPIs(roster, works) {
+  const facultyCount = roster.length;
+  const worksCount = works.length;
+  const openAccess = works.filter(w => w.is_oa?.toLowerCase() === 'true').length;
+  const oaPct = ((openAccess / worksCount) * 100).toFixed(1);
 
-  function populateRosterFilters() {
-    console.log("populateRosterFilters() called");
-  }
+  const el = document.getElementById("validation");
+  el.innerHTML = \`\${facultyCount} faculty • \${worksCount} works • \${oaPct}% Open Access\`;
+}
 
-  function populateWorkFilters() {
-    console.log("populateWorkFilters() called");
-  }
+function renderChart(works) {
+  const years = {};
+  works.forEach(w => {
+    const y = parseInt(w.publication_year);
+    if (!y || y < 2000) return;
+    const type = w.type || "unknown";
+    if (!years[y]) years[y] = {};
+    years[y][type] = (years[y][type] || 0) + 1;
+  });
 
-  function renderAll() {
-    console.log("renderAll() called");
-  }
+  const labels = Object.keys(years).sort();
+  const types = [...new Set(works.map(w => w.type))];
+  const datasets = types.map(t => ({
+    label: t,
+    data: labels.map(y => years[y]?.[t] || 0),
+    stack: "stack1"
+  }));
 
-  async function autoLoadFromGitHub() {
-    console.log("Auto-loading from GitHub...");
+  new Chart(document.getElementById("trendChart"), {
+    type: "bar",
+    data: { labels, datasets },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true } } }
+  });
+}
 
-    if (!roster.length) {
-      try {
-        console.log("Fetching roster CSV...");
-        const rosterResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/roster_with_metrics.csv');
-        if (rosterResp.ok) {
-          const text = await rosterResp.text();
-          const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
-          console.log("Papa.parse errors (roster):", parsed.errors);
-          console.log("Parsed roster:", parsed.data);
-          roster = parsed.data;
-          roster.forEach(r => {
-            r.OpenAlexID = normalizeToken(r.OpenAlexID);
-            r.RGs = rgArray(r);
-          });
-        }
-      } catch (e) { console.error('Roster auto-load failed', e); }
-    }
+function renderTable(roster, works) {
+  const peopleTable = document.getElementById("peopleTable");
+  const worksTable = document.getElementById("worksTable");
 
-    if (!worksRaw.length) {
-      try {
-        console.log("Fetching works CSV...");
-        const worksResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/openalex_all_authors_last5y_key_fields_dedup.csv');
-        if (worksResp.ok) {
-          const text = await worksResp.text();
-          const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
-          console.log("Papa.parse errors (works):", parsed.errors);
-          console.log("Parsed works:", parsed.data);
-          worksRaw = parsed.data;
-          isDedup = worksRaw.length > 0 && ('ucvm_openalex_ids' in worksRaw[0]);
-          exploded = [];
+  peopleTable.querySelector("thead").innerHTML = "<tr><th>Name</th><th>Department</th><th>Works</th></tr>";
+  peopleTable.querySelector("tbody").innerHTML = roster.map(p => {
+    const count = works.filter(w => w.author_name?.includes(p.display_name)).length;
+    return \`<tr><td>\${p.display_name}</td><td>\${p.department}</td><td>\${count}</td></tr>\`;
+  }).join("");
 
-          if (isDedup) {
-            for (const w of worksRaw) {
-              const ids = String(w.ucvm_openalex_ids || '').split(';').map(s => normalizeToken(s.trim())).filter(Boolean);
-              if (!ids.length) {
-                exploded.push({ ...w, __author: null });
-                continue;
-              }
-              for (const id of ids) {
-                exploded.push({ ...w, __author: id });
-              }
-            }
-          } else {
-            exploded = worksRaw.map(w => ({ ...w, __author: normalizeToken(w.author_openalex_id) }));
-          }
-          exploded.forEach(r => r.__typeSimple = typeSimple(r.type));
-        }
-      } catch (e) { console.error('Works auto-load failed', e); }
-    }
-
-    validate();
-    if (roster.length) populateRosterFilters();
-    if (worksRaw.length) populateWorkFilters();
-    renderAll();
-  }
-
-  autoLoadFromGitHub();
+  worksTable.querySelector("thead").innerHTML = "<tr><th>Title</th><th>Year</th><th>Type</th><th>Authors</th></tr>";
+  worksTable.querySelector("tbody").innerHTML = works.map(w => {
+    return \`<tr><td>\${w.title}</td><td>\${w.publication_year}</td><td>\${w.type}</td><td>\${w.author_name}</td></tr>\`;
+  }).join("");
 }

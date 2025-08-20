@@ -37,6 +37,17 @@ jobs:
         run: |
           python etl/fetch_author_metrics.py --input data/full_time_faculty.csv --output data/roster_with_metrics.csv
           python etl/UCVM_works.py --input data/roster_with_metrics.csv --output data/openalex_all_authors_last5y_key_fields_dedup.csv 
+      
+      - name: Show latest ETL log
+        run: |
+          ls -lt data/logs | head -n 3
+          latest_log=$(ls -1t data/logs/*.log | head -n 1 || echo "")
+          if [ -n "$latest_log" ]; then
+            echo "---- $latest_log ----"
+            tail -n 200 "$latest_log"
+          else
+            echo "No log found"
+          fi
 
       - name: Commit and push updates (logs + csv)
         run: |

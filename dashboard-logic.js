@@ -64,6 +64,19 @@ export function initDashboard() {
     return String(s || '').replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
   }
 
+  function validate() {
+  const v = $('#validation');
+  const needRoster = ['Name', 'OpenAlexID'];
+  const rosterOK = roster.length && needRoster.every(k => k in roster[0]);
+  const worksOK = worksRaw.length > 0;
+  const kind = isDedup ? 'dedup' : 'non‑dedup';
+
+  v.innerHTML = `<div class="badges"><span class="badge">Roster: ${rosterOK ? 'loaded' : 'missing'}</span><span class="badge">Works: ${worksOK ? 'loaded (' + kind + ')' : 'missing'}</span></div>`;
+  if (rosterOK && worksOK) {
+    $('#status').textContent = `${roster.length} roster rows • ${worksRaw.length} works rows (${kind})`;
+  }
+}
+
   async function autoLoadFromGitHub() {
     console.log("Auto-loading from GitHub...");
     if (!roster.length) {

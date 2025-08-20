@@ -1,39 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UCVM • Publications Dashboard</title>
-  <style>
-    body { font-family: system-ui, sans-serif; padding: 2em; }
-    h1 { font-size: 1.4em; margin-bottom: 1em; }
-    #validation, #status { margin-top: 1em; font-size: 0.9em; color: #444; }
-    canvas { margin-top: 2em; }
-    table { border-collapse: collapse; width: 100%; margin-top: 1em; font-size: 0.9em; }
-    th, td { border: 1px solid #ddd; padding: 8px; }
-    th { background: #eee; text-align: left; }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UCVM Research Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-  <h1>UCVM • Publications Dashboard</h1>
-  <div id="validation">Loading data...</div>
-  <div id="status"></div>
-  <canvas id="trendChart" height="100"></canvas>
+  <header>
+    <h1>UCVM Research Dashboard (Last 5 Years)</h1>
+  </header>
+  <section id="filters">
+    <div>
+      <label for="level">Level</label>
+      <select id="level" multiple></select>
+    </div>
+    <div>
+      <label for="category">Category</label>
+      <select id="category" multiple></select>
+    </div>
+    <div>
+      <label for="appointment">Appointment</label>
+      <select id="appointment" multiple></select>
+    </div>
+    <div>
+      <label for="research-group">Research Group</label>
+      <select id="research-group" multiple></select>
+    </div>
+  </section>
 
-  <h2>People</h2>
-  <table id="peopleTable"><thead></thead><tbody></tbody></table>
+  <section id="summary">
+    <div id="pub-chart"></div>
+    <p id="faculty-count"></p>
+  </section>
 
-  <h2>Works</h2>
-  <table id="worksTable"><thead></thead><tbody></tbody></table>
+  <section id="faculty-table-section">
+    <h2>Selected Faculty</h2>
+    <table id="faculty-table">
+      <thead>
+        <tr>
+          <th>Name</th><th>H-index</th><th>I10-index</th><th>Publications</th><th>Citations</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
 
-  <script type="module">
-    import Papa from 'https://esm.sh/papaparse@5.4.1';
-    import { Chart } from 'https://esm.sh/chart.js@4.4.1';
+  <section id="publications-panel">
+    <h2>Publications</h2>
+    <ul id="publications-list"></ul>
+  </section>
 
-    window.Papa = Papa;
-    window.Chart = Chart;
-
-    import('./dashboard-logic.js').then(mod => mod.initDashboard());
-  </script>
+  <script src="dashboard.js"></script>
 </body>
 </html>

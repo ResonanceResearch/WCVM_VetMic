@@ -65,8 +65,10 @@ export function initDashboard() {
   }
 
   async function autoLoadFromGitHub() {
+    console.log("Auto-loading from GitHub...");
     if (!roster.length) {
       try {
+        console.log("Fetching roster CSV...");
         const rosterResp = await fetch('https://raw.githubusercontent.com/Jeroendebuck/UCVM_Research/main/data/roster_with_metrics.csv');
         if (rosterResp.ok) {
           const text = await rosterResp.text();

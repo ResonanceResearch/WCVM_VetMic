@@ -21,7 +21,7 @@
         // Normalize per-row fields
         pubData.forEach(p => {
           p.author_openalex_id = normalizeID(p.author_openalex_id || p.author_name || '');
-          p.publication_year = toInt(p.publication_year);
+          p.publication_year = parseYear(p.publication_year);
           p.cited_by_count = toInt(p.cited_by_count);
         });
         rosterData.forEach(r => {
@@ -54,6 +54,10 @@
       if (y < DEFAULT_START_YEAR) return DEFAULT_START_YEAR;
       if (y > DEFAULT_END_YEAR) return DEFAULT_END_YEAR;
       return y;
+    }
+    function parseYear(v){
+      const n = Number(String(v ?? '').trim());
+      return Number.isFinite(n) ? n : NaN;
     }
     function normalizeID(id) {
       return String(id || '').replace(/^https?:\/\/openalex\.org\//, '').trim();
@@ -94,11 +98,16 @@
     function populateFilters(roster){
       const levels=new Set(), categories=new Set(), appointments=new Set(), groups=new Set();
       roster.forEach(r=>{
-        if (r.Level) levels.add(r.Level);
-        if (r.Category) categories.add(r.Category);
-        if (r.Appointment) appointments.add(r.Appointment);
-        [r.RG1,r.RG2,r.RG3,r.RG4].forEach(g=> g && groups.add(g));
+        const lvl = (r.Level||'').trim(); if (lvl) levels.add(lvl);
+        const cat = (r.Category||'').trim(); if (cat) categories.add(cat);
+        const app = (r.Appointment||'').trim(); if (app) appointments.add(app);
+        [r.RG1,r.RG2,r.RG3,r.RG4].forEach(g=>{ const v = (g||'').trim(); if (v) groups.add(v); });
       });
+      fillSelect('level', levels);
+      fillSelect('category', categories);
+      fillSelect('appointment', appointments);
+      fillSelect('research-group', groups);
+    });
       fillSelect('level', levels);
       fillSelect('category', categories);
       fillSelect('appointment', appointments);
@@ -176,10 +185,10 @@
     }
 
     function applyFilters(){
-      const levels = getSelected('level');
-      const categories = getSelected('category');
-      const appointments = getSelected('appointment');
-      const groups = getSelected('research-group');
+      const levelSel = getSelected('level').map(s=>s.trim());
+      const catSel   = getSelected('category').map(s=>s.trim());
+      const appSel   = getSelected('appointment').map(s=>s.trim());
+      const grpSel   = getSelected('research-group').map(s=>s.trim());
 
       let yrMin = clampYear(document.getElementById('year-min').value || yearBounds.min);
       let yrMax = clampYear(document.getElementById('year-max').value || yearBounds.max);
@@ -190,18 +199,24 @@
       let selectedRoster;
       if (focusedAuthorID) {
         // When focusing on one author, ignore roster attribute filters
-        selectedRoster = rosterData.filter(r => r.OpenAlexID === focusedAuthorID);
+        selectedRoster = rosterData.filter(r => (r.OpenAlexID||'').trim() === (focusedAuthorID||'').trim());
       } else {
         selectedRoster = rosterData.filter(r => {
-          const groupMatch = [r.RG1, r.RG2, r.RG3, r.RG4].some(g => !groups.length || groups.includes(g));
-          return (!levels.length || levels.includes(r.Level)) &&
-                 (!categories.length || categories.includes(r.Category)) &&
-                 (!appointments.length || appointments.includes(r.Appointment)) &&
-                 groupMatch;
+          const lvl = (r.Level||'').trim();
+          const cat = (r.Category||'').trim();
+          const app = (r.Appointment||'').trim();
+          const hasGroup = [r.RG1, r.RG2, r.RG3, r.RG4].some(g => {
+            const v = (g||'').trim();
+            return !grpSel.length || grpSel.includes(v);
+          });
+          return (!levelSel.length || levelSel.includes(lvl)) &&
+                 (!catSel.length   || catSel.includes(cat)) &&
+                 (!appSel.length   || appSel.includes(app)) &&
+                 hasGroup;
         });
       }
 
-      const authorIDs = new Set(selectedRoster.map(r => r.OpenAlexID));
+      const authorIDs = new Set(selectedRoster.map(r => (r.OpenAlexID||'').trim()));
 
       const selectedPubs = pubData.filter(p => {
         const y = Number(p.publication_year);
@@ -215,7 +230,7 @@
       });
 
       const contributingIDs = new Set(selectedPubs.flatMap(p => Array.from(extractAllAuthorIDs(p))));
-      const contributingRoster = selectedRoster.filter(r => contributingIDs.has(r.OpenAlexID));
+      const contributingRoster = selectedRoster.filter(r => contributingIDs.has((r.OpenAlexID||'').trim()));
       return { contributingRoster, selectedPubs };
     }
 
@@ -229,38 +244,33 @@
     }
 
     function drawBarChart(pubs){
-      const countsByYearType = new Map();
-      const yearsSet = new Set();
+      const yMin = clampYear(document.getElementById('year-min')?.value || DEFAULT_START_YEAR);
+      const yMax = clampYear(document.getElementById('year-max')?.value || DEFAULT_END_YEAR);
+      const years = [];
+      for (let y = yMin; y <= yMax; y++) years.push(y);
+
       const typesSet = new Set();
+      const counts = new Map(); // type -> array per year index
 
       pubs.forEach(p => {
-        const y = clampYear(p.publication_year);
+        const yNum = Number(p.publication_year);
+        if (!Number.isFinite(yNum) || yNum < yMin || yNum > yMax) return;
         const t = p.type || 'unknown';
-        if (!(y >= DEFAULT_START_YEAR && y <= DEFAULT_END_YEAR)) return;
-        yearsSet.add(y); typesSet.add(t);
-        if (!countsByYearType.has(y)) countsByYearType.set(y, new Map());
-        const m = countsByYearType.get(y);
-        m.set(t, (m.get(t) || 0) + 1);
+        typesSet.add(t);
+        if (!counts.has(t)) counts.set(t, years.map(()=>0));
+        const idx = yNum - yMin; // sequential years
+        if (idx >=0 && idx < years.length) counts.get(t)[idx] += 1;
       });
 
-      const years = Array.from(yearsSet).sort((a,b)=>a-b);
-      const types = Array.from(typesSet).sort();
-      const yearsStr = years.map(String); // categorical axis
-
-      const traces = types.map(t => ({
-        x: yearsStr,
-        y: years.map(y => (countsByYearType.get(y)?.get(t)) || 0),
+      const xCats = years.map(String); // force categorical
+      const traces = Array.from(typesSet).sort().map(t => ({
+        x: xCats,
+        y: counts.get(t) || years.map(()=>0),
         name: t,
         type: 'bar'
       }));
 
-      const layout = {
-        barmode: 'stack',
-        title: 'Publications per Year by Type',
-        xaxis: { type: 'category' },
-        yaxis: { rangemode: 'tozero' },
-        margin: { t: 40 }
-      };
+      const layout = { barmode: 'stack', title: 'Publications per Year by Type', xaxis: { type: 'category' }, yaxis: { rangemode: 'tozero' }, margin: { t: 40 } };
       Plotly.newPlot('pub-chart', traces, layout, { displayModeBar: false });
     }
 
@@ -269,8 +279,9 @@
       body.innerHTML = '';
       faculty.sort((a,b) => b.H_index - a.H_index);
       faculty.forEach(f => {
+        const isFocused = focusedAuthorID === f.OpenAlexID;
         const row = `<tr>
-          <td><a href="#" class="author-link" data-id="${escapeHTML(f.OpenAlexID)}" data-name="${escapeHTML(f.Name)}">${escapeHTML(f.Name)}</a></td>
+          <td><a href="#" class="author-link${isFocused ? ' focused' : ''}" data-id="${escapeHTML(f.OpenAlexID)}" data-name="${escapeHTML(f.Name)}">${escapeHTML(f.Name)}</a></td>
           <td>${toInt(f.H_index)}</td>
           <td>${toInt(f.I10_index)}</td>
           <td>${toInt(f.Works_count)}</td>
@@ -336,8 +347,8 @@
       return normalizeText(text).split(/\s+/).filter(Boolean).map(stem);
     }
     function editDistanceLe1(a,b){
+      // classic Levenshtein distance ≤ 1 (no liberal prefix shortcuts)
       if (a === b) return true;
-      if (a.length > 2 && (b.startsWith(a) || a.startsWith(b))) return true;
       const la=a.length, lb=b.length;
       if (Math.abs(la - lb) > 1) return false;
       let i=0, j=0, edits=0;
@@ -346,13 +357,20 @@
         if (++edits > 1) return false;
         if (la > lb) i++; else if (lb > la) j++; else { i++; j++; }
       }
-      return true;
+      return true; // allow at most one trailing difference
     }
     function fuzzyQueryMatch(query, text){
       const qTokens = tokenize(query);
       if (!qTokens.length) return true;
       const tTokens = tokenize(text);
-      return qTokens.every(qt => tTokens.some(tt => tt.includes(qt) || qt.includes(tt) || editDistanceLe1(qt, tt)));
+      // Narrowed criterion: require exact stem match, or edit distance ≤1.
+      // Very short tokens (len ≤2) must match exactly to avoid noise (e.g., 'AI').
+      return qTokens.every(qt => {
+        if (qt.length <= 2) {
+          return tTokens.some(tt => tt === qt);
+        }
+        return tTokens.some(tt => (tt === qt) || editDistanceLe1(qt, tt));
+      });
     }
 
     // ============ Authorship helpers ============

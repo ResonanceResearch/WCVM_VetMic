@@ -395,61 +395,81 @@
         .replace(/&lt;\/i&gt;/g, '</i>');
     }
 
-    function normalizeText(t){
-      // Basic normalization for fuzzy matching
-      return String(t||'')
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
+// ============ Fuzzy search helpers (STRICT) ============
+// Goal: high precision. No prefix or edit-distance fuzziness.
+// Match = exact token equality after conservative stemming.
+
+function normalizeText(t) {
+  if (t == null) return "";
+  // Unicode normalize, strip diacritics, lowercase, collapse punctuation/whitespace
+  let s = String(t)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")  // remove combining marks
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")      // map non-alphanumerics to spaces
+    .replace(/\s+/g, " ")             // collapse spaces
+    .trim();
+  return s;
+}
+
+// Conservative stemmer: plurals and common verb endings only.
+// Intentionally avoids aggressive derivational stemming to preserve meaning.
+function stem(w) {
+  if (!w || w.length <= 3) return w;  // don't stem very short tokens
+
+  let s = w;
+
+  // plural -> singular
+  if (s.endsWith("sses")) {
+    s = s.slice(0, -2);                                // "classes" -> "class"
+  } else if (s.endsWith("ies") && s.length > 4) {
+    s = s.slice(0, -3) + "y";                          // "studies" -> "study"
+  } else if (s.endsWith("s") && !s.endsWith("ss") && s.length > 3) {
+    s = s.slice(0, -1);                                // "dogs" -> "dog"
+  }
+
+  // past/gerund
+  if (s.endsWith("ing") && s.length > 5) {
+    s = s.slice(0, -3);                                // "running" -> "runn"
+    if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
+      s = s.slice(0, -1);                              // "runn" -> "run"
     }
-
-    function tokenize(t){
-      const raw = normalizeText(t).split(' ').filter(Boolean);
-      // drop very short tokens unless explicitly provided as exact search
-      return raw;
+  } else if (s.endsWith("ed") && s.length > 4) {
+    s = s.slice(0, -2);                                // "jogged" -> "jogg"
+    if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
+      s = s.slice(0, -1);                              // "jogg" -> "jog"
     }
+  }
 
-    // Slightly conservative fuzzy match to reduce false positives:
-    // - Exact substring match passes
-    // - Token-level match:
-    //   * if token length <= 2: require exact token match
-    //   * if 3: allow substring match
-    //   * if >=4: allow substring OR edit distance <=1
-    function fuzzyQueryMatch(query, text){
-      if (!query) return true;
-      const qTokens = tokenize(query);
-      if (!qTokens.length) return true;
+  return s;
+}
 
-      // quick whole-phrase containment
-      if (text.includes(normalizeText(query))) return true;
+function tokenize(text) {
+  // Normalize -> split -> light stem -> deduplicate
+  const base = normalizeText(text).split(/\s+/).filter(Boolean).map(stem);
+  return Array.from(new Set(base));
+}
 
-      const tTokens = tokenize(text);
-      return qTokens.every(qt => {
-        const qlen = qt.length;
-        return tTokens.some(tt => {
-          if (qlen <= 2) return tt === qt;                // strict for 1–2
-          if (qlen === 3) return tt.includes(qt) || qt.includes(tt);
-          // qlen >= 4: allow near match
-          return tt.includes(qt) || qt.includes(tt) || editDistanceLe1(qt, tt);
-        });
-      });
-    }
+// STRICT token match: exact equality only after stemming
+function strongTokenMatch(qt, tt) {
+  return tt === qt;
+}
 
-    function editDistanceLe1(a,b){
-      // Early exit for length difference > 1
-      const la = a.length, lb = b.length;
-      if (Math.abs(la - lb) > 1) return false;
-      if (a === b) return true;
-      let i=0, j=0, edits=0;
-      while (i<la && j<lb){
-        if (a[i] === b[j]) { i++; j++; continue; }
-        if (++edits > 1) return false;
-        // try skip/add/substitute
-        if (la > lb) i++; else if (lb > la) j++; else { i++; j++; }
-      }
-      return true;
-    }
+// AND semantics across query tokens; every query token must match some text token.
+function fuzzyQueryMatch(query, text) {
+  const qTokens = tokenize(query);
+  if (!qTokens.length) return true;
+
+  const tTokens = tokenize(text);
+
+  // Precision guardrails:
+  // - 1–2 char tokens: must match exactly (already enforced by equality)
+  // - 3+ char tokens: equality after stemming only; no prefixes, no edit distance
+  return qTokens.every(qt => tTokens.some(tt => strongTokenMatch(qt, tt)));
+}
+
+// ========== End Fuzzy search helpers ==========
+
 
     // ============ Utilities ============
     function uniqueNonEmpty(arr){

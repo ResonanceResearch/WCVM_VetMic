@@ -209,7 +209,7 @@
         // Author match across ALL authors on the paper
         const authorMatch = hasAnyAuthor(p, authorIDs);
         if (!authorMatch) return false;
-        const haystack = `${p.concepts_list || ''} ${p.primary_topic__subfield__display_name || ''} ${p.primary_topic__display_name || ''}`;
+        const haystack = `${p.concepts_list || ''} ${p.primary_topic__subfield__display_name || ''} ${p.primary_topic__display_name || ''} ${p.display_name || ''}`;
         const topicMatch = !topicQ || fuzzyQueryMatch(topicQ, haystack);
         return topicMatch;
       });

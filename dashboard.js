@@ -313,47 +313,109 @@
     }
     function debounce(fn, delay){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn.apply(null,args), delay); }; }
 
-    // ============ Fuzzy search helpers ============
-    function normalizeText(t){
-      return String(t||'')
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '') // strip diacritics
-        .replace(/[^a-z0-9\s]/g, ' ');
+// ============ Fuzzy search helpers ============
+
+function normalizeText(t) {
+  if (t == null) return "";
+  // Unicode normalize, strip diacritics, lowercase, collapse punctuation/whitespace
+  let s = String(t)
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")  // remove combining marks (diacritics)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")      // map non-alphanumerics to spaces
+    .replace(/\s+/g, " ")             // collapse multiple spaces
+    .trim();
+  return s;
+}
+
+// Conservative stemmer: avoid over-stemming short tokens; unify common variants
+function stem(w) {
+  if (!w || w.length <= 3) return w;  // don't stem very short tokens (e.g., 'ai', 'ml')
+
+  let s = w;
+
+  // plural -> singular
+  if (s.endsWith("sses")) {
+    s = s.slice(0, -2);                                // "classes" -> "class"
+  } else if (s.endsWith("ies") && s.length > 4) {
+    s = s.slice(0, -3) + "y";                          // "studies" -> "study"
+  } else if (s.endsWith("s") && !s.endsWith("ss") && s.length > 3) {
+    s = s.slice(0, -1);                                // "dogs" -> "dog"
+  }
+
+  // past/gerund
+  if (s.endsWith("ing") && s.length > 5) {
+    s = s.slice(0, -3);                                // "running" -> "runn"
+    if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
+      s = s.slice(0, -1);                              // "runn" -> "run"
     }
-    function stem(w){
-      let s = w;
-      if (s.endsWith('ies') && s.length > 4) return s.slice(0,-3) + 'y';
-      if (s.endsWith('sses')) s = s.slice(0,-2);
-      else if (s.endsWith('es') && s.length > 4) s = s.slice(0,-2);
-      else if (s.endsWith('s') && !s.endsWith('ss') && !s.endsWith('us') && s.length > 3) s = s.slice(0,-1);
-      if (s.endsWith('ing') && s.length > 5) s = s.slice(0,-3);
-      if (s.endsWith('ed')  && s.length > 4) s = s.slice(0,-2);
-      if (s.endsWith('er')  && s.length > 4) s = s.slice(0,-2);
-      return s;
+  } else if (s.endsWith("ed") && s.length > 4) {
+    s = s.slice(0, -2);                                // "jogged" -> "jogg"
+    if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
+      s = s.slice(0, -1);                              // "jogg" -> "jog"
     }
-    function tokenize(text){
-      return normalizeText(text).split(/\s+/).filter(Boolean).map(stem);
-    }
-    function editDistanceLe1(a,b){
-      if (a === b) return true;
-      if (a.length > 2 && (b.startsWith(a) || a.startsWith(b))) return true;
-      const la=a.length, lb=b.length;
-      if (Math.abs(la - lb) > 1) return false;
-      let i=0, j=0, edits=0;
-      while (i<la && j<lb){
-        if (a[i] === b[j]) { i++; j++; continue; }
-        if (++edits > 1) return false;
-        if (la > lb) i++; else if (lb > la) j++; else { i++; j++; }
-      }
-      return true;
-    }
-    function fuzzyQueryMatch(query, text){
-      const qTokens = tokenize(query);
-      if (!qTokens.length) return true;
-      const tTokens = tokenize(text);
-      return qTokens.every(qt => tTokens.some(tt => tt.includes(qt) || qt.includes(tt) || editDistanceLe1(qt, tt)));
-    }
+  }
+
+  return s;
+}
+
+function tokenize(text) {
+  // Normalize -> split -> light stem -> deduplicate
+  const base = normalizeText(text).split(/\s+/).filter(Boolean).map(stem);
+  return Array.from(new Set(base));
+}
+
+// Edit-distance (≤1) with a couple of early exits; allows one substitution/ins/del
+function editDistanceLe1(a, b) {
+  if (a === b) return true;
+  const la = a.length, lb = b.length;
+  if (Math.abs(la - lb) > 1) return false;
+
+  // Early allowance: if one is a prefix of the other and length diff == 1 (for longer tokens)
+  if (la > 2 && lb > 2 && (a.startsWith(b) || b.startsWith(a)) && Math.abs(la - lb) === 1) {
+    return true;
+  }
+
+  // Single-edit scan
+  let i = 0, j = 0, edits = 0;
+  while (i < la && j < lb) {
+    if (a[i] === b[j]) { i++; j++; continue; }
+    if (++edits > 1) return false;
+    if (la > lb) { i++; }           // deletion in b (or insertion in a)
+    else if (lb > la) { j++; }      // insertion in b (or deletion in a)
+    else { i++; j++; }              // substitution
+  }
+  // If one char remains, that’s the single edit
+  return edits <= 1;
+}
+
+// Length-aware, token-wise AND semantics across query tokens.
+// Fields using this should pass a concatenated string of searchable fields.
+function fuzzyQueryMatch(query, text) {
+  const qTokensRaw = tokenize(query);
+  if (!qTokensRaw.length) return true;
+
+  // Filter out any accidental empty tokens
+  const qTokens = qTokensRaw.filter(t => t.length >= 1);
+  const tTokens = tokenize(text);
+
+  function strongTokenMatch(qt, tt) {
+    // ≤2 chars: exact match only (prevents 'ai' matching 'pain')
+    if (qt.length <= 2) return tt === qt;
+
+    // ==3 chars: exact or prefix only ('dog' matches 'dog'/'dogs', not 'endogenous')
+    if (qt.length === 3) return tt === qt || tt.startsWith(qt);
+
+    // ≥4 chars: exact, prefix, or edit distance ≤1 for mild fuzziness
+    return tt === qt || tt.startsWith(qt) || editDistanceLe1(qt, tt);
+  }
+
+  // Every query token must match at least one text token
+  return qTokens.every(qt => tTokens.some(tt => strongTokenMatch(qt, tt)));
+}
+
+// ========== End Fuzzy search helpers ==========
+
 
     // ============ Authorship helpers ============
     function parseIDList(raw){

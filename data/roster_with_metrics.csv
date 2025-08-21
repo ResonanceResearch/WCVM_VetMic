@@ -1,6 +1,6 @@
 Name,Level,RG1,RG2,RG3,RG4,Category,Appointment,OpenAlexID,H_index,I10_index,Works_count,Total_citations
-Alyssa Butters,Assistant,OHRG,CHRG,,,Teaching,FT,A5097476685,1.0,0.0,3.0,4.0
-Betty-Jo Bradley,Assistant,CHRG,,,,Teaching,FT,,,,,
+Alyssa Butters,Assistant,OHRG,CHRG,,,Clin/Teach,FT,A5097476685,1.0,0.0,3.0,4.0
+Betty-Jo Bradley,Assistant,CHRG,,,,Clin/Teach,FT,,,,,
 Cindy Adams,Professor,,,,,Research,FT,A5089186675,36.0,62.0,107.0,4388.0
 Darlene Donszelmann,Associate,,,,,Research,FT,A5054682662,1.0,1.0,4.0,27.0
 Diego Borin Nobrega,Assistant,OHRG,CHRG,,,Research,FT,A5015254879,27.0,47.0,89.0,2763.0
@@ -10,42 +10,42 @@ Ina Dobrinski,Professor,RRMRG,,,,Research,FT,A5061235320,50.0,109.0,189.0,10567.
 James Cross,Professor,RRMRG,,,,Research,Em,A5057011174,68.0,123.0,196.0,18448.0
 Jason Anderson,Professor,,,,,Research,FT,A5063855248,35.0,69.0,136.0,3249.0
 Jeffrey Biernaskie,Professor,RRMRG,,,,Research,FT,A5084242333,41.0,80.0,180.0,8367.0
-Jennifer Davies,Associate,,,,,Teaching,FT,A5074995793,14.0,17.0,70.0,813.0
+Jennifer Davies,Associate,,,,,Clin/Teach,FT,A5074995793,14.0,17.0,70.0,813.0
 Jeroen De Buck,Professor,IBRG,CHRG,,,Research,FT,A5058471690,43.0,98.0,186.0,5547.0
 Johnathan Canton,Assistant,IBRG,,,,Research,FT,A5007124437,22.0,31.0,55.0,3011.0
 Li-Fang (Jack) Chu,Assistant,RRMRG,,,,Research,FT,A5076810213,18.0,24.0,62.0,2914.0
 Maria Camila Ceballos Betancourt,Assistant,CHRG,,,,Research,FT,A5086715306,16.0,20.0,54.0,679.0
 Mohamed Faizal Abdul Careem,Professor,IBRG,,,,Research,FT,A5010407946,33.0,66.0,111.0,2794.0
-Nanci Bond,Assistant,,,,,Teaching,FT,,,,,
+Nanci Bond,Assistant,,,,,Clin/Teach,FT,,,,,
 Nigel Caulkett,Professor,,VCARE,,,Research,Em,A5076221206,28.0,63.0,131.0,3149.0
 Ning Cheng,Assistant,,,,,Research,FT,A5084554132,21.0,33.0,81.0,1156.0
-Rebecca Archer,Associate,VERG,,,,Teaching,FT,A5016108047,4.0,2.0,12.0,97.0
+Rebecca Archer,Associate,VERG,,,,Clin/Teach,FT,A5016108047,4.0,2.0,12.0,97.0
 Rob Deardon,Professor,OHRG,,,,Research,FT,A5028898834,20.0,34.0,116.0,1851.0
 Soren Boysen,Professor,VCARE,,,,Research,FT,A5082336116,21.0,37.0,128.0,1695.0
 Susan Cork,Professor,OHRG,WHERG,,,Research,FT,A5089212646,22.0,30.0,90.0,1883.0
 Sylvia Checkley,Professor,OHRG,CHRG,WHERG,,Research,FT,A5085308093,32.0,70.0,150.0,3634.0
-Angelica Galezowski,Associate,VERG,,,,Teaching,FT,A5114186380,1.0,0.0,1.0,1.0
+Angelica Galezowski,Associate,VERG,,,,Clin/Teach,FT,A5114186380,1.0,0.0,1.0,1.0
 Sabine Gilch,Professor,IBRG,WHERG,,,Research,FT,A5065275438,29.0,58.0,96.0,3372.0
 John Gilleard,Professor,IBRG,,,,Research,FT,A5058811797,51.0,123.0,214.0,8089.0
-Dayna Goldsmith,Assistant,WHERG,,,,Teaching,FT,A5082097120,12.0,15.0,29.0,271.0
+Dayna Goldsmith,Assistant,WHERG,,,,Clin/Teach,FT,A5082097120,12.0,15.0,29.0,271.0
 Ashish Gupta ,Assistant,,,,,Research,FT,A5018244111,13.0,17.0,46.0,566.0
 David Hall,Professor,OHRG,,,,Research,FT,A5022359178,16.0,28.0,102.0,1004.0
 Kenton Hecker,Professor,VERG,,,,Research,FT,A5082450377,25.0,53.0,118.0,1969.0
 John Patrick Kastelic,Professor,CHRG,,,,Research,Em,A5062550388,65.0,251.0,448.0,15132.0
 Cameron Knight,Associate,,,,,Research,FT,A5112215292,21.0,37.0,68.0,1229.0
 Susan Kutz,Professor,WHERG,,,,Research,FT,A5000020749,48.0,147.0,264.0,8613.0
-Carolyn Legge,Assistant,VERG,,,,Teaching,FT,A5051997692,5.0,4.0,14.0,93.0
+Carolyn Legge,Assistant,VERG,,,,Clin/Teach,FT,A5051997692,5.0,4.0,14.0,93.0
 Renaud Leguillette,Professor,VCARE,,,,Research,FT,A5084958126,22.0,39.0,99.0,2143.0
 Guillaume Lhermie,Professor,CHRG,,,,Research,FT,A5006542086,16.0,25.0,97.0,885.0
 Karen Liljebjelke,Assistant,,,,,Research,Former,A5073152049,17.0,22.0,42.0,1512.0
-Andrew Mardjetko,Assistant,,,,,Teaching,FT,A5093283881,1.0,0.0,3.0,3.0
+Andrew Mardjetko,Assistant,,,,,Clin/Teach,FT,A5093283881,1.0,0.0,3.0,3.0
 John Matyas,Professor,,RRMRG,,,Research,FT,A5077397108,44.0,93.0,145.0,5281.0
-Marina McConkey,Associate,VCARE,,,,Teaching,FT,A5007745969,10.0,10.0,25.0,348.0
-Robert McCorkell,Associate,RRMRG,,,,Teaching,FT,A5052740198,15.0,18.0,46.0,541.0
-Chantal McMillan,Associate,VCARE,,,,Teaching,FT,A5112268003,10.0,10.0,25.0,270.0
-Julie Menard,Associate,VCARE,VERG,,,Teaching,FT,A5114186382,1.0,0.0,1.0,1.0
-Beverly Morrison,Assistant,,,,,Teaching,FT,A5068916305,7.0,6.0,10.0,258.0
-Timothy Olchowy,Associate,CHRG,,,,Teaching,FT,A5113946927,13.0,19.0,35.0,433.0
+Marina McConkey,Associate,VCARE,,,,Clin/Teach,FT,A5007745969,10.0,10.0,25.0,348.0
+Robert McCorkell,Associate,RRMRG,,,,Clin/Teach,FT,A5052740198,15.0,18.0,46.0,541.0
+Chantal McMillan,Associate,VCARE,,,,Clin/Teach,FT,A5112268003,10.0,10.0,25.0,270.0
+Julie Menard,Associate,VCARE,VERG,,,Clin/Teach,FT,A5114186382,1.0,0.0,1.0,1.0
+Beverly Morrison,Assistant,,,,,Clin/Teach,FT,A5068916305,7.0,6.0,10.0,258.0
+Timothy Olchowy,Associate,CHRG,,,,Clin/Teach,FT,A5113946927,13.0,19.0,35.0,433.0
 Karin Orsel,Professor,CHRG,WHERG,,,Research,FT,A5035027217,37.0,98.0,190.0,4421.0
 Edmond Pajor,Professor,CHRG,,,,Research,FT,A5004098689,45.0,101.0,174.0,6942.0
 Daniel Pang,Professor,VCARE,,,,Research,FT,A5042612602,27.0,59.0,207.0,3218.0
@@ -55,27 +55,27 @@ Jocelyn Poissant,Associate,WHERG,,,,Research,FT,A5088238215,22.0,37.0,69.0,2272.
 Mathieu Pruvot,Assistant,WHERG,CHRG,OHRG,,Research,FT,A5088351601,18.0,24.0,60.0,984.0
 John Remnant,Professor,VERG,CHRG,,,Research,FT,A5075424399,13.0,16.0,61.0,750.0
 Melanie Rock,Professor,,,,,Research,FT,A5012761747,31.0,73.0,142.0,3927.0
-Alfredo Romero,Associate,VERG,,,,Teaching,FT,A5110510421,10.0,10.0,62.0,413.0
+Alfredo Romero,Associate,VERG,,,,Clin/Teach,FT,A5110510421,10.0,10.0,62.0,413.0
 Brielle Rosa,Assistant,VCARE,IBRG,,,Research,FT,A5108237524,7.0,6.0,14.0,168.0
-Jamie Rothenburger,Assistant,OHRG,,,,Teaching,FT,A5079324010,12.0,15.0,54.0,399.0
+Jamie Rothenburger,Assistant,OHRG,,,,Clin/Teach,FT,A5079324010,12.0,15.0,54.0,399.0
 Marie-France Roy,Associate,VCARE,OHRG,,,Research,FT,A5110138668,6.0,4.0,10.0,236.0
 Hermann Schaetzl,Professor,IBRG,,,,Research,FT,A5041791584,43.0,116.0,226.0,18353.0
-W. Michael Scott,Associate,,VCARE,,,Teaching,FT,A5114252403,15.0,25.0,87.0,1295.0
+W. Michael Scott,Associate,,VCARE,,,Clin/Teach,FT,A5114252403,15.0,25.0,87.0,1295.0
 John Soghigian,Assistant,IBRG,WHERG,,,Research,FT,A5023258863,12.0,16.0,61.0,646.0
 Holly Sparks,Assistant,RRMRG,OHRG,VCARE,,Research,FT,A5083737761,15.0,20.0,54.0,839.0
-Bruce Stover,Assistant,,,,,Teaching,FT,A5034547939,1.0,0.0,3.0,1.0
-Jean-Yin Tan,Associate,VERG,,,,Teaching,FT,A5104182467,2.0,0.0,4.0,6.0
+Bruce Stover,Assistant,,,,,Clin/Teach,FT,A5034547939,1.0,0.0,3.0,1.0
+Jean-Yin Tan,Associate,VERG,,,,Clin/Teach,FT,A5104182467,2.0,0.0,4.0,6.0
 Jacob Chacko Thundathil,Professor,RRMRG,CHRG,VCARE,VERG,Research,FT,A5002583112,28.0,59.0,94.0,2271.0
 Tuan Trang,Professor,,,,,Research,FT,A5074399476,26.0,38.0,61.0,3782.0
 Mark Ungrin,Associate,RRMRG,,,,Research,FT,A5037393069,23.0,33.0,63.0,2551.0
 Frank van der Meer,Professor,CHRG,IBRG,,,Research,FT,A5077375646,31.0,69.0,142.0,2619.0
-Catherine Wagg,Associate,,,,,Teaching,FT,A5038571433,8.0,7.0,14.0,209.0
-Katie Wayne,Assistant,,,,,Teaching,FT,A5049770537,6.0,2.0,27.0,89.0
+Catherine Wagg,Associate,,,,,Clin/Teach,FT,A5038571433,8.0,7.0,14.0,209.0
+Katie Wayne,Assistant,,,,,Clin/Teach,FT,A5049770537,6.0,2.0,27.0,89.0
 Amy Warren,Professor,,,,,Research,FT,A5110902158,16.0,23.0,61.0,907.0
 James Wasmuth,Professor,IBRG,WHERG,,,Research,FT,A5064980480,26.0,38.0,96.0,3520.0
 Renate Weller,Professor,,,,,Research,FT,A5111941038,30.0,65.0,151.0,2683.0
 Patrick Whelan,Professor,RRMRG,,,,Research,FT,A5036733857,38.0,60.0,109.0,4074.0
-Ashley Whitehead,Associate,VERG,,,,Teaching,FT,A5026303269,6.0,6.0,12.0,147.0
+Ashley Whitehead,Associate,VERG,,,,Clin/Teach,FT,A5026303269,6.0,6.0,12.0,147.0
 Douglas Whiteside,Professor,WHERG,VCARE,,,Research,FT,A5065334735,17.0,21.0,54.0,913.0
 M.K. Claire Windeyer,Associate,CHRG,VCARE,,,Research,Former,A5038141195,20.0,28.0,62.0,1471.0
 Katherine Wynne-Edwards,Professor,RRMRG,,,,Research,FT,A5021898290,46.0,106.0,142.0,6519.0
@@ -83,9 +83,9 @@ Alyson Kelvin,Associate,IBRG,,,,Research,FT,A5055196299,30.0,55.0,107.0,3665.0
 Dongyan Xu Niu,Associate,IBRG,,,,Research,FT,A5050841380,28.0,52.0,97.0,2164.0
 Nilusha Malmuthuge,Assistant,IBRG,,,,Research,FT,A5052164943,22.0,24.0,63.0,2053.0
 Samia Hannaoui ,Assistant,IBRG,,,,Research,FT,A5017321423,15.0,16.0,30.0,652.0
-Aylin Atilla,Associate,,VCARE,,,Teaching,FT,A5036556782,4.0,3.0,10.0,128.0
+Aylin Atilla,Associate,,VCARE,,,Clin/Teach,FT,A5036556782,4.0,3.0,10.0,128.0
 Juan Hernandex-Medrano,Assistant,RRMRG,CHRG,,,Research,FT,A5046493714,15.0,16.0,48.0,1045.0
 Mia Alfajaro,Assistant,IBRG,,,,Research,FT,A5060461427,27.0,49.0,71.0,4186.0
-Laureen Hall,Assistant,VERG,,,,Teaching,FT,A5022803956,12.0,14.0,33.0,635.0
-Serge Chalhoub,Professor,,,,,Teaching,FT,A5022803956,12.0,14.0,33.0,635.0
+Laureen Hall,Assistant,VERG,,,,Clin/Teach,FT,A5022803956,12.0,14.0,33.0,635.0
+Serge Chalhoub,Professor,,,,,Clin/Teach,FT,A5022803956,12.0,14.0,33.0,635.0
 Jennifer Pearson,Assistant,CHRG,,,,Research,Former,A5086163497,13.0,13.0,41.0,662.0

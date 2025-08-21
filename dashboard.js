@@ -1,44 +1,38 @@
-// dashboard.js — clean full version with year clamp, fuzzy search, and author focus
+// dashboard.js — full version with OpenAlex profile links and FWCI in publications
 (function(){
+  // ==== Defaults ====
   const DEFAULT_START_YEAR = 2021;
   const DEFAULT_END_YEAR = 2025;
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Paths used by index.html
     const rosterPath = 'data/roster_with_metrics.csv';
     const pubsPath = 'data/openalex_all_authors_last5y_key_fields_dedup.csv';
 
-    let rosterData = [];
-    let pubData = [];
+    // In-memory data
+    let rosterData = [];   // faculty roster + metrics
+    let pubData = [];      // publications (last 5y)
     let yearBounds = { min: DEFAULT_START_YEAR, max: DEFAULT_END_YEAR };
+
+    // Focus (single author) state
     let focusedAuthorID = null;
     let focusedAuthorName = '';
 
+    // Load both CSVs, then initialize
     Promise.all([fetchCSV(rosterPath), fetchCSV(pubsPath)])
-      .then(([roster, pubs]) => {
-        rosterData = parseCSV(roster);
-        pubData = parseCSV(pubs);
+      .then(([rosterCSV, pubsCSV]) => {
+        rosterData = parseCSV(rosterCSV);
+        pubData = parseCSV(pubsCSV);
 
-        // Normalize per-row fields
-        pubData.forEach(p => {
-          p.author_openalex_id = normalizeID(p.author_openalex_id || p.author_name || '');
-          p.publication_year = toInt(p.publication_year);
-          p.cited_by_count = toInt(p.cited_by_count);
-        });
-        rosterData.forEach(r => {
-          r.OpenAlexID = normalizeID(r.OpenAlexID);
-          r.H_index = toInt(r.H_index);
-          r.I10_index = toInt(r.I10_index);
-          r.Works_count = toInt(r.Works_count);
-          r.Total_citations = toInt(r.Total_citations);
-        });
+        normalizeRoster();
+        normalizePubs();
 
-        // Always initialize to the fixed last-5-year window
-        initYearInputs(yearBounds);
+        // UI bootstrap
+        initFilters();
+        initYearInputs();
+        bindEvents();
 
-        populateFilters(rosterData);
-        wireMultiSelectToggle();
-        wireFilterEvents();
-
+        // Initial render
         update();
       })
       .catch(err => console.error('Failed to load CSVs', err));
@@ -48,21 +42,30 @@
       const n = Number(x);
       return Number.isFinite(n) ? Math.round(n) : 0;
     }
+    function toFloat(x) {
+      const n = Number(x);
+      return Number.isFinite(n) ? n : NaN;
+    }
     function clampYear(y){
       y = toInt(y);
-      if (!y) return DEFAULT_START_YEAR; // defensively avoid 0
+      if (!y) return DEFAULT_START_YEAR; // avoid 0 showing up
       if (y < DEFAULT_START_YEAR) return DEFAULT_START_YEAR;
       if (y > DEFAULT_END_YEAR) return DEFAULT_END_YEAR;
       return y;
     }
     function normalizeID(id) {
-      return String(id || '').replace(/^https?:\/\/openalex\.org\//, '').trim();
+      // Accept raw OpenAlex IDs or full URLs
+      return String(id || '')
+        .replace(/^https?:\/\/openalex\.org\/authors\//i, '')
+        .replace(/^https?:\/\/openalex\.org\//i, '')
+        .trim();
     }
     function fetchCSV(path) { return fetch(path).then(resp => resp.text()); }
 
-    // CSV parser that handles quoted commas
+    // CSV parser that handles quoted commas and quotes
     function parseCSV(text) {
       const lines = text.replace(/\r/g, '').split('\n').filter(Boolean);
+      if (!lines.length) return [];
       const headers = splitCSVLine(lines.shift());
       return lines.map(line => {
         const values = splitCSVLine(line);
@@ -70,7 +73,8 @@
         headers.forEach((h, i) => {
           const key = h.trim();
           let v = values[i] !== undefined ? values[i] : '';
-          v = v.replace(/^"|"$/g, '');
+          // Strip surrounding quotes if present
+          v = v.replace(/^"|"$/g, '').replace(/""/g, '"');
           row[key] = v;
         });
         return row;
@@ -78,54 +82,106 @@
     }
     function splitCSVLine(line) {
       const out = [];
-      let cur = '', inQ = false;
+      let cur = '';
+      let inQuotes = false;
       for (let i=0;i<line.length;i++){
         const ch = line[i];
         if (ch === '"'){
-          if (inQ && line[i+1] === '"'){ cur += '"'; i++; }
-          else { inQ = !inQ; }
-        } else if (ch === ',' && !inQ){ out.push(cur); cur = ''; }
-        else { cur += ch; }
+          if (inQuotes && line[i+1] === '"'){ cur += '"'; i++; }
+          else { inQuotes = !inQuotes; }
+        } else if (ch === ',' && !inQuotes) {
+          out.push(cur);
+          cur = '';
+        } else cur += ch;
       }
       out.push(cur);
       return out;
     }
 
-    function populateFilters(roster){
-      const levels=new Set(), categories=new Set(), appointments=new Set(), groups=new Set();
-      roster.forEach(r=>{
-        if (r.Level) levels.add(r.Level);
-        if (r.Category) categories.add(r.Category);
-        if (r.Appointment) appointments.add(r.Appointment);
-        [r.RG1,r.RG2,r.RG3,r.RG4].forEach(g=> g && groups.add(g));
+    // ============ Normalization ============
+    function normalizeRoster(){
+      // Normalize OpenAlexID, collect research groups and numeric metrics
+      rosterData.forEach(r => {
+        r.OpenAlexID = normalizeID(r.OpenAlexID);
+        r.Name = r.Name || '';
+        // combine RG1..RG4 into a single array for filtering
+        r._RGs = ['RG1','RG2','RG3','RG4']
+          .map(k => (r[k] || '').trim())
+          .filter(v => v);
+        r.H_index = toInt(r.H_index);
+        r.I10_index = toInt(r.I10_index);
+        r.Works_count = toInt(r.Works_count);
+        r.Total_citations = toInt(r.Total_citations);
       });
-      fillSelect('level', levels);
-      fillSelect('category', categories);
-      fillSelect('appointment', appointments);
-      fillSelect('research-group', groups);
     }
-    function fillSelect(id, options){
-      const sel = document.getElementById(id);
+
+    function normalizePubs(){
+      pubData.forEach(p => {
+        // numeric
+        p.publication_year = clampYear(p.publication_year);
+        p.cited_by_count = toInt(p.cited_by_count);
+
+        // author ID (already provided as 'author_openalex_id' per your CSV)
+        p.author_openalex_id = normalizeID(p.author_openalex_id);
+
+        // DOI: prefer full URL if present; otherwise leave empty
+        if (p.doi && !/^https?:\/\//i.test(p.doi)) {
+          // Some CSVs store DOIs like "10.1234/abcd"; we can link via dx.doi.org
+          p.doi = 'https://doi.org/' + p.doi;
+        }
+
+        // FWCI (accept 'fwci' case from your CSV)
+        p._fwci = toFloat(p.fwci);
+
+        // Pre-compute a lowercase haystack for topic search:
+        // concepts_list + subfield + primary topic + title (display_name)
+        const c = [
+          p.concepts_list || '',
+          p.primary_topic__subfield__display_name || '',
+          p.primary_topic__display_name || '',
+          p.display_name || ''
+        ].join(' ').toLowerCase();
+        p._topic_haystack = normalizeText(c);
+      });
+    }
+
+    // ============ UI: filters, years, events ============
+    function initFilters(){
+      // Populate multiselects for Level, Category, Appointment, Research Group
+      const levelSel = document.getElementById('level');
+      const catSel = document.getElementById('category');
+      const apptSel = document.getElementById('appointment');
+      const rgSel = document.getElementById('research-group');
+
+      fillSelect(levelSel, uniqueNonEmpty(rosterData.map(r => r.Level || '')));
+      fillSelect(catSel, uniqueNonEmpty(rosterData.map(r => r.Category || '')));
+      fillSelect(apptSel, uniqueNonEmpty(rosterData.map(r => r.Appointment || '')));
+
+      // Research groups across RG1..RG4
+      const allRGs = new Set();
+      rosterData.forEach(r => r._RGs.forEach(g => allRGs.add(g)));
+      fillSelect(rgSel, Array.from(allRGs).sort());
+    }
+
+    function fillSelect(sel, options){
       sel.innerHTML = '';
-      Array.from(options).sort().forEach(opt => {
-        const o = document.createElement('option');
-        o.value = o.textContent = opt;
-        sel.appendChild(o);
+      options.forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        sel.appendChild(opt);
       });
     }
 
     function initYearInputs(){
       const ymin = document.getElementById('year-min');
       const ymax = document.getElementById('year-max');
-      const start = DEFAULT_START_YEAR;
-      const end = DEFAULT_END_YEAR;
-      ymin.value = String(start);
-      ymax.value = String(end);
-      ymin.min = String(start); ymax.min = String(start);
-      ymin.max = String(end);   ymax.max = String(end);
+      ymin.value = DEFAULT_START_YEAR;
+      ymax.value = DEFAULT_END_YEAR;
+      yearBounds = { min: DEFAULT_START_YEAR, max: DEFAULT_END_YEAR };
     }
 
-    function wireFilterEvents(){
+    function bindEvents(){
       // Multi-select changes
       document.querySelectorAll('#filters select').forEach(sel => sel.addEventListener('change', update));
 
@@ -143,134 +199,146 @@
       document.getElementById('year-min').addEventListener('input', update);
       document.getElementById('year-max').addEventListener('input', update);
 
-      // Topic search (combined concepts + subfields + primary topic)
+      // Topic search (concepts + subfields + primary topic + title)
       const topic = document.getElementById('topic-search');
       if (topic) topic.addEventListener('input', debounce(update, 200));
 
       // Global reset
       document.getElementById('reset-filters').addEventListener('click', () => {
-        document.querySelectorAll('#filters select').forEach(sel => Array.from(sel.options).forEach(o => o.selected = false));
-        focusedAuthorID = null; focusedAuthorName = '';
+        document.querySelectorAll('#filters select').forEach(sel => {
+          Array.from(sel.options).forEach(o => o.selected = false);
+        });
+        focusedAuthorID = null;
+        focusedAuthorName = '';
         initYearInputs();
         if (topic) topic.value = '';
         update();
       });
     }
 
-    // Allow deselection in multi-selects without Cmd/Ctrl
-    function wireMultiSelectToggle(){
-      document.querySelectorAll('select.multi').forEach(sel => {
-        sel.addEventListener('mousedown', (e) => {
-          if (e.target.tagName.toLowerCase() === 'option'){
-            e.preventDefault();
-            const opt = e.target;
-            opt.selected = !opt.selected;
-            sel.dispatchEvent(new Event('change', { bubbles: true }));
-          }
-        });
-      });
-    }
-
-    function getSelected(id){
-      return Array.from(document.getElementById(id).selectedOptions).map(o => o.value);
-    }
-
+    // ============ Filtering logic ============
     function applyFilters(){
-      const levels = getSelected('level');
-      const categories = getSelected('category');
-      const appointments = getSelected('appointment');
-      const groups = getSelected('research-group');
+      // Years
+      const ymin = clampYear(document.getElementById('year-min').value);
+      const ymax = clampYear(document.getElementById('year-max').value);
+      yearBounds = { min: Math.min(ymin, ymax), max: Math.max(ymin, ymax) };
 
-      let yrMin = clampYear(document.getElementById('year-min').value || yearBounds.min);
-      let yrMax = clampYear(document.getElementById('year-max').value || yearBounds.max);
-      if (yrMin > yrMax) { const t = yrMin; yrMin = yrMax; yrMax = t; }
+      // Topic query
+      const qEl = document.getElementById('topic-search');
+      const topicQ = (qEl && qEl.value) ? qEl.value.trim().toLowerCase() : '';
 
-      const topicQ = (document.getElementById('topic-search')?.value || '').trim();
+      // Roster attribute filters (ignored if focusing on one author)
+      const selectedLevels = getMulti('level');
+      const selectedCats = getMulti('category');
+      const selectedAppt = getMulti('appointment');
+      const selectedRGs = getMulti('research-group');
 
-      let selectedRoster;
-      if (focusedAuthorID) {
-        // When focusing on one author, ignore roster attribute filters
-        selectedRoster = rosterData.filter(r => r.OpenAlexID === focusedAuthorID);
-      } else {
-        selectedRoster = rosterData.filter(r => {
-          const groupMatch = [r.RG1, r.RG2, r.RG3, r.RG4].some(g => !groups.length || groups.includes(g));
-          return (!levels.length || levels.includes(r.Level)) &&
-                 (!categories.length || categories.includes(r.Category)) &&
-                 (!appointments.length || appointments.includes(r.Appointment)) &&
-                 groupMatch;
-        });
+      // Filter pubs by year
+      let pubs = pubData.filter(p => p.publication_year >= yearBounds.min && p.publication_year <= yearBounds.max);
+
+      // Topic filter (robust token logic)
+      if (topicQ) {
+        pubs = pubs.filter(p => fuzzyQueryMatch(topicQ, p._topic_haystack));
       }
 
-      const authorIDs = new Set(selectedRoster.map(r => r.OpenAlexID));
+      let contributingRoster;
+      if (focusedAuthorID) {
+        // Focus: only pubs of that author
+        const fa = normalizeID(focusedAuthorID);
+        pubs = pubs.filter(p => normalizeID(p.author_openalex_id) === fa);
+        // Roster: just that one entry, if present
+        contributingRoster = rosterData.filter(r => normalizeID(r.OpenAlexID) === fa);
+      } else {
+        // Apply roster attribute filters to roster first
+        const filteredRoster = rosterData.filter(r => {
+          if (selectedLevels.length && !selectedLevels.includes(r.Level || '')) return false;
+          if (selectedCats.length && !selectedCats.includes(r.Category || '')) return false;
+          if (selectedAppt.length && !selectedAppt.includes(r.Appointment || '')) return false;
+          if (selectedRGs.length && !r._RGs.some(g => selectedRGs.includes(g))) return false;
+          return true;
+        });
 
-      const selectedPubs = pubData.filter(p => {
-        const y = clampYear(p.publication_year);
-        if (!(y >= yrMin && y <= yrMax)) return false;
-        // Author match across ALL authors on the paper
-        const authorMatch = hasAnyAuthor(p, authorIDs);
-        if (!authorMatch) return false;
-        const haystack = `${p.concepts_list || ''} ${p.primary_topic__subfield__display_name || ''} ${p.primary_topic__display_name || ''} ${p.display_name || ''}`;
-        const topicMatch = !topicQ || fuzzyQueryMatch(topicQ, haystack);
-        return topicMatch;
-      });
+        // Then limit pubs to those whose author is in filteredRoster
+        const allowedIDs = new Set(filteredRoster.map(r => normalizeID(r.OpenAlexID)));
+        pubs = pubs.filter(p => allowedIDs.has(normalizeID(p.author_openalex_id)));
 
-      const contributingIDs = new Set(selectedPubs.flatMap(p => Array.from(extractAllAuthorIDs(p))));
-      const contributingRoster = selectedRoster.filter(r => contributingIDs.has(r.OpenAlexID));
-      return { contributingRoster, selectedPubs };
+        // Contributing roster = filtered roster members who actually have pubs after all filters
+        const havePubIDs = new Set(pubs.map(p => normalizeID(p.author_openalex_id)));
+        contributingRoster = filteredRoster.filter(r => havePubIDs.has(normalizeID(r.OpenAlexID)));
+      }
+
+      return { contributingRoster, selectedPubs: pubs };
     }
 
+    function getMulti(id){
+      const el = document.getElementById(id);
+      return Array.from(el.selectedOptions).map(o => o.value);
+    }
+
+    // ============ Rendering ============
     function update(){
       const { contributingRoster, selectedPubs } = applyFilters();
       drawBarChart(selectedPubs);
       drawFacultyTable(contributingRoster);
       drawPublicationList(selectedPubs);
       const fc = document.getElementById('faculty-count');
-      fc.textContent = `Faculty contributing: ${contributingRoster.length}` + (focusedAuthorID ? ` (Focused: ${focusedAuthorName}. Use Reset to clear)` : '');
+      const base = `Faculty contributing: ${contributingRoster.length}`;
+      fc.textContent = focusedAuthorID ? `${base} (Focused: ${focusedAuthorName}. Use Reset to clear)` : base;
     }
 
     function drawBarChart(pubs){
-      const countsByYearType = new Map();
-      const yearsSet = new Set();
-      const typesSet = new Set();
+      // Count by year x type
+      const counts = new Map(); // key: `${year}::${type}` -> count
+      const years = new Set();
+      const types = new Set();
 
       pubs.forEach(p => {
-        const y = clampYear(p.publication_year);
-        const t = p.type || 'unknown';
-        if (!(y >= DEFAULT_START_YEAR && y <= DEFAULT_END_YEAR)) return;
-        yearsSet.add(y); typesSet.add(t);
-        if (!countsByYearType.has(y)) countsByYearType.set(y, new Map());
-        const m = countsByYearType.get(y);
-        m.set(t, (m.get(t) || 0) + 1);
+        const y = p.publication_year;
+        const t = (p.type || 'other').toLowerCase();
+        years.add(y); types.add(t);
+        const k = `${y}::${t}`;
+        counts.set(k, (counts.get(k) || 0) + 1);
       });
 
-      const years = Array.from(yearsSet).sort((a,b)=>a-b);
-      const types = Array.from(typesSet).sort();
-      const yearsStr = years.map(String); // categorical axis
+      const sortedYears = Array.from(years).sort((a,b)=>a-b);
+      const sortedTypes = Array.from(types).sort();
 
-      const traces = types.map(t => ({
-        x: yearsStr,
-        y: years.map(y => (countsByYearType.get(y)?.get(t)) || 0),
-        name: t,
-        type: 'bar'
-      }));
+      // Build Plotly series (stacked bars)
+      const traces = sortedTypes.map(t => {
+        const yvals = sortedYears.map(y => counts.get(`${y}::${t}`) || 0);
+        return {
+          x: sortedYears,
+          y: yvals,
+          name: t,
+          type: 'bar'
+        };
+      });
 
       const layout = {
         barmode: 'stack',
-        title: 'Publications per Year by Type',
-        xaxis: { type: 'category' },
-        yaxis: { rangemode: 'tozero' },
-        margin: { t: 40 }
+        xaxis: { title: 'Year', dtick: 1, range: [yearBounds.min - 0.5, yearBounds.max + 0.5] },
+        yaxis: { title: 'Publications' },
+        margin: { t: 20, r: 10, b: 40, l: 50 },
+        height: 300
       };
-      Plotly.newPlot('pub-chart', traces, layout, { displayModeBar: false });
+
+      Plotly.react('pub-chart', traces, layout, {displayModeBar:false});
     }
 
     function drawFacultyTable(faculty){
       const body = document.querySelector('#faculty-table tbody');
       body.innerHTML = '';
+      // Sort by H-index desc
       faculty.sort((a,b) => b.H_index - a.H_index);
       faculty.forEach(f => {
+        const openAlexId = String(f.OpenAlexID || '').toLowerCase();
+        const openAlexURL = `https://openalex.org/authors/${openAlexId}`;
         const row = `<tr>
-          <td><a href="#" class="author-link" data-id="${escapeHTML(f.OpenAlexID)}" data-name="${escapeHTML(f.Name)}">${escapeHTML(f.Name)}</a></td>
+          <td>
+            <a href="#" class="author-link" data-id="${escapeHTML(f.OpenAlexID)}" data-name="${escapeHTML(f.Name)}">${escapeHTML(f.Name)}</a>
+            &nbsp;·&nbsp;
+            <a href="${openAlexURL}" target="_blank" rel="noopener">OpenAlex profile</a>
+          </td>
           <td>${toInt(f.H_index)}</td>
           <td>${toInt(f.I10_index)}</td>
           <td>${toInt(f.Works_count)}</td>
@@ -278,14 +346,13 @@
         </tr>`;
         body.insertAdjacentHTML('beforeend', row);
       });
-      // Click to focus on one author
+
+      // Click to focus on one author (local link)
       body.querySelectorAll('.author-link').forEach(a => {
         a.addEventListener('click', (e) => {
           e.preventDefault();
-          const id = a.getAttribute('data-id');
-          const name = a.getAttribute('data-name');
-          if (focusedAuthorID === id) { focusedAuthorID = null; focusedAuthorName = ''; }
-          else { focusedAuthorID = id; focusedAuthorName = name; }
+          focusedAuthorID = a.getAttribute('data-id');
+          focusedAuthorName = a.getAttribute('data-name');
           update();
         });
       });
@@ -294,161 +361,107 @@
     function drawPublicationList(pubs){
       const ul = document.getElementById('publications-list');
       ul.innerHTML = '';
+      // Sort newest first, then by citations desc
       pubs.sort((a,b) => (b.publication_year - a.publication_year) || (b.cited_by_count - a.cited_by_count));
       pubs.forEach(p => {
-        const doi = p.doi && p.doi.startsWith('http') ? p.doi : '';
-        const safeTitle = allowItalicsOnly(p.display_name);
+        const doi = p.doi && /^https?:\/\//i.test(p.doi) ? p.doi : '';
+        const safeTitle = allowItalicsOnly(p.display_name || '');
         const li = document.createElement('li');
-        li.innerHTML = `<strong>${toInt(p.publication_year)}</strong> - <em>${safeTitle}</em> (${escapeHTML(p.type||'')}) [Citations: ${toInt(p.cited_by_count)}]` + (doi ? ` - <a href="${doi}" target="_blank" rel="noopener">DOI</a>` : '');
+
+        const bits = [
+          `<strong>${toInt(p.publication_year)}</strong> - <em>${safeTitle}</em> (${escapeHTML(p.type || '')})`,
+          `[Citations: ${toInt(p.cited_by_count)}]`
+        ];
+        if (doi) bits.push(`<a href="${doi}" target="_blank" rel="noopener">DOI</a>`);
+        if (Number.isFinite(p._fwci)) bits.push(`FWCI: ${p._fwci.toFixed(2)}`);
+
+        li.innerHTML = bits.join(' - ');
         ul.appendChild(li);
       });
     }
 
+    // ============ Text helpers ============
     function escapeHTML(s){
-      return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+      return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     }
+
+    // Allow <i> and </i> only (for italic species names)
     function allowItalicsOnly(s){
-      const esc = escapeHTML(s);
-      return esc.replace(/&lt;i&gt;/g, '<i>').replace(/&lt;\/i&gt;/g, '</i>');
+      const escaped = escapeHTML(String(s||''));
+      // Restore *only* <i> and </i> tags if they existed literally
+      // (assuming input titles may include <i>...</i>)
+      return escaped
+        .replace(/&lt;i&gt;/g, '<i>')
+        .replace(/&lt;\/i&gt;/g, '</i>');
     }
-    function debounce(fn, delay){ let t; return (...args)=>{ clearTimeout(t); t = setTimeout(()=>fn.apply(null,args), delay); }; }
 
-// ============ Fuzzy search helpers ============
-
-function normalizeText(t) {
-  if (t == null) return "";
-  // Unicode normalize, strip diacritics, lowercase, collapse punctuation/whitespace
-  let s = String(t)
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")  // remove combining marks (diacritics)
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, " ")      // map non-alphanumerics to spaces
-    .replace(/\s+/g, " ")             // collapse multiple spaces
-    .trim();
-  return s;
-}
-
-// Conservative stemmer: avoid over-stemming short tokens; unify common variants
-function stem(w) {
-  if (!w || w.length <= 3) return w;  // don't stem very short tokens (e.g., 'ai', 'ml')
-
-  let s = w;
-
-  // plural -> singular
-  if (s.endsWith("sses")) {
-    s = s.slice(0, -2);                                // "classes" -> "class"
-  } else if (s.endsWith("ies") && s.length > 4) {
-    s = s.slice(0, -3) + "y";                          // "studies" -> "study"
-  } else if (s.endsWith("s") && !s.endsWith("ss") && s.length > 3) {
-    s = s.slice(0, -1);                                // "dogs" -> "dog"
-  }
-
-  // past/gerund
-  if (s.endsWith("ing") && s.length > 5) {
-    s = s.slice(0, -3);                                // "running" -> "runn"
-    if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
-      s = s.slice(0, -1);                              // "runn" -> "run"
+    function normalizeText(t){
+      // Basic normalization for fuzzy matching
+      return String(t||'')
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
     }
-  } else if (s.endsWith("ed") && s.length > 4) {
-    s = s.slice(0, -2);                                // "jogged" -> "jogg"
-    if (s.length > 3 && s[s.length - 1] === s[s.length - 2]) {
-      s = s.slice(0, -1);                              // "jogg" -> "jog"
+
+    function tokenize(t){
+      const raw = normalizeText(t).split(' ').filter(Boolean);
+      // drop very short tokens unless explicitly provided as exact search
+      return raw;
     }
-  }
 
-  return s;
-}
+    // Slightly conservative fuzzy match to reduce false positives:
+    // - Exact substring match passes
+    // - Token-level match:
+    //   * if token length <= 2: require exact token match
+    //   * if 3: allow substring match
+    //   * if >=4: allow substring OR edit distance <=1
+    function fuzzyQueryMatch(query, text){
+      if (!query) return true;
+      const qTokens = tokenize(query);
+      if (!qTokens.length) return true;
 
-function tokenize(text) {
-  // Normalize -> split -> light stem -> deduplicate
-  const base = normalizeText(text).split(/\s+/).filter(Boolean).map(stem);
-  return Array.from(new Set(base));
-}
+      // quick whole-phrase containment
+      if (text.includes(normalizeText(query))) return true;
 
-// Edit-distance (≤1) with a couple of early exits; allows one substitution/ins/del
-function editDistanceLe1(a, b) {
-  if (a === b) return true;
-  const la = a.length, lb = b.length;
-  if (Math.abs(la - lb) > 1) return false;
-
-  // Early allowance: if one is a prefix of the other and length diff == 1 (for longer tokens)
-  if (la > 2 && lb > 2 && (a.startsWith(b) || b.startsWith(a)) && Math.abs(la - lb) === 1) {
-    return true;
-  }
-
-  // Single-edit scan
-  let i = 0, j = 0, edits = 0;
-  while (i < la && j < lb) {
-    if (a[i] === b[j]) { i++; j++; continue; }
-    if (++edits > 1) return false;
-    if (la > lb) { i++; }           // deletion in b (or insertion in a)
-    else if (lb > la) { j++; }      // insertion in b (or deletion in a)
-    else { i++; j++; }              // substitution
-  }
-  // If one char remains, that’s the single edit
-  return edits <= 1;
-}
-
-// Length-aware, token-wise AND semantics across query tokens.
-// Fields using this should pass a concatenated string of searchable fields.
-function fuzzyQueryMatch(query, text) {
-  const qTokensRaw = tokenize(query);
-  if (!qTokensRaw.length) return true;
-
-  // Filter out any accidental empty tokens
-  const qTokens = qTokensRaw.filter(t => t.length >= 1);
-  const tTokens = tokenize(text);
-
-  function strongTokenMatch(qt, tt) {
-    // ≤2 chars: exact match only (prevents 'ai' matching 'pain')
-    if (qt.length <= 2) return tt === qt;
-
-    // ==3 chars: exact or prefix only ('dog' matches 'dog'/'dogs', not 'endogenous')
-    if (qt.length === 3) return tt === qt || tt.startsWith(qt);
-
-    // ≥4 chars: exact, prefix, or edit distance ≤1 for mild fuzziness
-    return tt === qt || tt.startsWith(qt) || editDistanceLe1(qt, tt);
-  }
-
-  // Every query token must match at least one text token
-  return qTokens.every(qt => tTokens.some(tt => strongTokenMatch(qt, tt)));
-}
-
-// ========== End Fuzzy search helpers ==========
-
-
-    // ============ Authorship helpers ============
-    function parseIDList(raw){
-      if (!raw) return [];
-      const s = String(raw).trim();
-      // Try JSON first
-      try {
-        const arr = JSON.parse(s);
-        if (Array.isArray(arr)) return arr.map(x => normalizeID(x));
-      } catch(_){/* ignore */}
-      // Fallback split by common delimiters
-      return s.split(/[;\,\|\s]+/).map(x => normalizeID(x)).filter(Boolean);
+      const tTokens = tokenize(text);
+      return qTokens.every(qt => {
+        const qlen = qt.length;
+        return tTokens.some(tt => {
+          if (qlen <= 2) return tt === qt;                // strict for 1–2
+          if (qlen === 3) return tt.includes(qt) || qt.includes(tt);
+          // qlen >= 4: allow near match
+          return tt.includes(qt) || qt.includes(tt) || editDistanceLe1(qt, tt);
+        });
+      });
     }
-    function extractAllAuthorIDs(p){
-      const candidates = [
-        p.authorships_author_ids,
-        p.all_author_ids,
-        p.author_ids,
-        p.authors_ids,
-        p.authors_full_ids,
-        p.full_author_ids
-      ].filter(Boolean);
-      if (candidates.length){
-        return new Set(parseIDList(candidates[0]));
+
+    function editDistanceLe1(a,b){
+      // Early exit for length difference > 1
+      const la = a.length, lb = b.length;
+      if (Math.abs(la - lb) > 1) return false;
+      if (a === b) return true;
+      let i=0, j=0, edits=0;
+      while (i<la && j<lb){
+        if (a[i] === b[j]) { i++; j++; continue; }
+        if (++edits > 1) return false;
+        // try skip/add/substitute
+        if (la > lb) i++; else if (lb > la) j++; else { i++; j++; }
       }
-      const single = normalizeID(p.author_openalex_id || '');
-      return new Set(single ? [single] : []);
+      return true;
     }
-    function hasAnyAuthor(p, authorSet){
-      if (!authorSet || authorSet.size === 0) return false;
-      const ids = extractAllAuthorIDs(p);
-      for (const id of ids){ if (authorSet.has(id)) return true; }
-      return false;
+
+    // ============ Utilities ============
+    function uniqueNonEmpty(arr){
+      return Array.from(new Set(arr.filter(v => v && String(v).trim() !== ''))).sort();
+    }
+
+    function debounce(fn, ms){
+      let t=null;
+      return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(null, args), ms);
+      };
     }
   });
 })();

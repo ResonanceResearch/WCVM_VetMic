@@ -37,13 +37,16 @@ jobs:
           ls -lh data/logs/
 
       - name: Run ETL scripts
+        env:
+          CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}   # add this secret in your repo settings
         run: |
-          python etl/fetch_author_metrics.py \
+          set -Eeuo pipefail
+          python -u etl/fetch_author_metrics.py \
             --input data/full_time_faculty.csv \
             --output data/roster_with_metrics.csv \
-            --email "${{ secrets.CONTACT_EMAIL }}" \
-            --log_diffs
-          python etl/UCVM_works.py \
+            --email "${CONTACT_EMAIL}" \
+            --log-diffs
+          python -u etl/UCVM_works.py \
             --input data/roster_with_metrics.csv \
             --output data/openalex_all_authors_last5y_key_fields_dedup.csv
 

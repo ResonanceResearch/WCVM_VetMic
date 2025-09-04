@@ -307,6 +307,7 @@
     function update(){
       const { contributingRoster, selectedPubs } = applyFilters();
       lastSelectedPubs = selectedPubs.slice();  // shallow copy
+      setExportButtonCount(selectedPubs.length);
       drawBarChart(selectedPubs);
       drawFacultyTable(contributingRoster);
       drawPublicationList(selectedPubs);

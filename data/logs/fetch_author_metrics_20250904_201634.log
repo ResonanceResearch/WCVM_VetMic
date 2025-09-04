@@ -1,0 +1,38 @@
+[2025-09-04 20:16:34,263] INFO: Logging to data/logs/fetch_author_metrics_20250904_201634.log
+[2025-09-04 20:16:34,264] WARNING: No contact email provided (--email/OPENALEX_MAILTO/CONTACT_EMAIL). Requests may be throttled.
+[2025-09-04 20:16:34,266] INFO: Detected OpenAlex ID column: OpenAlexID
+[2025-09-04 20:16:34,267] INFO: Loaded previous output for diffing: data/roster_with_metrics.csv
+[2025-09-04 20:16:34,268] INFO: [fetch] Row 1/29: A5022032110
+[2025-09-04 20:16:35,018] INFO: [fetch] Row 2/29: A5024161948
+[2025-09-04 20:16:35,511] INFO: [fetch] Row 3/29: A5007566988
+[2025-09-04 20:16:35,931] INFO: [fetch] Row 4/29: A5054537882
+[2025-09-04 20:16:36,295] INFO: [fetch] Row 5/29: A5075278671
+[2025-09-04 20:16:36,737] INFO: [fetch] Row 6/29: A5032938268
+[2025-09-04 20:16:37,095] INFO: [fetch] Row 7/29: A5016372093
+[2025-09-04 20:16:37,445] INFO: [fetch] Row 8/29: A5026690931
+[2025-09-04 20:16:37,815] INFO: [fetch] Row 9/29: A5050567215
+[2025-09-04 20:16:38,194] INFO: [fetch] Row 10/29: a5000375230
+[2025-09-04 20:16:38,538] INFO: [fetch] Row 11/29: A5088785492
+[2025-09-04 20:16:38,925] INFO: [fetch] Row 12/29: A5041967571
+[2025-09-04 20:16:39,320] INFO: [fetch] Row 13/29: A5073467123
+[2025-09-04 20:16:39,669] INFO: [fetch] Row 14/29: a5012825986
+[2025-09-04 20:16:40,125] INFO: [fetch] Row 15/29: a5053166362
+[2025-09-04 20:16:40,464] INFO: [fetch] Row 16/29: A5100409525
+[2025-09-04 20:16:40,856] INFO: [fetch] Row 17/29: a5018933207
+[2025-09-04 20:16:41,240] INFO: [fetch] Row 18/29: a5075533328
+[2025-09-04 20:16:41,569] INFO: [fetch] Row 19/29: a5061580720
+[2025-09-04 20:16:41,906] INFO: [fetch] Row 20/29: a5095017105
+[2025-09-04 20:16:42,302] INFO: [fetch] Row 21/29: A5002970194
+[2025-09-04 20:16:42,650] INFO: [fetch] Row 22/29: A5032015135
+[2025-09-04 20:16:43,072] INFO: [fetch] Row 23/29: A5028351806
+[2025-09-04 20:16:43,431] INFO: [fetch] Row 24/29: a5073090598
+[2025-09-04 20:16:43,786] INFO: [fetch] Row 25/29: a5070489863
+[2025-09-04 20:16:44,292] INFO: [fetch] Row 26/29: A5018540324
+[2025-09-04 20:16:44,670] INFO: [fetch] Row 27/29: a5070489863
+[2025-09-04 20:16:45,021] INFO: [fetch] Row 28/29: a5035086403
+[2025-09-04 20:16:45,500] INFO: [skip] Row 29/29: missing OpenAlexID
+[2025-09-04 20:16:45,502] INFO: [diff] H_index: 0 rows changed; total delta = 0.0
+[2025-09-04 20:16:45,503] INFO: [diff] I10_index: 0 rows changed; total delta = 0.0
+[2025-09-04 20:16:45,503] INFO: [diff] Works_count: 0 rows changed; total delta = 0.0
+[2025-09-04 20:16:45,504] INFO: [diff] Total_citations: 0 rows changed; total delta = 0.0
+[2025-09-04 20:16:45,505] INFO: [ok] Wrote: data/roster_with_metrics.csv

@@ -237,6 +237,13 @@
       });
     }
 
+    // Export current selection as CSV
+    const exportBtn = document.getElementById('export-selection');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+          exportCurrentSelectionCSV(lastSelectedPubs);
+        });
+      }
     // ============ Filtering logic ============
     function applyFilters(){
       // Years

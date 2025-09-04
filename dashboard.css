@@ -146,7 +146,7 @@ select.multi:focus, input:focus {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--ring) 25%, transparent);
 }
 
-.year-inputs { display: inline-flex; gap: 8px; align-items: center; }
+year-inputs { display: inline-flex; gap: 8px; align-items: center; }
 .year-inputs input { width: 110px; }
 
 /* Buttons */
@@ -255,3 +255,39 @@ select.multi:focus, input:focus {
   }
 }
 
+/* === Publications panel header + Export button ========================= */
+#publications-panel .panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+#publications-panel .panel-head h2 { margin: 0; }
+
+/* Generic button used for Export */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: var(--shadow-1);
+  transition: transform 120ms ease, background 160ms ease, border-color 160ms ease;
+}
+.btn:hover { transform: translateY(-1px); background: color-mix(in srgb, #fff, var(--bg) 6%); }
+.btn:focus { outline: 2px solid var(--ring); outline-offset: 2px; }
+
+/* Export button variant */
+.btn.export {
+  background: var(--chip);
+  border-color: var(--chip-border);
+  color: #1e1b4b;
+}
+.btn.export:hover {
+  background: color-mix(in srgb, var(--chip), white 8%);
+}

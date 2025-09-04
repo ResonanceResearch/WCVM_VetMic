@@ -17,6 +17,8 @@
     // Focus (single author) state
     let focusedAuthorID = null;
     let focusedAuthorName = '';
+    let lastSelectedPubs = []; // holds the most recent filtered publications
+
 
     // Load both CSVs, then initialize
     Promise.all([fetchCSV(rosterPath), fetchCSV(pubsPath)])

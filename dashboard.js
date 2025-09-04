@@ -306,6 +306,7 @@
     // ============ Rendering ============
     function update(){
       const { contributingRoster, selectedPubs } = applyFilters();
+      lastSelectedPubs = selectedPubs.slice();  // shallow copy
       drawBarChart(selectedPubs);
       drawFacultyTable(contributingRoster);
       drawPublicationList(selectedPubs);

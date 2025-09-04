@@ -538,6 +538,73 @@ function fuzzyQueryMatch(query, text) {
 
 // ========== End Fuzzy search helpers ==========
 
+function exportCurrentSelectionCSV(pubs) {
+  // Desired column order and their source fields in your CSV rows
+  // Your CSV already includes these columns (confirmed): 
+  // publication_year, display_name, authors, host_venue__display_name, id, doi, fwci, cited_by_count, type, institutions, concepts_list
+  const headers = [
+    'publication_year',
+    'title',
+    'authors',
+    'journal',
+    'id',
+    'DOI',
+    'FWCI',
+    'citations',
+    'type',
+    'institutions',
+    'concepts_list'
+  ];
+
+  // map a pub row to the exact ordered values
+  const rows = pubs.map(p => ([
+    safeCsv(p.publication_year),
+    safeCsv(p.display_name),                    // title
+    safeCsv(p.authors),
+    safeCsv(p.host_venue__display_name),        // journal
+    safeCsv(p.id),
+    safeCsv(p.doi),
+    safeCsv((Number.isFinite(p._fwci) ? p._fwci : p.fwci)), // FWCI (use parsed _fwci if present)
+    safeCsv(p.cited_by_count),                  // citations
+    safeCsv(p.type),
+    safeCsv(p.institutions),
+    safeCsv(p.concepts_list)
+  ]));
+
+  // Build CSV (RFC4180-ish): quote fields, double internal quotes
+  const headerLine = headers.map(csvEscape).join(',');
+  const bodyLines = rows.map(r => r.map(csvEscape).join(',')).join('\n');
+  const csv = headerLine + '\n' + bodyLines + '\n';
+
+  // Download (with UTF-8 BOM so Excel opens cleanly)
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'publications_selection.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function csvEscape(v) {
+  const s = String(v == null ? '' : v);
+  // Escape CR/LF to keep rows intact; many CSV readers handle raw newlines but this is safer
+  const cleaned = s.replace(/\r\n/g, ' ').replace(/\n/g, ' ').replace(/\r/g, ' ');
+  // If field contains comma, quote, or leading/trailing space, wrap in quotes and double quotes inside
+  if (/[",\s]/.test(cleaned[0] || '') || /[",\s]/.test(cleaned.slice(-1)) || /[",\n]/.test(cleaned)) {
+    return `"${cleaned.replace(/"/g, '""')}"`;
+  }
+  return cleaned;
+}
+
+function safeCsv(v) {
+  if (v == null) return '';
+  // prefer numbers as-is; everything else to string
+  if (typeof v === 'number' && Number.isFinite(v)) return v;
+  return String(v);
+}
 
     // ============ Utilities ============
     function uniqueNonEmpty(arr){

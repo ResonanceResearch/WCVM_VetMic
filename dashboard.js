@@ -606,6 +606,15 @@ function safeCsv(v) {
   return String(v);
 }
 
+function setExportButtonCount(n) {
+  const btn = document.getElementById('export-selection');
+  if (!btn) return;
+  btn.textContent = `Export current selection (n=${n})`;
+  btn.disabled = (n === 0);                   // optional UX: disable when empty
+  btn.classList.toggle('is-disabled', n === 0);
+}
+
+    
     // ============ Utilities ============
     function uniqueNonEmpty(arr){
       return Array.from(new Set(arr.filter(v => v && String(v).trim() !== ''))).sort();

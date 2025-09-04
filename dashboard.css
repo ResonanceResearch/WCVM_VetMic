@@ -291,3 +291,8 @@ year-inputs { display: inline-flex; gap: 8px; align-items: center; }
 .btn.export:hover {
   background: color-mix(in srgb, var(--chip), white 8%);
 }
+.btn:disabled,
+.btn.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

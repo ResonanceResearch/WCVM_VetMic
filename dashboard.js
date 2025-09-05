@@ -483,6 +483,24 @@ function drawPublicationList(pubs) {
         .replace(/&lt;\/i&gt;/g, '</i>');
     }
 
+  function stripDiacritics(s){ return String(s||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,''); }
+
+function canonName(raw){
+  let s = stripDiacritics(raw).toLowerCase().trim();
+  const m = s.match(/^([^,]+),\s*(.+)$/); if (m) s = `${m[2]} ${m[1]}`;
+  s = s.replace(/[.'’-]/g, ' ').replace(/[^a-z\s]/g,' ').replace(/\s+/g,' ').trim();
+  const parts = s.split(' ').filter(Boolean);
+  if (parts.length === 1) return parts[0];
+  const suff = new Set(['jr','sr','iii','ii']); while (parts.length>1 && suff.has(parts.at(-1))) parts.pop();
+  const particles = new Set(['de','del','della','der','den','van','von','da','di','dos','la','le','mac','mc','bin','al','ibn','st','st.']);
+  const first = parts[0]; let last = parts.at(-1); const pen = parts.at(-2);
+  if (parts.length>=3 && particles.has(pen)) last = `${pen} ${last}`;
+  return `${first[0]} ${last}`;
+}
+
+function splitAuthorsList(s){ return s ? String(s).split(/\s*;\s*/).map(t=>t.trim()).filter(Boolean) : []; }
+
+    
 // ============ Fuzzy search helpers (STRICT) ============
 // Goal: high precision. No prefix or edit-distance fuzziness.
 // Match = exact token equality after conservative stemming.

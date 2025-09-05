@@ -22,23 +22,24 @@
     let lastSelectedPubs = []; // holds the most recent filtered publications
 
     // Load both CSVs, then initialize
-    Promise.all([fetchCSV(rosterPath), fetchCSV(pubsPath)])
-      .then(([rosterCSV, pubsCSV]) => {
-        rosterData = parseCSV(rosterCSV);
-        pubData = parseCSV(pubsCSV);
+    Promise.all([
+      fetchCSV(rosterPath),
+      fetchCSV(pubsPath),
+      fetchCSVIfExists(authorshipsPath)])
+      .then(([rosterCSV, pubsCSV, authCSV]) => {
+      rosterData = parseCSV(rosterCSV);
+      pubData = parseCSV(pubsCSV);
+      authorshipData = authCSV ? parseCSV(authCSV) : null;
 
-        normalizeRoster();
-        normalizePubs();
+      normalizeRoster();
+      normalizePubs();
+      // Optional: normalize authorship, if you want to coerce types/columns fancily
+      // (Not strictly necessary; we normalize at use-time.)
 
-        // UI bootstrap
-        initFilters();
-        initYearInputs();
-        bindEvents();
+      initFilters(); initYearInputs(); bindEvents();
+      update();
+    }).catch(err => console.error('Failed to load CSVs', err));
 
-        // Initial render
-        update();
-      })
-      .catch(err => console.error('Failed to load CSVs', err));
 
     // ============ Core helpers ============
     function fetchCSVIfExists(path){

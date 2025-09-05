@@ -8,17 +8,18 @@
     // Paths used by index.html
     const rosterPath = 'data/roster_with_metrics.csv';
     const pubsPath = 'data/openalex_all_authors_last5y_key_fields_dedup.csv';
-
+    const authorshipsPath = 'data/openalex_all_authors_last5y_key_fields.csv'; // pre-dedup, optional
+    
     // In-memory data
     let rosterData = [];   // faculty roster + metrics
     let pubData = [];      // publications (last 5y)
     let yearBounds = { min: DEFAULT_START_YEAR, max: DEFAULT_END_YEAR };
+    let authorshipData = null;
 
     // Focus (single author) state
     let focusedAuthorID = null;
     let focusedAuthorName = '';
     let lastSelectedPubs = []; // holds the most recent filtered publications
-
 
     // Load both CSVs, then initialize
     Promise.all([fetchCSV(rosterPath), fetchCSV(pubsPath)])
@@ -40,6 +41,10 @@
       .catch(err => console.error('Failed to load CSVs', err));
 
     // ============ Core helpers ============
+    function fetchCSVIfExists(path){
+      return fetch(path).then(r => r.ok ? r.text() : null).catch(() => null);
+      }
+    
     function toInt(x) {
       const n = Number(x);
       return Number.isFinite(n) ? Math.round(n) : 0;

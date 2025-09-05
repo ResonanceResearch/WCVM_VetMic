@@ -628,6 +628,328 @@ function setExportButtonCount(n) {
   btn.classList.toggle('is-disabled', n === 0);
 }
 
+// ==================== Co-authorship Network & Pairs Table ====================
+
+// Ensure a panel exists (works without editing HTML)
+function ensureNetworkPanel(){
+  if (document.getElementById('network-panel')) return;
+
+  // Insert after the Faculty+Publications section if present; else append to body
+  const anchor = document.getElementById('faculty-publications') || document.body;
+  const panel = document.createElement('section');
+  panel.id = 'network-panel';
+  panel.className = 'card';
+  panel.innerHTML = `
+    <div class="panel-head">
+      <h2>Co-authorship network (filtered selection)</h2>
+      <div id="network-meta" class="count"></div>
+    </div>
+    <div id="coauthor-network" class="chart"></div>
+    <div id="pair-detail" class="muted" style="margin-top:8px;"></div>
+    <div class="split-2">
+      <section>
+        <h3 style="margin-top:16px;">Author pairs</h3>
+        <table id="coauthor-table">
+          <thead><tr><th>Author A</th><th>Author B</th><th># joint pubs</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </div>
+  `;
+  anchor.insertAdjacentElement('afterend', panel);
+
+  // Click handler for edge "midpoint" markers
+  const netDiv = document.getElementById('coauthor-network');
+  netDiv.on('plotly_click', (ev) => {
+    const pt = ev?.points?.[0];
+    if (!pt) return;
+    const trace = ev.event?.target?.__data?.[pt.curveNumber];
+    const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
+    const pairKey = pt?.customdata;
+    if (isEdgeClickTargets && pairKey) {
+      const ctx = netDiv.__pairIndex || {};
+      const rec = ctx[pairKey];
+      if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
+    }
+  });
+}
+
+// Main updater
+function updateCoauthorPanels(contributingRoster, selectedPubs){
+  const graph = computeCoauthorGraph(contributingRoster, selectedPubs);
+  drawCoauthorNetwork(graph);
+  drawCoauthorPairsTable(graph);
+  const meta = document.getElementById('network-meta');
+  if (meta) {
+    meta.textContent = `${graph.nodes.length} researchers · ${graph.edges.length} links`;
+  }
+}
+
+// Build graph from filtered pubs & roster
+function computeCoauthorGraph(contributingRoster, selectedPubs){
+  const idNorm = (s) => String(s || '').trim()
+    .replace(/^https?:\/\/openalex\.org\/authors\//i, '')
+    .replace(/^https?:\/\/openalex\.org\//i, '');
+
+  const workNorm = (s) => String(s || '').trim()
+    .replace(/^https?:\/\/openalex\.org\/works\//i, '')
+    .replace(/^https?:\/\/openalex\.org\//i, '');
+
+  // roster id -> name
+  const nameOf = new Map(contributingRoster.map(r => [idNorm(r.OpenAlexID), r.Name || r.OpenAlexID]));
+
+  // Group roster authors per work id (only those in selection)
+  const byWork = new Map(); // workId -> Set<authorId>
+  selectedPubs.forEach(p => {
+    const aid = idNorm(p.author_openalex_id);
+    if (!nameOf.has(aid)) return; // ensure roster member
+    const wid = workNorm(p.id || p.work_id || '');
+    if (!wid) return;
+    if (!byWork.has(wid)) byWork.set(wid, new Set());
+    byWork.get(wid).add(aid);
+  });
+
+  // Count pairs and collect pubs per pair
+  const pairCounts = new Map(); // "a|b" -> count
+  const pairPubs = new Map();   // "a|b" -> array of pubs for that work (dedup by wid)
+  const workIndex = new Map();  // wid -> representative publication row (for listing)
+  selectedPubs.forEach(p => {
+    const wid = workNorm(p.id || p.work_id || '');
+    if (wid && !workIndex.has(wid)) workIndex.set(wid, p);
+  });
+
+  for (const [wid, set] of byWork.entries()) {
+    const ids = Array.from(set).sort();
+    if (ids.length < 2) continue;
+    for (let i=0;i<ids.length;i++){
+      for (let j=i+1;j<ids.length;j++){
+        const a = ids[i], b = ids[j];
+        const key = `${a}|${b}`;
+        pairCounts.set(key, (pairCounts.get(key) || 0) + 1);
+        if (!pairPubs.has(key)) pairPubs.set(key, []);
+        pairPubs.get(key).push(workIndex.get(wid));
+      }
+    }
+  }
+
+  // Nodes = authors that appear in any pair
+  const nodeIDs = new Set();
+  pairCounts.forEach((_, key) => {
+    const [a,b] = key.split('|');
+    nodeIDs.add(a); nodeIDs.add(b);
+  });
+
+  const nodes = Array.from(nodeIDs).map(id => ({
+    id, name: nameOf.get(id) || id
+  })).sort((x,y) => x.name.localeCompare(y.name));
+
+  // Map node id -> index
+  const idxOf = new Map(nodes.map((n,i)=>[n.id,i]));
+
+  // Edges
+  const edges = [];
+  pairCounts.forEach((count, key) => {
+    const [a,b] = key.split('|');
+    if (!idxOf.has(a) || !idxOf.has(b)) return;
+    edges.push({
+      a, b, ai: idxOf.get(a), bi: idxOf.get(b),
+      count,
+      pubs: (pairPubs.get(key) || [])
+        // some CSVs carry duplicate authorship rows per work; normalize once per wid
+        .reduce((acc,p) => {
+          const wid = (p && (p.id||p.work_id)) ? workNorm(p.id||p.work_id) : '';
+          if (wid && !acc._seen.has(wid)) { acc._seen.add(wid); acc.list.push(p); }
+          return acc;
+        }, {_seen:new Set(), list:[]}).list
+    });
+  });
+
+  // Circular layout (simple & robust without extra libs)
+  const N = nodes.length;
+  const R = 1.0; // unit circle; Plotly will scale
+  nodes.forEach((n, i) => {
+    const t = (i / N) * 2 * Math.PI;
+    n.x = R * Math.cos(t);
+    n.y = R * Math.sin(t);
+  });
+
+  // Degree (sum of weights) for sizing
+  const degree = new Map(nodes.map(n => [n.id, 0]));
+  edges.forEach(e => {
+    degree.set(e.a, degree.get(e.a) + e.count);
+    degree.set(e.b, degree.get(e.b) + e.count);
+  });
+  nodes.forEach(n => n.deg = degree.get(n.id) || 0);
+
+  return { nodes, edges };
+}
+
+function drawCoauthorNetwork(graph){
+  const el = document.getElementById('coauthor-network');
+  if (!el) return;
+
+  const xs = graph.nodes.map(n => n.x);
+  const ys = graph.nodes.map(n => n.y);
+  const labels = graph.nodes.map(n => n.name);
+  const degs = graph.nodes.map(n => n.deg);
+  const minDeg = Math.min(...degs, 0);
+  const maxDeg = Math.max(...degs, 1);
+
+  // Node size scale: 10–28 px
+  const size = degs.map(d => {
+    const t = (d - minDeg) / (maxDeg - minDeg || 1);
+    return 10 + t * 18;
+  });
+
+  // Build edge traces with variable thickness
+  const edgeLineTraces = [];
+  const edgeClickTargetsX = [];
+  const edgeClickTargetsY = [];
+  const edgeClickTargetsCustom = [];
+
+  let minW = Infinity, maxW = 0;
+  graph.edges.forEach(e => { minW = Math.min(minW, e.count); maxW = Math.max(maxW, e.count); });
+  const lineWidth = (c) => {
+    if (!isFinite(c)) return 1;
+    if (minW === maxW) return 4;      // uniform
+    const t = (c - minW) / (maxW - minW);
+    return 1 + t * 8;                 // 1–9 px
+  };
+
+  graph.edges.forEach(e => {
+    const x0 = graph.nodes[e.ai].x, y0 = graph.nodes[e.ai].y;
+    const x1 = graph.nodes[e.bi].x, y1 = graph.nodes[e.bi].y;
+
+    edgeLineTraces.push({
+      type: 'scatter',
+      mode: 'lines',
+      x: [x0, x1],
+      y: [y0, y1],
+      hoverinfo: 'text',
+      text: `${graph.nodes[e.ai].name} ↔ ${graph.nodes[e.bi].name} — ${e.count} joint pub${e.count>1?'s':''}`,
+      line: { width: lineWidth(e.count), color: 'rgba(100, 116, 139, 0.6)' }, // slate-ish
+      showlegend: false,
+      hoverlabel: { namelength: -1 }
+    });
+
+    // Invisible midpoint markers for click detection
+    const mx = (x0 + x1)/2, my = (y0 + y1)/2;
+    edgeClickTargetsX.push(mx);
+    edgeClickTargetsY.push(my);
+    edgeClickTargetsCustom.push(`${e.a}|${e.b}`);
+  });
+
+  // Node trace
+  const nodeTrace = {
+    type: 'scatter',
+    mode: 'markers+text',
+    x: xs,
+    y: ys,
+    text: labels,
+    textposition: 'top center',
+    hoverinfo: 'text',
+    marker: {
+      size: size,
+      line: { width: 1, color: '#fff' }
+    },
+    name: 'authors'
+  };
+
+  // Invisible click-targets on edges
+  const edgeClickTrace = {
+    type: 'scatter',
+    mode: 'markers',
+    x: edgeClickTargetsX,
+    y: edgeClickTargetsY,
+    customdata: edgeClickTargetsCustom,
+    marker: { size: 12, opacity: 0.005 }, // nearly invisible but clickable
+    name: 'edge-click-targets',
+    hoverinfo: 'skip',
+    showlegend: false
+  };
+
+  const layout = {
+    xaxis: { visible: false },
+    yaxis: { visible: false },
+    margin: { t: 10, r: 10, b: 10, l: 10 },
+    height: 520,
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: 'rgba(0,0,0,0)'
+  };
+
+  // Build pair index for click → publications
+  const pairIndex = {};
+  graph.edges.forEach(e => { pairIndex[`${e.a}|${e.b}`] = e; });
+  el.__pairIndex = pairIndex;
+
+  Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, {displayModeBar:false});
+}
+
+function drawCoauthorPairsTable(graph){
+  const body = document.querySelector('#coauthor-table tbody');
+  if (!body) return;
+  body.innerHTML = '';
+
+  // Sort pairs by count desc, then alpha
+  const rows = graph.edges
+    .map(e => ({ a: graph.nodes[e.ai].name, b: graph.nodes[e.bi].name, key: `${e.a}|${e.b}`, count: e.count, pubs: e.pubs }))
+    .sort((r1, r2) => (r2.count - r1.count) || (r1.a.localeCompare(r2.a)) || (r1.b.localeCompare(r2.b)));
+
+  const frag = document.createDocumentFragment();
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${escapeHTML(r.a)}</td><td>${escapeHTML(r.b)}</td><td>${r.count}</td>`;
+    tr.addEventListener('click', () => {
+      showPairPublications(r.key.split('|')[0], r.key.split('|')[1], r.pubs);
+      // Optional: scroll into view
+      document.getElementById('pair-detail')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    frag.appendChild(tr);
+  });
+  body.appendChild(frag);
+}
+
+function showPairPublications(aID, bID, pubs){
+  const box = document.getElementById('pair-detail');
+  if (!box) return;
+
+  // Name lookup via rosterData
+  const norm = (s)=> String(s||'').replace(/^https?:\/\/openalex\.org\/authors\//i,'').replace(/^https?:\/\/openalex\.org\//i,'');
+  const nameOf = new Map(rosterData.map(r => [norm(r.OpenAlexID), r.Name || r.OpenAlexID]));
+  const nameA = nameOf.get(norm(aID)) || aID;
+  const nameB = nameOf.get(norm(bID)) || bID;
+
+  if (!pubs || !pubs.length) {
+    box.innerHTML = `<div class="muted">No publications found for ${escapeHTML(nameA)} and ${escapeHTML(nameB)} in the current selection.</div>`;
+    return;
+  }
+
+  // Dedup by work id again (safety)
+  const widOf = (p) => String(p?.id || p?.work_id || '').replace(/^https?:\/\/openalex\.org\/works\//i,'').replace(/^https?:\/\/openalex\.org\//i,'');
+  const seen = new Set();
+  const list = [];
+  pubs.forEach(p => {
+    const wid = widOf(p);
+    if (!wid || seen.has(wid)) return;
+    seen.add(wid);
+    list.push(p);
+  });
+
+  const items = list.map(p => {
+    const year = toInt(p.publication_year);
+    const title = allowItalicsOnly(p.display_name || '');
+    const doi = (p.doi && /^https?:\/\//i.test(p.doi)) ? `<a href="${p.doi}" target="_blank" rel="noopener">DOI</a>` : '';
+    const idLink = p.id ? `<a href="${p.id}" target="_blank" rel="noopener">OpenAlex</a>` : '';
+    const journal = escapeHTML(p.host_venue__display_name || '');
+    return `<li><strong>${year}</strong> — <em>${title}</em> <span class="muted">(${journal})</span> ${doi ? '· '+doi : ''} ${idLink ? '· '+idLink : ''}</li>`;
+  }).join('');
+
+  box.innerHTML = `
+    <div class="chip">Papers co-authored by <strong>${escapeHTML(nameA)}</strong> and <strong>${escapeHTML(nameB)}</strong> (n=${list.length})</div>
+    <ul class="pair-pubs">${items}</ul>
+  `;
+}
+
     
     // ============ Utilities ============
     function uniqueNonEmpty(arr){

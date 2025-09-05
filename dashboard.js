@@ -322,6 +322,8 @@
       drawBarChart(selectedPubs);
       drawFacultyTable(contributingRoster);
       drawPublicationList(selectedPubs);
+      ensureNetworkPanel();                                  // create panel once if missing
+      updateCoauthorPanels(contributingRoster, selectedPubs); // network + pairs table
       const fc = document.getElementById('faculty-count');
       const base = `Faculty contributing: ${contributingRoster.length}`;
       fc.textContent = focusedAuthorID ? `${base} (Focused: ${focusedAuthorName}. Use Reset to clear)` : base;

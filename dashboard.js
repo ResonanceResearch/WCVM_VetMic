@@ -931,6 +931,9 @@ function drawCoauthorNetwork(graph){
     height: 520,
     plot_bgcolor: 'rgba(0,0,0,0)',
     paper_bgcolor: 'rgba(0,0,0,0)'
+    hovermode: 'closest',
+    hoverdistance: 10,
+    spikedistance: -1
   };
 
   // Build pair index for click → publications

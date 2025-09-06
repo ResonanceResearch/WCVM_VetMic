@@ -212,11 +212,16 @@
         btn.addEventListener('click', () => {
           const id = btn.getAttribute('data-target');
           const el = document.getElementById(id);
-          Array.from(el.options).forEach(o => { o.selected = false; });
-          // Restore default only for Appointment when its Clear is used
-          if (id === 'appointment') setDefaultAppointmentSelection();
-          update();
+        Array.from(el.options).forEach(o => { o.selected = false; 
         });
+        if (id === 'appointment') setDefaultAppointmentSelection();
+    update();
+    });
+
+  // Optional: show a neutral initial label before the first update()
+  setExportButtonCount(0);
+});
+
     
         // Optional: show a neutral initial label before the first update()
         // If your HTML already shows “Export current selection”, you can skip this.

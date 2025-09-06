@@ -217,13 +217,7 @@
           if (id === 'appointment') setDefaultAppointmentSelection();
           update();
         });
-      // Export button: wire up click + set initial count
-      const exportBtn = document.getElementById('export-selection');
-        if (exportBtn) {
-          exportBtn.addEventListener('click', () => {
-          exportCurrentSelectionCSV(lastSelectedPubs);
-        });
-
+    
         // Optional: show a neutral initial label before the first update()
         // If your HTML already shows “Export current selection”, you can skip this.
         setExportButtonCount(0);

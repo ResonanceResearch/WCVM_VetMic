@@ -29,7 +29,7 @@
       .then(([rosterCSV, pubsCSV, authCSV]) => {
       rosterData = parseCSV(rosterCSV);
       pubData = parseCSV(pubsCSV);
-      authorshipData = authCSV ? parseCSV(authCSV) : null;
+      authorshipData = authCSV ? parseCSV(authCSV) : [];
 
       normalizeRoster();
       normalizePubs();

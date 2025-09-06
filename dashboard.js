@@ -36,9 +36,13 @@
       // Optional: normalize authorship, if you want to coerce types/columns fancily
       // (Not strictly necessary; we normalize at use-time.)
 
-      initFilters(); initYearInputs(); bindEvents();
-      update();
-    }).catch(err => console.error('Failed to load CSVs', err));
+     // Ensure the network can draw immediately on first render:
+      ensureNetworkPanel();     // NEW: create the panel (no-op if it exists)
+      initFilters();
+      initYearInputs();
+      bindEvents();
+      update();                 // IMPORTANT: forces initial render (fixes “needs a filter change”)
+      }).catch(err => console.error('Failed to load CSVs', err));
 
 
     // ============ Core helpers ============

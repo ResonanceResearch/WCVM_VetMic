@@ -863,11 +863,9 @@ function drawCoauthorNetwork(graph){
       mode: 'lines',
       x: [x0, x1],
       y: [y0, y1],
-      hoverinfo: 'text',
-      text: `${graph.nodes[e.ai].name} ↔ ${graph.nodes[e.bi].name} — ${e.count} joint pub${e.count>1?'s':''}`,
-      line: { width: lineWidth(e.count), color: 'rgba(100, 116, 139, 0.6)' }, // slate-ish
-      showlegend: false,
-      hoverlabel: { namelength: -1 }
+      hoverinfo: 'skip',                       // <— IMPORTANT
+      line: { width: lineWidth(e.count), color: 'rgba(100,116,139,0.6)' },
+      showlegend: false
     });
 
     // Invisible midpoint markers for click detection
@@ -879,41 +877,27 @@ function drawCoauthorNetwork(graph){
 
   // Node trace
   const nodeTrace = {
-    type: 'scatter',
-    mode: 'markers+text',
-    x: xs,
-    y: ys,
-    text: labels,
-    textposition: 'top center',
-    hoverinfo: 'text',
-    marker: {
-      size: size,
-      line: { width: 1, color: '#fff' }
-    },
-    name: 'authors'
-  };
+  type: 'scatter',
+  mode: 'markers+text',
+  x: xs, y: ys,
+  text: labels,
+  textposition: 'top center',
+  hoverinfo: 'text',                       // only node hover shows
+  // optionally: hovertext: yourPrecomputedAdjacencyText,
+  marker: { size: size, line: { width: 1, color: '#fff' } },
+  name: 'authors'
+};
 
-  // Invisible click-targets on edges
-  const edgeClickTrace = {
-    type: 'scatter',
-    mode: 'markers',
-    x: edgeClickTargetsX,
-    y: edgeClickTargetsY,
-    customdata: edgeClickTargetsCustom,
-    marker: { size: 12, opacity: 0.005 }, // nearly invisible but clickable
-    name: 'edge-click-targets',
-    hoverinfo: 'skip',
-    showlegend: false
-  };
+const layout = {
+  xaxis: { visible: false },
+  yaxis: { visible: false },
+  margin: { t: 10, r: 10, b: 10, l: 10 },
+  height: 520,
+  hovermode: 'closest',                    // <— IMPORTANT
+  plot_bgcolor: 'rgba(0,0,0,0)',
+  paper_bgcolor: 'rgba(0,0,0,0)'
+};
 
-  const layout = {
-    xaxis: { visible: false },
-    yaxis: { visible: false },
-    margin: { t: 10, r: 10, b: 10, l: 10 },
-    height: 520,
-    plot_bgcolor: 'rgba(0,0,0,0)',
-    paper_bgcolor: 'rgba(0,0,0,0)'
-  };
 
   // Build pair index for click → publications
   const pairIndex = {};

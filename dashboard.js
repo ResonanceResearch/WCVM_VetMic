@@ -713,44 +713,39 @@ function updateCoauthorPanels(contributingRoster, selectedPubs){
   }
 }
 
-// Build graph from filtered pubs & roster
+// REPLACE your existing computeCoauthorGraph with this version
 function computeCoauthorGraph(contributingRoster, selectedPubs){
-  const idNorm = (s) => String(s || '').trim()
-    .replace(/^https?:\/\/openalex\.org\/authors\//i, '')
-    .replace(/^https?:\/\/openalex\.org\//i, '');
-
-  const workNorm = (s) => String(s || '').trim()
-    .replace(/^https?:\/\/openalex\.org\/works\//i, '')
-    .replace(/^https?:\/\/openalex\.org\//i, '');
+  const idNorm = s => String(s||'').trim()
+    .replace(/^https?:\/\/openalex\.org\/authors\//i,'')
+    .replace(/^https?:\/\/openalex\.org\//i,'');
+  const workNorm = s => String(s||'').trim()
+    .replace(/^https?:\/\/openalex\.org\/works\//i,'')
+    .replace(/^https?:\/\/openalex\.org\//i,'');
 
   // roster id -> display name
   const nameOf = new Map(contributingRoster.map(r => [idNorm(r.OpenAlexID), r.Name || r.OpenAlexID]));
 
-  // Limit graph to the works currently in view (respecting all filters & focus)
+  // Respect all active filters by limiting to the works in the current (dedup) selection
   const selectedWorkIDs = new Set(
-    selectedPubs
-      .map(p => workNorm(p.id || p.work_id || ''))
-      .filter(Boolean)
+    selectedPubs.map(p => workNorm(p.id || p.work_id || '')).filter(Boolean)
   );
 
-  // === Path 1: preferred — use authorship table if available ===
-  if (authorshipData && authorshipData.length) {
-    // Build work -> set(roster_author_ids) using the authorship rows in the selected works
+  // === Preferred path: expand authorships from PRE-dedup ===
+  if (Array.isArray(authorshipData) && authorshipData.length) {
+    // Build work -> Set(roster_author_ids) for the selected works only
     const byWork = new Map();
     for (const row of authorshipData) {
       const wid = workNorm(row.id || row.work_id || '');
-      if (!selectedWorkIDs.has(wid)) continue;             // only selected works
+      if (!selectedWorkIDs.has(wid)) continue;     // only current selection
       const aid = idNorm(row.author_openalex_id);
-      if (!nameOf.has(aid)) continue;                      // only roster authors
+      if (!nameOf.has(aid)) continue;              // only cohort authors
       if (!byWork.has(wid)) byWork.set(wid, new Set());
       byWork.get(wid).add(aid);
     }
-
     return buildGraphFromPairs(byWork, nameOf, selectedPubs);
   }
 
-  // === Path 2: fallback — parse semicolon-separated `authors` string ===
-  // Canonicalize roster names for matching
+  // === Fallback: derive from semicolon-joined author strings in the dedup rows ===
   const rosterByCanon = new Map(); // canon -> [{id, name}]
   for (const r of contributingRoster) {
     const cid = idNorm(r.OpenAlexID);
@@ -760,88 +755,71 @@ function computeCoauthorGraph(contributingRoster, selectedPubs){
   }
 
   const byWork = new Map();
-  const workIndex = new Map();
   for (const p of selectedPubs) {
     const wid = workNorm(p.id || p.work_id || '');
     if (!wid) continue;
     const names = splitAuthorsList(p.authors);
     const idsOnWork = new Set();
-
     for (const n of names) {
       const hits = rosterByCanon.get(canonName(n));
       if (hits) for (const h of hits) idsOnWork.add(h.id);
     }
-
-    if (idsOnWork.size >= 2) {
-      byWork.set(wid, idsOnWork);
-      if (!workIndex.has(wid)) workIndex.set(wid, p);
-    }
+    if (idsOnWork.size >= 2) byWork.set(wid, idsOnWork);
   }
 
   return buildGraphFromPairs(byWork, nameOf, selectedPubs);
 
-  // ---- helpers ----
+  // ---- helper: convert work->authors into nodes/edges, deduping by work id
   function buildGraphFromPairs(byWork, nameOf, selectedPubs){
-    // Fast lookup for a representative pub row per work (for edge click listing)
-    const idx = new Map();
-    for (const p of selectedPubs) {
-      const wid = workNorm(p.id || p.work_id || '');
-      if (wid && !idx.has(wid)) idx.set(wid, p);
-    }
+    // representative pub row per work (for edge click lists)
+    const widToPub = new Map();
+    const widOf = p => workNorm(p?.id || p?.work_id || '');
+    for (const p of selectedPubs) { const w = widOf(p); if (w && !widToPub.has(w)) widToPub.set(w, p); }
 
-    // Pair counts and pub lists
     const pairCounts = new Map(); // "a|b" -> count
-    const pairPubs = new Map();   // "a|b" -> array of pub rows (dedup by wid)
+    const pairPubs   = new Map(); // "a|b" -> [pubRows]
 
-    for (const [wid, set] of byWork.entries()) {
+    for (const [wid, set] of byWork.entries()){
       const ids = Array.from(set).sort();
       for (let i=0;i<ids.length;i++){
         for (let j=i+1;j<ids.length;j++){
-          const a = ids[i], b = ids[j];
-          const key = `${a}|${b}`;
-          pairCounts.set(key, (pairCounts.get(key) || 0) + 1);
+          const a=ids[i], b=ids[j], key=`${a}|${b}`;
+          pairCounts.set(key, (pairCounts.get(key)||0) + 1);
           if (!pairPubs.has(key)) pairPubs.set(key, []);
-          pairPubs.get(key).push(idx.get(wid));
+          pairPubs.get(key).push(widToPub.get(wid)); // safe: may hold a row from selectedPubs
         }
       }
     }
 
-    // Nodes
+    // nodes
     const nodeIDs = new Set();
-    for (const key of pairCounts.keys()) {
-      const [a,b] = key.split('|'); nodeIDs.add(a); nodeIDs.add(b);
-    }
+    for (const key of pairCounts.keys()){ const [a,b]=key.split('|'); nodeIDs.add(a); nodeIDs.add(b); }
     const nodes = Array.from(nodeIDs).map(id => ({ id, name: nameOf.get(id) || id }));
 
-    // Index
+    // edges (dedup the pub list by work id)
     const idxOf = new Map(nodes.map((n,i)=>[n.id,i]));
-
-    // Edges (dedup pubs by wid)
     const edges = [];
-    const widSeen = (p) => workNorm(p?.id || p?.work_id || '');
-    for (const [key, count] of pairCounts.entries()) {
+    for (const [key, count] of pairCounts.entries()){
       const [a,b] = key.split('|');
       if (!idxOf.has(a) || !idxOf.has(b)) continue;
-      const uniqPubs = [];
-      const seen = new Set();
+      const seen = new Set(); const uniqPubs = [];
       for (const p of (pairPubs.get(key) || [])) {
-        const w = widSeen(p); if (w && !seen.has(w)) { seen.add(w); uniqPubs.push(p); }
+        const wid = widOf(p); if (wid && !seen.has(wid)) { seen.add(wid); uniqPubs.push(p); }
       }
       edges.push({ a, b, ai: idxOf.get(a), bi: idxOf.get(b), count, pubs: uniqPubs });
     }
 
-    // Simple circular layout + weighted degree for node size
+    // simple circular layout + degree for size
     const N = nodes.length, R = 1.0;
-    nodes.forEach((n,i) => { const t = (i/Math.max(1,N))*2*Math.PI; n.x = R*Math.cos(t); n.y = R*Math.sin(t); });
+    nodes.forEach((n,i)=>{ const t=(i/Math.max(1,N))*2*Math.PI; n.x=R*Math.cos(t); n.y=R*Math.sin(t); });
     const degree = new Map(nodes.map(n => [n.id, 0]));
-    edges.forEach(e => { degree.set(e.a, (degree.get(e.a)||0)+e.count); degree.set(e.b, (degree.get(e.b)||0)+e.count); });
+    edges.forEach(e => { degree.set(e.a,(degree.get(e.a)||0)+e.count); degree.set(e.b,(degree.get(e.b)||0)+e.count); });
     nodes.forEach(n => n.deg = degree.get(n.id) || 0);
 
-    // Sort nodes for stable labeling
-    nodes.sort((x,y) => x.name.localeCompare(y.name));
     return { nodes, edges };
   }
 }
+
 
 
 function drawCoauthorNetwork(graph){

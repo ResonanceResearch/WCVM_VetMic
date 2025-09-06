@@ -916,7 +916,7 @@ function drawCoauthorNetwork(graph){
     margin: { t: 10, r: 10, b: 10, l: 10 },
     height: 520,
     plot_bgcolor: 'rgba(0,0,0,0)',
-    paper_bgcolor: 'rgba(0,0,0,0)'
+    paper_bgcolor: 'rgba(0,0,0,0)',
     hovermode: 'closest',
     hoverdistance: 10,
     spikedistance: -1

@@ -366,7 +366,18 @@ margin-bottom: 20px;
 #top-row { flex-direction: column; }
 }
 
+/* Equal heights for Filters | Network on wide screens */
+#top-row { align-items: stretch; }
+#top-row > .card { display: flex; flex-direction: column; }
+#filters, #network-panel { min-height: 460px; }
+#network-panel .chart { flex: 1 1 auto; min-height: 420px; }
 
+
+@media (max-width: 1200px) {
+/* When stacked on phone/tablet, remove fixed mins */
+#filters, #network-panel { min-height: 0; }
+#network-panel .chart { min-height: 520px; }
+}
 
 
 /* Collapsible pairs table styling */

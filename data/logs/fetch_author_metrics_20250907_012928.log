@@ -1,0 +1,6 @@
+[2025-09-07 01:29:28,251] INFO: Logging to data/logs/fetch_author_metrics_20250907_012928.log
+[2025-09-07 01:29:47,610] INFO: [diff] H_index: 0 rows changed; total delta = 0.0
+[2025-09-07 01:29:47,611] INFO: [diff] I10_index: 0 rows changed; total delta = 0.0
+[2025-09-07 01:29:47,611] INFO: [diff] Works_count: 0 rows changed; total delta = 0.0
+[2025-09-07 01:29:47,612] INFO: [diff] Total_citations: 0 rows changed; total delta = 0.0
+[2025-09-07 01:29:47,615] INFO: [ok] Wrote: data/roster_with_metrics.csv

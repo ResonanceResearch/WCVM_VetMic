@@ -805,18 +805,63 @@ function computeCoauthorGraph(contributingRoster, selectedPubs){
 
 
 function drawCoauthorNetwork(graph){
-type: 'scatter',
-mode: 'markers',
-x: edgeClickTargetsX,
-y: edgeClickTargetsY,
-customdata: edgeClickTargetsCustom,
-marker: { size: 12, opacity: 0.005 },
-name: 'edge-click-targets',
-hoverinfo: 'skip',
-showlegend: false
+const el = document.getElementById('coauthor-network');
+if (!el) return;
+
+
+// Node positions, labels, sizes (degree‑scaled)
+const xs = graph.nodes.map(n => n.x);
+const ys = graph.nodes.map(n => n.y);
+const labels = graph.nodes.map(n => n.name);
+const degs = graph.nodes.map(n => n.deg);
+const minDeg = Math.min(...degs, 0);
+const maxDeg = Math.max(...degs, 1);
+const size = degs.map(d => {
+const t = (d - minDeg) / (maxDeg - minDeg || 1);
+return 10 + t * 18; // 10..28 px
+});
+
+
+// Edge lines + invisible midpoint click targets
+const edgeLineTraces = [];
+const edgeClickTargetsX = [];
+const edgeClickTargetsY = [];
+const edgeClickTargetsCustom = [];
+
+
+let minW = Infinity, maxW = 0;
+graph.edges.forEach(e => { minW = Math.min(minW, e.count); maxW = Math.max(maxW, e.count); });
+const lineWidth = (c) => {
+if (!Number.isFinite(c)) return 1;
+if (minW === maxW) return 4; // constant width when all equal
+const t = (c - minW) / (maxW - minW);
+return 1 + t * 8; // 1..9 px
 };
 
 
+graph.edges.forEach(e => {
+const x0 = graph.nodes[e.ai].x, y0 = graph.nodes[e.ai].y;
+const x1 = graph.nodes[e.bi].x, y1 = graph.nodes[e.bi].y;
+
+
+edgeLineTraces.push({
+type: 'scatter', mode: 'lines', x: [x0, x1], y: [y0, y1],
+hoverinfo: 'skip', line: { width: lineWidth(e.count), color: 'rgba(100,116,139,0.6)' }, showlegend: false
+});
+
+
+const mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
+edgeClickTargetsX.push(mx);
+edgeClickTargetsY.push(my);
+edgeClickTargetsCustom.push(`${e.a}|${e.b}`);
+});
+
+
+const edgeClickTrace = { type: 'scatter', mode: 'markers', x: edgeClickTargetsX, y: edgeClickTargetsY,
+customdata: edgeClickTargetsCustom, marker: { size: 12, opacity: 0.005 }, name: 'edge-click-targets', hoverinfo: 'skip', showlegend: false };
+
+
+// Per‑node hover lists co‑author counts
 const idToName = new Map(graph.nodes.map(n => [n.id, n.name]));
 const hoverText = graph.nodes.map(n => {
 const partners = graph.edges
@@ -825,66 +870,6 @@ const partners = graph.edges
 const partnerId = (e.a === n.id) ? e.b : e.a;
 const partnerName = idToName.get(partnerId) || partnerId;
 return { name: partnerName, count: e.count };
-})
-.sort((A, B) => (B.count - A.count) || A.name.localeCompare(B.name))
-.map(p => `• ${escapeHTML(p.name)} (${p.count})`);
-return `<b>${escapeHTML(n.name)}</b><br>${partners.join('<br>') || 'No in-cohort co-authors in selection'}`;
-});
-
-
-const nodeTrace = {
-type: 'scatter',
-mode: 'markers+text',
-x: xs,
-y: ys,
-text: labels,
-textposition: 'top center',
-hovertext: hoverText,
-hovertemplate: '%{hovertext}<extra></extra>',
-marker: { size: size, line: { width: 1, color: '#fff' } },
-name: 'authors'
-};
-
-
-// Responsive height: shorter when side-by-side, taller when stacked
-const w = el.clientWidth || 800;
-const targetH = w >= 700 ? 420 : 520;
-
-
-const layout = {
-xaxis: { visible: false },
-yaxis: { visible: false },
-margin: { t: 10, r: 10, b: 10, l: 10 },
-height: targetH,
-hovermode: 'closest',
-plot_bgcolor: 'rgba(0,0,0,0)',
-paper_bgcolor: 'rgba(0,0,0,0)'
-};
-
-
-const pairIndex = {};
-graph.edges.forEach(e => { pairIndex[`${e.a}|${e.b}`] = e; });
-el.__pairIndex = pairIndex;
-
-
-Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, { displayModeBar: false });
-
-
-if (!el.__clickBound && typeof el.on === 'function') {
-el.on('plotly_click', (ev) => {
-const pt = ev?.points?.[0];
-if (!pt) return;
-const trace = ev.event?.target?.__data?.[pt.curveNumber];
-const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
-const pairKey = pt?.customdata;
-if (isEdgeClickTargets && pairKey) {
-const ctx = el.__pairIndex || {};
-const rec = ctx[pairKey];
-if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
-}
-});
-el.__clickBound = true;
-}
 }
 
 

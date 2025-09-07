@@ -220,6 +220,12 @@
           if (id === 'appointment') setDefaultAppointmentSelection();
           update();
         });
+        // Export button: wire up click + set initial count
+      const exportBtn = document.getElementById('export-selection');
+        if (exportBtn) {
+          exportBtn.addEventListener('click', () => exportCurrentSelectionCSV(lastSelectedPubs));
+          setExportButtonCount(0);
+        }
       });
 
       // Export button: wire up click + set initial count

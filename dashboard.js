@@ -217,10 +217,11 @@
           const id = btn.getAttribute('data-target');
           const el = document.getElementById(id);
           Array.from(el.options).forEach(o => { o.selected = false; });
-          // Restore default only for Appointment when its Clear is used
           if (id === 'appointment') setDefaultAppointmentSelection();
           update();
         });
+      });
+
       // Export button: wire up click + set initial count
       const exportBtn = document.getElementById('export-selection');
         if (exportBtn) {

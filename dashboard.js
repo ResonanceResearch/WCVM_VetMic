@@ -858,18 +858,20 @@ function drawCoauthorNetwork(graph){
     edgeClickTargetsCustom.push(`${e.a}|${e.b}`);
   });
 
-  // Node trace
   const nodeTrace = {
   type: 'scatter',
   mode: 'markers+text',
-  x: xs, y: ys,
+  x: xs,
+  y: ys,
   text: labels,
   textposition: 'top center',
-  hoverinfo: 'text',                       // only node hover shows
-  // optionally: hovertext: yourPrecomputedAdjacencyText,
+  // Use hovertext + hovertemplate so the tooltip shows collaborators + counts
+  hovertext: hoverText,
+  hovertemplate: '%{hovertext}<extra></extra>',
   marker: { size: size, line: { width: 1, color: '#fff' } },
   name: 'authors'
 };
+
 
 const layout = {
   xaxis: { visible: false },

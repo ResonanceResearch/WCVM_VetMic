@@ -904,6 +904,20 @@ const layout = {
   graph.edges.forEach(e => { pairIndex[`${e.a}|${e.b}`] = e; });
   el.__pairIndex = pairIndex;
 
+  // Invisible midpoint markers for click detection
+  const edgeClickTrace = {
+    type: 'scatter',
+    mode: 'markers',
+    x: edgeClickTargetsX,
+    y: edgeClickTargetsY,
+    customdata: edgeClickTargetsCustom,
+    marker: { size: 12, opacity: 0.005 },
+    name: 'edge-click-targets',
+    hoverinfo: 'skip',
+    showlegend: false
+  };
+
+  
   Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, {displayModeBar:false});
 }
 

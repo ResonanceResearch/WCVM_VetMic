@@ -244,6 +244,24 @@ year-inputs { display: inline-flex; gap: 8px; align-items: center; }
   margin-top: 20px;
 }
 
+/* === Charts row: bar chart + network side-by-side ====================== */
+.charts-row {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+
+.charts-row .chart-card {
+  flex: 1;
+  min-width: 320px;
+}
+
+/* Stack on narrower screens */
+@media (max-width: 900px) {
+  .charts-row { flex-direction: column; }
+}
+
+
 /* Make each panel take up half the width on large screens */
 #faculty-publications > section {
   flex: 1;

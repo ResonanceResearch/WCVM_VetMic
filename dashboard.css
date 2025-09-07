@@ -352,3 +352,39 @@ year-inputs { display: inline-flex; gap: 8px; align-items: center; }
 @media (min-width: 1100px) {
   .split-2 { grid-template-columns: 1.2fr 1fr; }
 }
+/* === Top row layout: Filters | Network ================================= */
+#top-row {
+display: grid;
+grid-template-columns: 1.1fr 1fr; /* filters slightly wider than network */
+gap: 20px;
+align-items: start;
+margin-bottom: 20px;
+}
+@media (max-width: 1200px) {
+#top-row { grid-template-columns: 1fr; }
+}
+
+
+/* Make the network chart a bit shorter when beside filters */
+#coauthor-network { height: 420px; }
+@media (max-width: 1200px) {
+#coauthor-network { height: 520px; }
+}
+
+
+/* Collapsible pairs table styling */
+.pairs-collapsible { margin-top: 12px; }
+.pairs-collapsible summary {
+cursor: pointer;
+display: flex; justify-content: space-between; align-items: baseline;
+padding: 8px 0; font-weight: 600; color: var(--text);
+border-top: 1px dashed var(--border);
+}
+.pairs-collapsible[open] summary { border-bottom: 1px dashed var(--border); }
+.pairs-collapsible .summary-hint { color: var(--muted); font-weight: 400; font-size: 0.9em; }
+.pairs-collapsible .pairs-inner { padding-top: 8px; }
+
+
+/* Optional: make the pairs table a bit denser */
+#coauthor-table th, #coauthor-table td { padding: 8px 10px; }
+#coauthor-table { font-size: 0.95em; }

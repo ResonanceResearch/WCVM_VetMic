@@ -37,7 +37,7 @@
       // (Not strictly necessary; we normalize at use-time.)
 
      // Ensure the network can draw immediately on first render:
-      ensureNetworkPanel();     // NEW: create the panel (no-op if it exists)
+     
       initFilters();
       initYearInputs();
       bindEvents();
@@ -327,7 +327,7 @@
       drawBarChart(selectedPubs);
       drawFacultyTable(contributingRoster);
       drawPublicationList(selectedPubs);
-      ensureNetworkPanel();                                  // create panel once if missing
+                                   
       updateCoauthorPanels(contributingRoster, selectedPubs); // network + pairs table
       const fc = document.getElementById('faculty-count');
       if (fc) {
@@ -655,34 +655,7 @@ function setExportButtonCount(n) {
 
 // ==================== Co-authorship Network & Pairs Table ====================
 
-// Ensure a panel exists (works without editing HTML)
-function ensureNetworkPanel(){
-  if (document.getElementById('network-panel')) return;
 
-  // Insert after the Faculty+Publications section if present; else append to body
-  const anchor = document.getElementById('faculty-publications') || document.body;
-  const panel = document.createElement('section');
-  panel.id = 'network-panel';
-  panel.className = 'card';
-  panel.innerHTML = `
-    <div class="panel-head">
-      <h2>Co-authorship network (filtered selection)</h2>
-      <div id="network-meta" class="count"></div>
-    </div>
-    <div id="coauthor-network" class="chart"></div>
-    <div id="pair-detail" class="muted" style="margin-top:8px;"></div>
-    <div class="split-2">
-      <section>
-        <h3 style="margin-top:16px;">Author pairs</h3>
-        <table id="coauthor-table">
-          <thead><tr><th>Author A</th><th>Author B</th><th># joint pubs</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </section>
-    </div>
-  `;
-  anchor.insertAdjacentElement('afterend', panel); 
-}
 
 // Main updater
 function updateCoauthorPanels(contributingRoster, selectedPubs){
@@ -902,7 +875,7 @@ function drawCoauthorNetwork(graph){
     xaxis: { visible: false },
     yaxis: { visible: false },
     margin: { t: 10, r: 10, b: 10, l: 10 },
-    height: 520,
+    height: 360,
     hovermode: 'closest',
     plot_bgcolor: 'rgba(0,0,0,0)',
     paper_bgcolor: 'rgba(0,0,0,0)'

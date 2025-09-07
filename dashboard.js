@@ -808,20 +808,19 @@ function drawCoauthorNetwork(graph){
   const el = document.getElementById('coauthor-network');
   if (!el) return;
 
+  // Node positions, labels, sizes (degree-scaled)
   const xs = graph.nodes.map(n => n.x);
   const ys = graph.nodes.map(n => n.y);
   const labels = graph.nodes.map(n => n.name);
   const degs = graph.nodes.map(n => n.deg);
   const minDeg = Math.min(...degs, 0);
   const maxDeg = Math.max(...degs, 1);
-
-  // Node size scale: 10–28 px
   const size = degs.map(d => {
     const t = (d - minDeg) / (maxDeg - minDeg || 1);
-    return 10 + t * 18;
+    return 10 + t * 18; // 10..28 px
   });
 
-  // Build edge traces with variable thickness
+  // Build edge line traces + invisible midpoint click targets
   const edgeLineTraces = [];
   const edgeClickTargetsX = [];
   const edgeClickTargetsY = [];
@@ -830,10 +829,10 @@ function drawCoauthorNetwork(graph){
   let minW = Infinity, maxW = 0;
   graph.edges.forEach(e => { minW = Math.min(minW, e.count); maxW = Math.max(maxW, e.count); });
   const lineWidth = (c) => {
-    if (!isFinite(c)) return 1;
-    if (minW === maxW) return 4;      // uniform
+    if (!Number.isFinite(c)) return 1;
+    if (minW === maxW) return 4; // constant width when all equal
     const t = (c - minW) / (maxW - minW);
-    return 1 + t * 8;                 // 1–9 px
+    return 1 + t * 8; // 1..9 px
   };
 
   graph.edges.forEach(e => {
@@ -845,51 +844,18 @@ function drawCoauthorNetwork(graph){
       mode: 'lines',
       x: [x0, x1],
       y: [y0, y1],
-      hoverinfo: 'skip',
+      hoverinfo: 'skip',                         // keep edges silent on hover
       line: { width: lineWidth(e.count), color: 'rgba(100,116,139,0.6)' },
       showlegend: false
     });
 
-
-    // Invisible midpoint markers for click detection
-    const mx = (x0 + x1)/2, my = (y0 + y1)/2;
+    // Midpoint markers used for clicking an edge to show joint pubs
+    const mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
     edgeClickTargetsX.push(mx);
     edgeClickTargetsY.push(my);
     edgeClickTargetsCustom.push(`${e.a}|${e.b}`);
   });
 
-  const nodeTrace = {
-  type: 'scatter',
-  mode: 'markers+text',
-  x: xs,
-  y: ys,
-  text: labels,
-  textposition: 'top center',
-  // Use hovertext + hovertemplate so the tooltip shows collaborators + counts
-  hovertext: hoverText,
-  hovertemplate: '%{hovertext}<extra></extra>',
-  marker: { size: size, line: { width: 1, color: '#fff' } },
-  name: 'authors'
-};
-
-
-const layout = {
-  xaxis: { visible: false },
-  yaxis: { visible: false },
-  margin: { t: 10, r: 10, b: 10, l: 10 },
-  height: 520,
-  hovermode: 'closest',                    // <— IMPORTANT
-  plot_bgcolor: 'rgba(0,0,0,0)',
-  paper_bgcolor: 'rgba(0,0,0,0)'
-};
-
-
-  // Build pair index for click → publications
-  const pairIndex = {};
-  graph.edges.forEach(e => { pairIndex[`${e.a}|${e.b}`] = e; });
-  el.__pairIndex = pairIndex;
-
-  // Invisible midpoint markers for click detection
   const edgeClickTrace = {
     type: 'scatter',
     mode: 'markers',
@@ -902,29 +868,72 @@ const layout = {
     showlegend: false
   };
 
-  
-  // drawCoauthorNetwork(...)
-Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, { displayModeBar: false });
-
-// Attach once, now that Plotly has initialized the element
-if (!el.__clickBound && typeof el.on === 'function') {
-  el.on('plotly_click', (ev) => {
-    const pt = ev?.points?.[0];
-    if (!pt) return;
-    const trace = ev.event?.target?.__data?.[pt.curveNumber];
-    const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
-    const pairKey = pt?.customdata;
-    if (isEdgeClickTargets && pairKey) {
-      const ctx = el.__pairIndex || {};
-      const rec = ctx[pairKey];
-      if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
-    }
+  // Robust node hovertext: collaborator list with counts
+  const idToName = new Map(graph.nodes.map(n => [n.id, n.name]));
+  const hoverText = graph.nodes.map(n => {
+    const partners = graph.edges
+      .filter(e => e.a === n.id || e.b === n.id)
+      .map(e => {
+        const partnerId = (e.a === n.id) ? e.b : e.a;
+        const partnerName = idToName.get(partnerId) || partnerId;
+        return { name: partnerName, count: e.count };
+      })
+      .sort((A, B) => (B.count - A.count) || A.name.localeCompare(B.name))
+      .map(p => `• ${escapeHTML(p.name)} (${p.count})`);
+    return `<b>${escapeHTML(n.name)}</b><br>${partners.join('<br>') || 'No in-cohort co-authors in selection'}`;
   });
-  el.__clickBound = true;
+
+  // Nodes: force tooltip to use our rich hoverText
+  const nodeTrace = {
+    type: 'scatter',
+    mode: 'markers+text',
+    x: xs,
+    y: ys,
+    text: labels,
+    textposition: 'top center',
+    hovertext: hoverText,
+    hovertemplate: '%{hovertext}<extra></extra>',
+    marker: { size: size, line: { width: 1, color: '#fff' } },
+    name: 'authors'
+  };
+
+  // Layout
+  const layout = {
+    xaxis: { visible: false },
+    yaxis: { visible: false },
+    margin: { t: 10, r: 10, b: 10, l: 10 },
+    height: 520,
+    hovermode: 'closest',
+    plot_bgcolor: 'rgba(0,0,0,0)',
+    paper_bgcolor: 'rgba(0,0,0,0)'
+  };
+
+  // Pair index for click handler (edge midpoint -> pubs)
+  const pairIndex = {};
+  graph.edges.forEach(e => { pairIndex[`${e.a}|${e.b}`] = e; });
+  el.__pairIndex = pairIndex;
+
+  // Render
+  Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, { displayModeBar: false });
+
+  // Attach click handler once (after Plotly has initialized)
+  if (!el.__clickBound && typeof el.on === 'function') {
+    el.on('plotly_click', (ev) => {
+      const pt = ev?.points?.[0];
+      if (!pt) return;
+      const trace = ev.event?.target?.__data?.[pt.curveNumber];
+      const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
+      const pairKey = pt?.customdata;
+      if (isEdgeClickTargets && pairKey) {
+        const ctx = el.__pairIndex || {};
+        const rec = ctx[pairKey];
+        if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
+      }
+    });
+    el.__clickBound = true;
+  }
 }
 
-  
-}
 
 function drawCoauthorPairsTable(graph){
   const body = document.querySelector('#coauthor-table tbody');

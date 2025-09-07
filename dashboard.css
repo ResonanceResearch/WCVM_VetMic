@@ -165,11 +165,14 @@ year-inputs { display: inline-flex; gap: 8px; align-items: center; }
 }
 
 /* === Chart ============================================================= */
-.chart {
+.chart { /* update existing rule */
   width: 100%;
-  height: 360px;
+  height: 320px;           /* was 360px */
   border-radius: var(--radius-md);
   overflow: hidden;
+}
+.network-chart {
+  height: 360px;           /* specific override for the network */
 }
 .count { margin-top: 8px; color: var(--muted); font-size: 0.95rem; }
 

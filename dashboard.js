@@ -228,14 +228,10 @@
           exportBtn.addEventListener('click', () => exportCurrentSelectionCSV(lastSelectedPubs));
           setExportButtonCount(0);
         }
+
       });
 
-      
-        // Optional: show a neutral initial label before the first update()
-        // If your HTML already shows “Export current selection”, you can skip this.
-        setExportButtonCount(0);
-      }
-      });
+    
 
       // Year inputs
       document.getElementById('year-min').addEventListener('input', update);
@@ -338,8 +334,10 @@
       ensureNetworkPanel();                                  // create panel once if missing
       updateCoauthorPanels(contributingRoster, selectedPubs); // network + pairs table
       const fc = document.getElementById('faculty-count');
-      const base = `Faculty contributing: ${contributingRoster.length}`;
-      fc.textContent = focusedAuthorID ? `${base} (Focused: ${focusedAuthorName}. Use Reset to clear)` : base;
+      if (fc) {
+        const base = `Faculty contributing: ${contributingRoster.length}`;
+        fc.textContent = focusedAuthorID ? `${base} (Focused: ${focusedAuthorName}. Use Reset to clear)` : base;
+      }
     }
 
     function drawBarChart(pubs){
@@ -851,10 +849,11 @@ function drawCoauthorNetwork(graph){
       mode: 'lines',
       x: [x0, x1],
       y: [y0, y1],
-      hoverinfo: 'skip',                       // <— IMPORTANT
+      hoverinfo: 'skip',
       line: { width: lineWidth(e.count), color: 'rgba(100,116,139,0.6)' },
       showlegend: false
     });
+
 
     // Invisible midpoint markers for click detection
     const mx = (x0 + x1)/2, my = (y0 + y1)/2;

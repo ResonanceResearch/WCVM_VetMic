@@ -218,8 +218,10 @@
           const el = document.getElementById(id);
           Array.from(el.options).forEach(o => { o.selected = false; });
           if (id === 'appointment') setDefaultAppointmentSelection();
-          update();
+        update();
         });
+      });
+
         // Export button: wire up click + set initial count
       const exportBtn = document.getElementById('export-selection');
         if (exportBtn) {

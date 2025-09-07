@@ -57,10 +57,40 @@
   </section>
 
   <!-- Summary/chart -->
-  <section id="summary" class="card">
+<!-- Side-by-side charts row (bar chart + network) -->
+<section id="charts-row" class="card charts-row">
+  <!-- Left: stacked bar chart -->
+  <div class="chart-card">
+    <h2>Publications by Year</h2>
     <div id="pub-chart" class="chart"></div>
     <p id="faculty-count" class="count"></p>
-  </section>
+  </div>
+
+  <!-- Right: co-authorship network + collapsible pairs -->
+  <div class="chart-card">
+    <div class="panel-head">
+      <h2>Co-authorship network (filtered selection)</h2>
+      <div id="network-meta" class="count"></div>
+    </div>
+
+    <div id="coauthor-network" class="chart network-chart"></div>
+
+    <!-- Collapsible author pairs table + pair detail -->
+    <details id="pairs-collapse" class="collapse" open>
+      <summary>Author pairs (click a row to see papers)</summary>
+
+      <div id="pair-detail" class="muted" style="margin-top:8px;"></div>
+
+      <table id="coauthor-table">
+        <thead>
+          <tr><th>Author A</th><th>Author B</th><th># joint pubs</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </details>
+  </div>
+</section>
+
 
   <!-- Responsive side-by-side wrapper for Selected Faculty + Publications -->
   <section id="faculty-publications">

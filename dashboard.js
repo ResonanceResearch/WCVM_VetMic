@@ -207,63 +207,59 @@
       yearBounds = { min: DEFAULT_START_YEAR, max: DEFAULT_END_YEAR };
     }
 
-    function bindEvents(){
-      // Multi-select changes
-      document.querySelectorAll('#filters select').forEach(sel => sel.addEventListener('change', update));
+   function bindEvents(){
+  // Multi-select changes
+  document.querySelectorAll('#filters select')
+    .forEach(sel => sel.addEventListener('change', update));
 
-      // Per-select Clear buttons
-      document.querySelectorAll('.clear-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.getAttribute('data-target');
-          const el = document.getElementById(id);
-          Array.from(el.options).forEach(o => { o.selected = false; });
-          if (id === 'appointment') setDefaultAppointmentSelection();
-        update();
-        });
-      });
-
-        // Export button: wire up click + set initial count
-      const exportBtn = document.getElementById('export-selection');
-        if (exportBtn) {
-          exportBtn.addEventListener('click', () => exportCurrentSelectionCSV(lastSelectedPubs));
-          setExportButtonCount(0);
-        }
-
-      });
-
-    
-
-      // Year inputs
-      document.getElementById('year-min').addEventListener('input', update);
-      document.getElementById('year-max').addEventListener('input', update);
-
-      // Topic search (concepts + subfields + primary topic + title)
-      const topic = document.getElementById('topic-search');
-      if (topic) topic.addEventListener('input', debounce(update, 200));
-
-      // Global reset
-      document.getElementById('reset-filters').addEventListener('click', () => {
-        document.querySelectorAll('#filters select').forEach(sel => {
-          Array.from(sel.options).forEach(o => o.selected = false);
-        });
-        // Restore default: only Full‑time selected
-        setDefaultAppointmentSelection();
-
-        focusedAuthorID = null;
-        focusedAuthorName = '';
-        initYearInputs();
-        if (topic) topic.value = '';
-        update();
-      });
-    }
-
-    // Export current selection as CSV
-    const exportBtn = document.getElementById('export-selection');
-    if (exportBtn) {
-        exportBtn.addEventListener('click', () => {
-          exportCurrentSelectionCSV(lastSelectedPubs);
-        });
+  // Per-select Clear buttons
+  document.querySelectorAll('.clear-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (el && el.options) {
+        Array.from(el.options).forEach(o => { o.selected = false; });
       }
+      if (id === 'appointment') setDefaultAppointmentSelection();
+      update();
+    });
+  });
+
+  // Year inputs
+  const yMin = document.getElementById('year-min');
+  const yMax = document.getElementById('year-max');
+  if (yMin) yMin.addEventListener('input', update);
+  if (yMax) yMax.addEventListener('input', update);
+
+  // Topic search
+  const topic = document.getElementById('topic-search');
+  if (topic) topic.addEventListener('input', debounce(update, 200));
+
+  // Global reset
+  const resetBtn = document.getElementById('reset-filters');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      document.querySelectorAll('#filters select').forEach(sel => {
+        Array.from(sel.options).forEach(o => o.selected = false);
+      });
+      setDefaultAppointmentSelection();
+      focusedAuthorID = null;
+      focusedAuthorName = '';
+      initYearInputs();
+      if (topic) topic.value = '';
+      update();
+    });
+  }
+
+  // Export button: wire up click + set initial count
+  const exportBtn = document.getElementById('export-selection');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => exportCurrentSelectionCSV(lastSelectedPubs));
+    setExportButtonCount(0);
+  }
+}
+
+
     // ============ Filtering logic ============
     function applyFilters(){
       // Years

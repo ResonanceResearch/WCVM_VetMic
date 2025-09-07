@@ -685,22 +685,7 @@ function ensureNetworkPanel(){
       </section>
     </div>
   `;
-  anchor.insertAdjacentElement('afterend', panel);
-
-  // Click handler for edge "midpoint" markers
-  const netDiv = document.getElementById('coauthor-network');
-  netDiv.on('plotly_click', (ev) => {
-    const pt = ev?.points?.[0];
-    if (!pt) return;
-    const trace = ev.event?.target?.__data?.[pt.curveNumber];
-    const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
-    const pairKey = pt?.customdata;
-    if (isEdgeClickTargets && pairKey) {
-      const ctx = netDiv.__pairIndex || {};
-      const rec = ctx[pairKey];
-      if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
-    }
-  });
+  anchor.insertAdjacentElement('afterend', panel); 
 }
 
 // Main updater
@@ -920,6 +905,22 @@ const layout = {
 
   
   Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, {displayModeBar:false});
+ 
+  // Click handler for edge "midpoint" markers
+  const netDiv = document.getElementById('coauthor-network');
+  netDiv.on('plotly_click', (ev) => {
+    const pt = ev?.points?.[0];
+    if (!pt) return;
+    const trace = ev.event?.target?.__data?.[pt.curveNumber];
+    const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
+    const pairKey = pt?.customdata;
+    if (isEdgeClickTargets && pairKey) {
+      const ctx = netDiv.__pairIndex || {};
+      const rec = ctx[pairKey];
+      if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
+    }
+  });
+  
 }
 
 function drawCoauthorPairsTable(graph){

@@ -906,22 +906,26 @@ const layout = {
   };
 
   
-  Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, {displayModeBar:false});
- 
-  // Click handler for edge "midpoint" markers
-  const netDiv = document.getElementById('coauthor-network');
-  netDiv.on('plotly_click', (ev) => {
+  // drawCoauthorNetwork(...)
+Plotly.react(el, [...edgeLineTraces, edgeClickTrace, nodeTrace], layout, { displayModeBar: false });
+
+// Attach once, now that Plotly has initialized the element
+if (!el.__clickBound && typeof el.on === 'function') {
+  el.on('plotly_click', (ev) => {
     const pt = ev?.points?.[0];
     if (!pt) return;
     const trace = ev.event?.target?.__data?.[pt.curveNumber];
     const isEdgeClickTargets = trace && trace.name === 'edge-click-targets';
     const pairKey = pt?.customdata;
     if (isEdgeClickTargets && pairKey) {
-      const ctx = netDiv.__pairIndex || {};
+      const ctx = el.__pairIndex || {};
       const rec = ctx[pairKey];
       if (rec) showPairPublications(rec.a, rec.b, rec.pubs);
     }
   });
+  el.__clickBound = true;
+}
+
   
 }
 

@@ -1,6 +1,6 @@
 Name,Email,Level,RG1,Category,Appointment,OpenAlexID,OpenAlexID_2,ORCID,Display_name,H_index,I10_index,Works_count,Total_citations
-Janet Hill,janet.hill@usask.ca,Professor,,Vet Micro,Full-time,https://openalex.org/A5022032110,,https://orcid.org/0000-0002-2187-6277,Janet E. Hill,54.0,137.0,267.0,8270.0
-Kristen Conn,klc366@mail.usask.ca,Assistant,,Vet Micro,Full-time,https://openalex.org/A5024161948,,https://orcid.org/0000-0002-8701-6181,Kristen L. Conn,11.0,12.0,17.0,494.0
+Janet Hill,janet.hill@usask.ca,Professor,,Vet Micro,Full-time,https://openalex.org/A5022032110,,https://orcid.org/0000-0002-2187-6277,Janet E. Hill,54.0,137.0,267.0,8285.0
+Kristen Conn,klc366@mail.usask.ca,Assistant,,Vet Micro,Full-time,https://openalex.org/A5024161948,,https://orcid.org/0000-0002-8701-6181,Kristen L. Conn,12.0,12.0,18.0,497.0
 John Ellis,john.ellis@usask.ca,Professor,,Vet Micro,Full-time,https://openalex.org/A5007566988,,https://orcid.org/0000-0001-7328-4831,John Ellis,73.0,288.0,503.0,19217.0
 Volker Gerdts,volker.gerdts@usask.ca,Professor,,Vet Micro,Full-time,https://openalex.org/A5054537882,,https://orcid.org/0000-0001-8229-1611,Volker Gerdts,43.0,125.0,206.0,6424.0
 Emily Jenkins,emily.jenkins@usask.ca,Professor,,Vet Micro,Full-time,https://openalex.org/A5075278671,,https://orcid.org/0000-0002-5820-8918,Emily Jenkins,39.0,102.0,176.0,5479.0
@@ -8,7 +8,7 @@ Joseph Rubin,joseph.rubin@usask.ca,Professor,,Vet Micro,Full-time,https://openal
 Tony Ruzzini,acr753@mail.usask.ca,Associate,,Vet Micro,Full-time,https://openalex.org/A5016372093,,https://orcid.org/0000-0002-5697-5371,Antonio C. Ruzzini,16.0,22.0,37.0,776.0
 Maarten Voordouw,maarten.voordouw@usask.ca,Associate,,Vet Micro,Full-time,https://openalex.org/A5026690931,,https://orcid.org/0000-0001-9384-0436,Maarten J. Voordouw,26.0,52.0,96.0,1727.0
 Arinjay Banerjee,arinjay.banerjee@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5050567215,,https://orcid.org/0000-0002-2821-8357,Arinjay Banerjee,23.0,44.0,102.0,2806.0
-Jeffrey Chen,jeffrey.chen@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5000375230,,https://orcid.org/0000-0001-8431-3802,Jeffrey M. Chen,18.0,20.0,30.0,1370.0
+Jeffrey Chen,jeffrey.chen@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5000375230,,https://orcid.org/0000-0001-8431-3802,Jeffrey M. Chen,18.0,20.0,30.0,1374.0
 Antonio Facciuolo,antonio.facciuolo@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5088785492,,https://orcid.org/0000-0003-4551-9386,Antonio Facciuolo,9.0,7.0,27.0,210.0
 Darryl Falzarano,darryl.falzarano@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5041967571,,https://orcid.org/0000-0002-8805-8068,Darryl Falzarano,38.0,62.0,133.0,9223.0
 Kazal Ghosh,kazal.ghosh@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5073467123,,https://orcid.org/0000-0002-3989-8140,Kazal Ghosh,2.0,1.0,9.0,17.0
@@ -23,8 +23,8 @@ Heather Wilson,heather.wilson@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openal
 Yan Zhou,yan.zhou@usask.ca,Adjunct,,Vet Micro,Adjunct,https://openalex.org/A5032015135,,https://orcid.org/0000-0002-7573-2850,Yan Zhou,32.0,67.0,121.0,3428.0
 Suresh Tikoo,suresh.tik@usask.ca,Associate,,Vet Micro,Associate,https://openalex.org/A5028351806,,https://orcid.org/0000-0003-4697-0179,Suresh K. Tikoo,36.0,103.0,182.0,4561.0
 Manuel Chirino,manuel.chirino@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5073090598,,https://orcid.org/0000-0002-1004-6120,Manuel Chirino‐Trejo,22.0,42.0,68.0,1941.0
-Debbie Haines,debbie.haines@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5070489863,,https://orcid.org/0000-0003-2451-9889,Deborah M. Haines,48.0,148.0,213.0,9088.0
+Debbie Haines,debbie.haines@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5070489863,,https://orcid.org/0000-0003-2451-9889,Deborah M. Haines,48.0,148.0,213.0,9097.0
 Vikram Misra,vikram.misra@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5018540324,,https://orcid.org/0000-0001-6818-7156,Vikram Misra,42.0,99.0,156.0,5801.0
-Lydden Polley,lydden.polley@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5070489863,,https://orcid.org/0000-0003-2451-9889,Deborah M. Haines,48.0,148.0,213.0,9088.0
+Lydden Polley,lydden.polley@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5070489863,,https://orcid.org/0000-0003-2451-9889,Deborah M. Haines,48.0,148.0,213.0,9097.0
 Andrew Potter,andrew.potter@usask.ca,Professor,,Vet Micro,Emeriti,https://openalex.org/A5035086403,,https://orcid.org/0000-0002-1012-2680,Andrew Potter,47.0,172.0,246.0,7744.0
 Henry Tabel,henry.tabel@usask.ca,Professor,,Vet Micro,Emeriti,nan,,,,,,,
